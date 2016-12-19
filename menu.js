@@ -17,7 +17,7 @@ files.forEach(function (f) {
     var file = fs.readFileSync(fPath + "/index.html").toString();
     var title = /<title>(.*?)<\/title>/.test(file) ? RegExp.$1 : "Demo";
     var pageDir = pagePrefix +"code.html?path="+f;
-    var sourceDir = sourcePrefix + fPath;
+    var sourceDir = sourcePrefix + fPath+"/index.html";
     ul_html += `
           <li>
               <a href='${pageDir}' target='_blank' class='demo-name' title='效果预览'>${title}</a>
