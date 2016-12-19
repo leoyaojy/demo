@@ -3,7 +3,7 @@ var path = require("path");
 
 var src = "./src/";
 var pagePrefix = "https://demo.luckyw.cn/";
-var sourcePrefix = "https://github.com/leoyaojy/demo/tree/gh-pages/";
+var sourcePrefix = "https://github.com/leoyaojy/demo/tree/master/";
 
 var html = fs.readFileSync("./index.html").toString();
 var md = fs.readFileSync("./README.md").toString();
