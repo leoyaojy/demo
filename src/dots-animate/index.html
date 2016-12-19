@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>七彩炫酷粒子动画</title>
+    <link rel="Shortcut Icon" href="../../favicon.ico" type="image/ico">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-size: 0;
+            background-color: #0D3349;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <canvas id="canvas">
+        您的浏览器不支持，请升级现代浏览器查看效果
+    </canvas>
+</div>
+<script>
+    var canvas = g("canvas");
+    var ctxt = canvas.getContext('2d');
+    canvas.width = document.documentElement.clientWidth || document.body.clientWidth;
+    canvas.height = document.documentElement.clientHeight || document.body.clientHeight;
+    ctxt.lineWidth = .3;
+    var mArea = {
+        x: .3 * canvas.width,
+        y: .3 * canvas.height,
+        max: 200
+    };
+    var dots = {
+        num: 300,
+        max: 100,
+        array: []
+    };
+    function Dot() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = -1 + Math.random() * 2;
+        this.vy = -1 + Math.random() * 2;
+        this.r = Math.random() * 3;
+        this.color = new Color();
+    }
+    Dot.prototype = {
+        draw: function () {
+            ctxt.beginPath();
+            ctxt.fillStyle = this.color.style;
+            ctxt.arc(this.x, this.y, this.r, 0, Math.PI * 2, false);
+            ctxt.fill();
+        }
+    };
+
+    function createDots() {
+        for (var i = 0; i < dots.num; i++) {
+            dots.array.push(new Dot());
+        }
+    }
+    function drawDots() {
+        for (var i = 0; i < dots.num; i++) {
+            dots.array[i].draw();
+        }
+    }
+    function moveDots() {
+        for (var i = 0; i < dots.num; i++) {
+            var dot = dots.array[i];
+            dot.x += dot.vx *= (dot.x < 0 || dot.x > canvas.width) ? -1 : 1;
+            dot.y += dot.vy *= (dot.y < 0 || dot.x > canvas.height) ? -1 : 1;
+        }
+    }
+    function linkDots() {
+        for (var i = 0; i < dots.num; i++) {
+            for (var j = 0; j < dots.num; j++) {
+                var d1 = dots.array[i];
+                var d2 = dots.array[j];
+                if (Math.abs(d1.x - d2.x) < dots.max && Math.abs(d1.y - d2.y) < dots.max) {
+                    if (Math.abs(d1.x - mArea.x) < mArea.max && Math.abs(d1.y - mArea.y) < mArea.max) {
+                        ctxt.beginPath();
+                        ctxt.strokeStyle = avgColorStyle(d1, d2);
+                        ctxt.moveTo(d1.x, d1.y);
+                        ctxt.lineTo(d2.x, d2.y);
+                        ctxt.stroke();
+                        ctxt.closePath();
+                    }
+                }
+            }
+        }
+    }
+    function Color() {
+        this.r = randomColor();
+        this.g = randomColor();
+        this.b = randomColor();
+        this.style = getStyle(this.r, this.g, this.b);
+    }
+    function randomColor() {
+        return Math.floor(Math.random() * 256);
+    }
+    function getStyle(r, g, b) {
+        return "rgba(" + r + "," + g + "," + b + ",.8)";
+    }
+    function avgColorStyle(d1, d2) {
+        var c1 = d1.color, c2 = d2.color;
+        var r = avgColor(c1.r, d1.r, c2.r, d2.r),
+            g = avgColor(c1.g, d1.r, c2.g, d2.r),
+            b = avgColor(c1.b, d1.r, c2.b, d2.r);
+        return getStyle(r, g, b);
+    }
+    function avgColor(v1, r1, v2, r2) {
+        return (v1 * r1 + v2 * r2) / (r1 + r2);
+    }
+
+    function animate() {
+        ctxt.clearRect(0, 0, canvas.width, canvas.height);
+        drawDots();
+        moveDots();
+        linkDots();
+        RAF(animate)
+    }
+    canvas.addEventListener("mousemove", function (e) {
+        var e = e || window.event;
+        mArea.x = e.pageX;
+        mArea.y = e.pageY;
+    });
+    canvas.addEventListener("mouseout", function (e) {
+        mArea.x = 0.5 * canvas.width;
+        mArea.y = 0.5 * canvas.height;
+    });
+    var RAF = (function () {
+        return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame || function (callback) {
+                window.setTimeout(callback, 1000 / 60);
+            }
+    })();
+    createDots();
+    animate();
+    function g(id) {
+        return document.getElementById(id)
+    }
+</script>
+</body>
+</html>

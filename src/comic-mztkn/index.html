@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>横向手风琴</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "DejaVu Sans Mono", serif, sans-serif, monospace;
+            background: url("img/bg_brick.jpg") repeat;
+            overflow: hidden;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .mt10 {
+            margin-top: 10px;
+        }
+
+        .mt5 {
+            margin-top: 5px;
+        }
+
+        .fs16 {
+            font-size: 16px;
+        }
+
+        .fs12 {
+            font-size: 12px;
+        }
+
+        .container {
+            background: #fff;
+            width: 1200px;
+            height: 350px;
+            margin: 100px auto;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 20px #fff;
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: normal;
+            text-align: center;
+            line-height: 50px;
+        }
+
+        .list {
+            list-style: none;
+        }
+
+        .list-item {
+            float: left;
+            position: relative;
+            width: 150px;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .left {
+            left: 0;
+            top: 0;
+            background-color: #000;
+            width: 150px;
+            height: 300px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .left.on img {
+            filter: alpha(opacity=100);
+            opacity: 1;
+        }
+
+        .left img {
+            width: 150px;
+            height: 300px;
+            filter: alpha(opacity=80);
+            opacity: .8;
+            box-sizing: border-box;
+            border: none;
+        }
+
+        .right {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            left: 150px;
+            top: 0;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .right h2 {
+            font-size: 16px;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="leo">
+    <h1 class="title">名侦探柯南人物介绍</h1>
+    <ul class="list">
+        <li class="list-item">
+            <div class="left">
+                <img src="img/kenan.jpg" alt="">
+            </div>
+            <div class="right">
+                <dl>
+                    <dd>
+                        <div class="bold fs16">
+                            <span>江户川柯南</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">性别:</span>
+                            <span>男</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">年龄:</span>
+                            <span>约7岁</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">生日:</span>
+                            <span>5月4日（福尔摩斯和莫里亚蒂教授一同坠入瀑布的日期</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">职业:</span>
+                            <span>小学生，侦探</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="fs12">日本动漫《名侦探柯南》的主人公和《魔术快斗》中的客串角色。真实身份为高中生侦探工藤新一，人称“平成年代的福尔摩斯”、“日本警察的救世主”。他因为试图跟踪黑衣组织成员而被偷袭，并被灌下代号“APTX4869”的毒药，虽然幸免于死，但身体就此缩小成一年级小学生的模样</span>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+        </li>
+        <li class="list-item on">
+            <div class="left">
+                <img src="img/xinyi.jpg" alt="">
+            </div>
+            <div class="right">
+                <dl>
+                    <dd>
+                        <div class="bold fs16">
+                            <span>工藤新一</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">性别:</span>
+                            <span>男</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">年龄:</span>
+                            <span>17岁</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">生日:</span>
+                            <span>5月4日（福尔摩斯和莫里亚蒂教授一同坠入瀑布的日期</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">职业:</span>
+                            <span>高中生、侦探</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="fs12">日本漫画家青山刚昌创作作品《名侦探柯南》的主人公和《魔术快斗》中的客串角色。高中生侦探，就读于帝丹高中二年级B班，人称“平成年代的福尔摩斯”、“日本警察的救世主”。性格沉稳，正义感强</span>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+        </li>
+        <li class="list-item">
+            <div class="left">
+                <img src="img/xiaolan.jpg" alt="">
+            </div>
+            <div class="right">
+                <dl>
+                    <dd>
+                        <div class="bold fs16">
+                            <span>毛利兰</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">性别:</span>
+                            <span>女</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">年龄:</span>
+                            <span>16岁</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">生日:</span>
+                            <span>不详</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">职业:</span>
+                            <span>高中生</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="fs12">日本动漫《名侦探柯南》的女主角。就读于帝丹高中二年级B班，校空手道部的主将。父亲是名侦探毛利小五郎，母亲是律政界女王妃英理，青梅竹马兼男友是高中生侦探工藤新一（化名江户川柯南）。被黑衣组织成员贝尔摩德称为“Angel（天使）”。虽曾数次怀疑柯南的身份，但还不知道柯南就是新一</span>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+        </li>
+        <li class="list-item">
+            <div class="left">
+                <img src="img/xiaowulang.jpg" alt="">
+            </div>
+            <div class="right">
+                <dl>
+                    <dd>
+                        <div class="bold fs16">
+                            <span>毛利小五郎</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">性别:</span>
+                            <span>男</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">年龄:</span>
+                            <span>38岁</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">生日:</span>
+                            <span>不详</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">职业:</span>
+                            <span>私家侦探，曾当过刑警和家庭教师</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="fs12">日本动漫《名侦探柯南》中主要人物，毛利兰的父亲。职业是私家侦探，但多数时间推理能力很差，几乎都由柯南暗示才得以破解，但当遇到涉及关系亲密人物的案件时推理能力会爆发。曾是一名优秀的刑警，和目暮警官是同事，后来因为一起事件而辞职，改行当私家侦探，在自家二楼开“毛利侦探事务所”</span>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+        </li>
+        <li class="list-item">
+            <div class="left">
+                <img src="img/thief.jpg" alt="">
+            </div>
+            <div class="right">
+                <dl>
+                    <dd>
+                        <div class="bold fs16">
+                            <span>怪盗基德</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">性别:</span>
+                            <span>男</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">年龄:</span>
+                            <span>18岁</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">生日:</span>
+                            <span>不详</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">职业:</span>
+                            <span>怪盗，魔术师</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="fs12">怪盗基德是日本动漫《魔术快斗》中的主人公以及《名侦探柯南》中的客串角色。第一代的真实身份为黑羽盗一，现在第二代为黑羽快斗。一个充满传奇色彩的怪盗，拥有过人才智，精通易容、变声、逃脱术，以珠宝等各类贵重艺术品为目标，使用魔术手法进行犯案的超级盗窃犯</span>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+        </li>
+        <li class="list-item">
+            <div class="left">
+                <img src="img/aijiang.jpg" alt="">
+            </div>
+            <div class="right">
+                <dl>
+                    <dd>
+                        <div class="bold fs16">
+                            <span>灰原哀</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">性别:</span>
+                            <span>女</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">年龄:</span>
+                            <span>7岁左右</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">生日:</span>
+                            <span>不详</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="bold">职业:</span>
+                            <span>小学生，变小前是黑衣组织科学家</span>
+                        </div>
+                        <div class="mt5">
+                            <span class="fs12">本名宫野志保，其原为黑衣组织的成员雪莉（Sherry），是能使身体缩小的药物——“APTX4869”的发明者。在姐姐宫野明美遭组织杀害后，因反抗组织而被囚禁，服下APTX4869，身体缩小后背叛组织逃亡，化名灰原哀，寄宿于阿笠博士家中，就读于帝丹小学一年B班</span>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+        </li>
+    </ul>
+</div>
+<script src="../libs/js/jquery.min.js"></script>
+<script>
+    $(function () {
+        $('.list-item:first-child').animate({
+            width:'450px'
+        }).find('.left').addClass('on');
+        $('.list-item').on('click', function () {
+            if (!$(this).is(':animated')) {
+                $(this).animate({
+                    width: '450px'
+                }, 300).siblings().animate({
+                    width: '150px'
+                }, 300);
+                $(".left").removeClass('on');
+                $(this).find('.left').addClass('on');
+            }
+        })
+    });
+</script>
+</body>
+</html>

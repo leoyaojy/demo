@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CSS3 3D电影展示</title>
+    <link rel="Shortcut Icon" href="../../favicon.ico" type="image/ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .container {
+            margin: 0 auto;
+            width: 1040px;
+        }
+
+        .box {
+            width: 500px;
+            height: 160px;
+            float: left;
+            position: relative;
+            perspective: 800px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .item {
+            transform-style: preserve-3d;
+            transition: transform .6s;
+            height: 160px;
+            transform: translateZ(-80px);
+
+        }
+
+        .item img {
+            width: 500px;
+            height: 160px;
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 0;
+            transform: translateZ(80px);
+            transition: all .6s;
+            backface-visibility: hidden; /*旋转元素时背面元素不可见*/
+            border-radius: 5px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .item .info {
+            width: 490px;
+            height: 150px;
+            padding: 5px;
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: #01ede5;
+            transform: rotateX(-90deg) translateZ(80px);
+            transition: all .6s;
+            border-radius: 5px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .item:hover {
+            transform: translateZ(-80px) rotateX(90deg);
+        }
+
+        .info strong {
+            font-size: 12px;
+            display: block;
+            text-align: center;
+        }
+
+        .info p {
+            font-size: 10px;
+            /*多行文本溢出*/
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: -webkit-box !important;
+            word-break: break-all;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 7;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container" id="leo">
+    <div class="box">
+        <div class="item">
+            <img src="img/1.jpg" alt="">
+            <div class="info">
+                <strong>老九门：群雄集结 揭探秘起源</strong>
+                <p>
+                    民国年间，九大家族镇守长沙，被称为“九门提督”。这九门势力庞大，外八行的无人不知，无人不晓，几乎所有明器，流出长沙必然经过其中一家。1933年秋，一辆神秘鬼车缓缓驶入长沙火车站，九门之首“张大佛爷”张启山身为布防官，奉命调查始末。张启山与八爷齐铁嘴一路探访，发现长沙城外有一座疑点重重的矿山，一直被日本人窥伺。为破解矿山之谜，张启山求助同为九门上三门的戏曲名伶二月红，无奈二月红虽出身考古世家，却心系重病的妻子丫头，早已金盆洗手。张启山为了国家大义和手足之情，北上去往新月饭店为二月红爱妻求药。在北平，张启山邂逅了新月饭店的大小姐尹新月，并为二月红连点三盏天灯，散尽家财。尹新月帮助张启山等人顺利返回长沙，二人暗生情愫。二月红爱妻病入膏肓，服药后不见好转，最终故去。二月红悲伤之余却意外发现家族祖辈与矿山亦有重大关联，于是振作精神，决定与张启山联手，解开矿山之谜。
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="box">
+        <div class="item">
+            <img src="img/2.jpg" alt="">
+            <div class="info">
+                <strong>小别离:黄磊海清师徒首演夫妻</strong>
+                <p>
+                    三个孩子，三对夫妻，三个家，恰好都碰撞上了一股“出国潮”。方家，方圆和童文洁的心被女儿方朵朵忽上忽下的成绩牢牢牵绊，各种各样事业、生活、家庭、学校的原因使得夫妇俩在朵朵出不出国的选择上摇摆不定。在经历了一系列学校和家庭的大小事故后，方圆夫妇选择逃避性地把朵朵送出国，却没想到几乎把这个家送向分崩离析。最后已经出国的朵朵勇敢地选择回到国内继续教育，而方家也迎来了重建幸福的希望。金家的金琴琴作为“学神”，本是最不需要出国的一个，但琴琴的妈妈吴佳妮想给琴琴所谓“最好的教育”，硬是想让琴琴出国深造，因此也跟老公金志明矛盾不断。夹在父母中间进退两难的琴琴，借姨妈芳妮上演了一出“反间计”，终于让佳妮回心转意，明白最好的教育不光只是学校的教育，更是父母的爱和家庭的“教养”。作为超级富豪的大老板张亮忠，在外风光无限，在家却被混世大魔王张小宇和年轻小娇妻蒂娜的矛盾折腾得焦头烂额。本来只是想给在学校成绩没救、在家里又处处添乱的小宇找个出路，但张亮忠却意外发现小宇在出国念书的道路上一步步成长了起来。
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="box">
+        <div class="item">
+            <img src="img/3.jpg" alt="">
+            <div class="info">
+                <strong>校花的贴身高手2: 燃爆回归</strong>
+                <p>
+                    2016年8月1日，最燃最美的异能网剧——《校花的贴身高手》第二季荣耀回归，校花演员阵容全面升级，故事情节更加曲折离奇！在解决了楚家的危机后，林逸原本以为能过上一阵安稳的日子，然而，李吡花的突然死亡，赵奇兵制药企图控制整个松山市的野心再次把林逸推倒了风口浪尖。为了破坏恶势力的阴谋并且拯救被绑架的校花，林逸决定去古墓夺得火灵圣果。千年的古墓，恐怖的尸人，这一次，我们的贴身高手，能化险为夷吗？
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="box">
+        <div class="item">
+            <img src="img/4.jpg" alt="">
+            <div class="info">
+                <strong>幻城:超燃！樱空释复仇战火王</strong>
+                <p>
+                    在远古传说中的两大神族——冰族与火族间，一次百年大战。之后火族大败，而冰族幻雪王国王室的年轻一代仅剩下两位皇子。卡索在王位更迭过程中先后失去爱人和弟弟樱空释，登上王位后，他意外发现冰族圣地幻雪神山内有邪恶力量存在，便和六位身怀绝技的部族年轻人进入神秘莫测的幻雪神山。然而，当他们与占据神山的渊祭斗智斗法，并打败渊祭强大的四大护法之后，才发现一切都是渊祭布下的惊天阴谋。期间卡索也费尽艰辛寻找失散的爱人和弟弟，但樱空释却记忆全失，被渊祭送入火族成为了火族王子。当冰族与火族间的大战再次爆发时，火族皇子率兵攻破幻雪国，这对昔日的亲兄弟面临生死对决。最终关头，正义唤醒良知，兄弟相认，主谋渊祭也得到了应有的惩罚。
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="box">
+        <div class="item">
+            <img src="img/5.jpg" alt="">
+            <div class="info">
+                <strong>灰姑娘与四骑士：意外合住</strong>
+                <p>一名梦想成为兽医的女高中生因机缘巧合认识了集团会长，从而以兼职生身份住进豪宅，与会长三名性格不同的孙子及一名警卫员展开了戏剧性同居生活的故事。</p>
+            </div>
+        </div>
+    </div>
+    <div class="box">
+        <div class="item">
+            <img src="img/6.jpg" alt="">
+            <div class="info">
+                <strong>灭罪师:唐朔入狱美熙死而复生</strong>
+                <p>
+                    由爱奇艺、中联传动影视公司出品、北京壹酷文化传媒有限公司承制并联合出品的超级网剧《灭罪师》，集结了鬼才导演五百和新锐导演杨苗共同执导，本格推理作家冷小张担任总编剧，杨奇鸣、蔡文静领衔主演，安圣浩、金澔辰、黄以娜等多位小花小鲜肉的养眼加盟，剧中将主打“密室案件”“不可能犯罪”，力求打造成国内首部致敬东野圭吾的精品推理悬疑大剧。
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

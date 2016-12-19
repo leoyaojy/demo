@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>径向菜单</title>
+    <link rel="Shortcut Icon" href="../../favicon.ico" type="image/ico">
+    <link rel="stylesheet" href="../libs/css/font-awesome.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-size: 0;
+            font-family: DejaVu Sans Mono, serif, sans-serif, monospace;
+        }
+
+        .menu {
+            width: 300px;
+            height: 300px;
+            margin: 50px auto;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .center {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 0;
+            height: 0;
+
+        }
+
+        .anchor {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 0;
+            transform: scale(0);
+            opacity: 0;
+            transition: all 0.5s ease-out;
+        }
+
+        .open.anchor {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .btn {
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            padding: 5px;
+            background-color: lightgray;
+            color: #333;
+            border-radius: 50%;
+        }
+
+        .btn:hover {
+            color: #000;
+            background-color: #ccc;
+        }
+
+        .item {
+            position: absolute;
+            font-size: 36px;
+            transform: translate(-50%, -50%);
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .item:hover {
+            color: cornflowerblue;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <div class="menu">
+        <div class="center">
+            <div class="anchor"></div>
+            <i class="btn fa fa-bars"></i>
+        </div>
+    </div>
+</div>
+<script>
+    var arr = ["home", "facebook", "github", "weibo", "qq", "weixin", "user", "google", "youtube", "linux", "windows", "apple"];
+    for (var i = 0, len = arr.length; i < len; i++) {
+        var a = document.createElement("a");
+        a.className = "item fa fa-" + arr[i];
+        setPosition(a, i / len, 100);
+        g(".anchor")[0].appendChild(a);
+    }
+
+    g(".btn")[0].onclick = function (e) {
+        e.preventDefault();
+        g(".anchor")[0].classList.toggle("open");
+    };
+
+    function setPosition(ele, deg, r) {
+        var d = 2 * Math.PI * deg;
+        ele.style.top = (-r * Math.cos(d)).toFixed(1) + "px";
+        ele.style.left = (r * Math.sin(d)).toFixed(1) + "px";
+    }
+
+    function g(id) {
+        if (id.indexOf(".") > -1) {
+            return document.getElementsByClassName(id.substr(1));
+        } else {
+            return document.getElementById(id);
+        }
+    }
+</script>
+</body>
+</html>

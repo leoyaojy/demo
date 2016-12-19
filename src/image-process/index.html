@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>canvas图像处理</title>
+    <style>
+        body{
+            background: #fff;
+        }
+        .container{
+            margin: 0 auto;
+        }
+        canvas {
+            border: 1px solid #ccc;
+        }
+        .btn-group{
+            margin-top: 50px;
+            text-align: center;
+            font-size: 20px;
+        }
+        a.btn{
+            text-decoration: none;
+            color: #fff;
+            background-color: #999;
+            padding: 10px 20px;
+            border-radius: 3px;
+            transition: background-color .4s ease-in-out;
+            font-family: DejaVu Sans Mono, serif, sans-serif, monospace;
+        }
+        a.btn:hover{
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <div class="container">
+        <canvas id="leftCanvas"></canvas>
+        <canvas id="rightCanvas"></canvas>
+    </div>
+    <div class="btn-group">
+        <a href="javascript:origin()" class="btn">原图</a>
+        <a href="javascript:gray()" class="btn">灰度</a>
+        <a href="javascript:blackwhite()" class="btn">黑白色</a>
+        <a href="javascript:reverse()" class="btn">反色</a>
+        <a href="javascript:blur()" class="btn">模糊</a>
+        <a href="javascript:dot()" class="btn">点阵</a>
+        <a href="javascript:mosaic()" class="btn">马赛克</a>
+    </div>
+</div>
+<script>
+    var left = document.getElementById("leftCanvas");
+    var ltxt = left.getContext("2d");
+    var right = document.getElementById("rightCanvas");
+    var rtxt = right.getContext("2d");
+
+    var img = new Image();
+    img.src = "img.jpg";
+    var scale = 2.2;
+    img.onload = function () {
+        left.width = right.width = img.width / scale;
+        left.height = right.height = img.height / scale;
+        document.getElementsByClassName("container")[0].style.width = left.width * 2 + 10 + "px";
+        ltxt.drawImage(img, 0, 0, left.width, left.height);
+    };
+    function origin() {
+        var imgData = ltxt.getImageData(0, 0, left.width, left.height);
+        rtxt.putImageData(imgData, 0, 0, 0, 0, right.width, right.height);
+    }
+    function gray() {
+        var imgData = ltxt.getImageData(0, 0, left.width, left.height);
+        var pixelData = imgData.data;
+        for (var i = 0; i < left.width * left.height; i++) {
+            var r = pixelData[4 * i];
+            var g = pixelData[4 * i + 1];
+            var b = pixelData[4 * i + 2];
+            var avg = r * .3 + g * .6 + b * .1;
+            pixelData[4 * i] = avg;
+            pixelData[4 * i + 1] = avg;
+            pixelData[4 * i + 2] = avg;
+        }
+        rtxt.putImageData(imgData, 0, 0, 0, 0, right.width, right.height);
+    }
+    function blackwhite() {
+        var imgData = ltxt.getImageData(0, 0, left.width, left.height);
+        var pixelData = imgData.data;
+        for (var i = 0; i < left.width * left.height; i++) {
+            var r = pixelData[4 * i];
+            var g = pixelData[4 * i + 1];
+            var b = pixelData[4 * i + 2];
+            var avg = r * .3 + g * .6 + b * .1;
+            if (avg > 255 / 2) {
+                avg = 255;
+            } else {
+                avg = 0;
+            }
+            pixelData[4 * i] = avg;
+            pixelData[4 * i + 1] = avg;
+            pixelData[4 * i + 2] = avg;
+        }
+        rtxt.putImageData(imgData, 0, 0, 0, 0, right.width, right.height);
+    }
+    function reverse() {
+        var imgData = ltxt.getImageData(0, 0, left.width, left.height);
+        var pixelData = imgData.data;
+        for (var i = 0; i < left.width * left.height; i++) {
+            var r = pixelData[4 * i];
+            var g = pixelData[4 * i + 1];
+            var b = pixelData[4 * i + 2];
+            pixelData[4 * i] = 255 - r;
+            pixelData[4 * i + 1] = 255 - g;
+            pixelData[4 * i + 2] = 255 - b;
+        }
+        rtxt.putImageData(imgData, 0, 0, 0, 0, right.width, right.height);
+    }
+
+    function blur() {
+        var imgData = ltxt.getImageData(0, 0, left.width, left.height);
+        var pixelData = imgData.data;
+        var template = ltxt.getImageData(0, 0, left.width, left.height);
+        var templateData = template.data;
+        var blurR = 1;
+        var num = Math.pow(2 * blurR + 1, 2);
+        for (var i = blurR; i < left.height - blurR; i++) {
+            for (var j = blurR; j < left.width - blurR; j++) {
+                var r = 0, g = 0, b = 0;
+                for (var dx = -blurR; dx <= blurR; dx++) {
+                    for (var dy = -blurR; dy <= blurR; dy++) {
+                        var x = i + dx;
+                        var y = j + dy;
+                        var p = x * left.width + y;
+                        r += templateData[4 * p];
+                        g += templateData[4 * p + 1];
+                        b += templateData[4 * p + 2];
+                    }
+                }
+                var point = i * left.width + j;
+                pixelData[4 * point] = r / num;
+                pixelData[4 * point + 1] = g / num;
+                pixelData[4 * point + 2] = b / num;
+            }
+
+        }
+        rtxt.putImageData(imgData, 0, 0, 0, 0, right.width, right.height);
+    }
+
+    function dot() {
+        var imgData = ltxt.getImageData(0, 0, left.width, left.height);
+        var pixelData = imgData.data;
+        var size = 3;
+        for (var i = 0; i < left.height ; i+=size) {
+            for (var j = 0; j < left.width ; j+=size) {
+                var point = i * left.width + j;
+                pixelData[4 * point] = 255;
+                pixelData[4 * point + 1] = 255;
+                pixelData[4 * point + 2] = 255;
+            }
+
+        }
+        rtxt.putImageData(imgData, 0, 0, 0, 0, right.width, right.height);
+    }
+
+    function mosaic() {
+        var imgData = ltxt.getImageData(0, 0, left.width, left.height);
+        var pixelData = imgData.data;
+        var template = ltxt.getImageData(0, 0, left.width, left.height);
+        var templateData = template.data;
+        var size = 6;
+        var num = size * size;
+        for (var i = 0; i < left.height; i += size) {
+            for (var j = 0; j < left.width; j += size) {
+                var r = 0, g = 0, b = 0;
+                for (var dx = 0; dx < size; dx++) {
+                    for (var dy = 0; dy < size; dy++) {
+                        var x = i + dx;
+                        var y = j + dy;
+                        var p = x * left.width + y;
+                        r += templateData[4 * p];
+                        g += templateData[4 * p + 1];
+                        b += templateData[4 * p + 2];
+                    }
+                }
+                var point = i * left.width + j;
+                var R = r / num;
+                var G = g / num;
+                var B = b / num;
+                for (var dx = 0; dx <= size; dx++) {
+                    for (var dy = 0; dy <= size; dy++) {
+                        var x = i + dx;
+                        var y = j + dy;
+                        var p = x * left.width + y;
+                        pixelData[4 * p] = R;
+                        pixelData[4 * p + 1] = G;
+                        pixelData[4 * p + 2] = B;
+                    }
+                }
+            }
+
+        }
+        rtxt.putImageData(imgData, 0, 0, 0, 0, right.width, right.height);
+    }
+</script>
+</body>
+</html>

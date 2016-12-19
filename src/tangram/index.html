@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>七巧板</title>
+    <style>
+        #canvas {
+            border: 1px solid #999;
+            margin: 0 auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <canvas id="canvas">
+        您的浏览器不支持Canvas标签，请在现代浏览器下查看效果
+    </canvas>
+</div>
+<script>
+    var size = 600;     //修改此处控制七巧板的大小
+    var points = [
+        {p: [{x: 0, y: 0}, {x: .5 * size, y: .5 * size}, {x: size, y: 0}]},
+        {p: [{x: 0, y: 0}, {x: .5 * size, y: .5 * size}, {x: 0, y: size}]},
+        {p: [{x: 0, y: size}, {x: .5 * size, y: size}, {x: .25 * size, y: .75 * size}]},
+        {p: [{x: .5*size, y: .5*size},{x:.75*size,y:.75*size}, {x: .5*size, y: size}, {x: .25*size, y: .75*size}]},
+        {p: [{x: .5 * size, y: .5 * size}, {x: .75 * size, y: .75 * size}, {x: .75 * size, y: .25 * size}]},
+        {p: [{x: size, y: 0}, {x: size, y: .5 * size}, {x: .75 * size, y: .75 * size}, {x: .75 * size, y: .25 * size}]},
+        {p: [{x: .5 * size, y: size}, {x: size, y: .5 * size}, {x: size, y: size}]}
+    ];
+    function Color() {
+        this.r = random(0,255);
+        this.g = random(0,255);
+        this.b = random(0,255);
+        this.style = 'rgb('+this.r+','+this.g+','+this.b+')';
+    }
+    function random(m, n) {
+        return Math.floor(Math.random() * (m - n + 1) + n)
+    }
+    var canvas = document.getElementById('canvas');
+    var ctxt = canvas.getContext('2d');
+    canvas.width = canvas.height = size;
+    for(var i in points){
+        ctxt.beginPath();
+        ctxt.fillStyle = new Color().style;
+        ctxt.moveTo(points[i].p[0].x,points[i].p[0].y);
+        for(var j=1;j<points[i].p.length;j++){
+            ctxt.lineTo(points[i].p[j].x,points[i].p[j].y)
+        }
+        ctxt.fill();
+    }
+</script>
+</body>
+</html>

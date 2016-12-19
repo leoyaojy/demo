@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas API</title>
+    <link rel="stylesheet" href="../libs/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f3f4f5;
+            font-family: DejaVu Sans Mono, serif, sans-serif, monospace;
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+
+        .list-unstyled {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .list-unstyled li {
+            cursor: pointer;
+            margin-bottom: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .list-unstyled li:first-child {
+            font-size: 1.5em;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 3px;
+        }
+
+        .list-unstyled li:first-child:before {
+            content: "";
+            width: 25%;
+            height: 2px;
+            background-color: red;
+            display: inline-block;
+            position: absolute;
+            top: 33px;
+            left: 0;
+        }
+
+        .list-unstyled li:first-child:hover:before {
+            width: 100%;
+        }
+
+        .list-unstyled li:not(:first-child):before {
+            content: "";
+            height: 0;
+            width: 4px;
+            background-color: red;
+            display: inline-block;
+            margin-right: 0;
+        }
+
+        .list-unstyled li:not(:first-child):hover:before {
+            height: 12px;
+            margin-right: 10px;
+        }
+
+        .list-unstyled li:not(:first-child):before, .list-unstyled li:first-child:before {
+            -webkit-transition: all .4s;
+            transition: all .4s;
+        }
+
+        .list-unstyled span {
+            display: inline-block;
+            padding-bottom: 5px;
+            margin-left: -10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid" id="leo">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-sm-4">
+                <ul class="list-unstyled">
+                    <li>Html5 Canvas Element</li>
+                    <li>
+                        <span>创建Canvas元素</span>
+                        <pre>&lt;canvas id="canvas"&gt;&lt;/canvas&gt;</pre>
+                    </li>
+                    <li>
+                        <span>给Canvas添加浏览器不支持提示(建议)</span>
+                        <pre>
+&lt;canvas id="canvas"&gt;
+    您的浏览器不支持 Canvas!
+&lt;/canvas&gt;     </pre>
+                    </li>
+                    <li>
+                        <span>获取canvas元素</span>
+                        <pre>var canvas = document.getElementById('canvas');</pre>
+                    </li>
+                    <li>
+                        <span>2D环境</span>
+                        <pre>var context = canvas.getContext('2d');</pre>
+                    </li>
+                    <li>
+                        <span>Webgl环境(3D)</span>
+                        <pre>var context = canvas.getContext('webgl');</pre>
+                    </li>
+                </ul>
+                <ul class="list-unstyled">
+                    <li>Path(路径)</li>
+                    <li>
+                        <span>开始路径</span>
+                        <pre>context.beginPath();</pre>
+                    </li>
+                    <li>
+                        <span>绘制直线</span>
+                        <pre>context.moveTo(x1,y1);
+context.lineTo(x2,y2);</pre>
+                    </li>
+                    <li>
+                        <span>绘制矩形</span>
+                        <pre>context.rect(x1,y1,x2,y2);</pre>
+                    </li>
+                    <li>
+                        <span>绘制圆/弧</span>
+                        <pre>context.arc(x,y,radius,startAngle,endAngle,counterClockwise);</pre>
+                    </li>
+                    <li>
+                        <span>二次曲线</span>
+                        <pre>context.quadraticCurveTo(cx,cy,x,y);</pre>
+                    </li>
+                    <li>
+                        <span>贝塞尔曲线</span>
+                        <pre>context.bezierCurveTo(cx1,cy1,cx2,cy2,x,y);</pre>
+                    </li>
+                    <li>
+                        <span>结束路径</span>
+                        <pre>context.closePath();</pre>
+                    </li>
+                </ul>
+                <ul class="list-unstyled">
+                    <li>形状填充描边</li>
+                    <li>
+                        <span>绘制矩形并填充描边</span>
+                        <pre>
+context.rect(x1,y1,x2,y2);
+context.fill();
+context.stroke();   </pre>
+                    </li>
+                    <li>
+                        <span>填充矩形</span>
+                        <pre>context.fillRect(x1,y1,x2,y2)</pre>
+                    </li>
+                    <li>
+                        <span>描边矩形</span>
+                        <pre>context.strokeRect(x1,y1,x2,y2)</pre>
+                    </li>
+                    <li>
+                        <span>绘制圆并填充描边</span>
+                        <pre>
+context.arc(x,y,r,0,Math.PI*2);
+context.fill();
+context.stroke();   </pre>
+                    </li>
+                </ul>
+                <ul class="list-unstyled">
+                    <li>Text 文本</li>
+                    <li>
+                        <span>设置文本样式</span>
+                        <pre>
+context.font = "bold 40px arial";   //粗体文本
+context.font = "italic 40px arial"; //斜体文本  </pre>
+                    </li>
+                    <li>
+                        <span>文本水平对齐</span>
+                        <pre>context.textAlign="start|end|left|center|right"</pre>
+                    </li>
+                    <li>
+                        <span>文本垂直对齐</span>
+                        <pre>context.textBaseLine="top|hanging|middle|alphabetic|ideographic|bottom"</pre>
+                    </li>
+                    <li>
+                        <span>获取文本宽度</span>
+                        <pre>var width = context.measureText("Hello World").width</pre>
+                    </li>
+                    <li>
+                        <span>填充文本</span>
+                        <pre>
+context.font="40px arial";
+context.fillStyle="#999";
+context.fillText("Hello World",x,y);    </pre>
+                    </li>
+                    <li>
+                        <span>描边文本</span>
+                        <pre>
+context.font="40px arial";
+context.strokeStyle="#999";
+context.strokeText("Hello World",x,y);  </pre>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-4">
+                <ul class="list-unstyled">
+                    <li>Style</li>
+                    <li>
+                        <span>填充样式</span>
+                        <pre>
+context.fillStyle = "#999";
+context.fill();     </pre>
+                    </li>
+                    <li>
+                        <span>描边样式</span>
+                        <pre>
+context.strokeStyle = "#999";
+context.stroke();   </pre>
+                    </li>
+                    <li>
+                        <span>线性渐变</span>
+                        <pre>
+var g = context.createLinearGradient(x1,y1,x2,y2);
+g.addColorStop("0","red");
+g.addColorStop(".5","green");
+g.addColorStop("1","blue");
+context.fillStyle = g;
+context.fill();     </pre>
+                    </li>
+                    <li>
+                        <span>径向渐变</span>
+                        <pre>
+var g = context.createRadialGradient(x1,y1,r1,x2,y2,r2);
+g.addColorStop("0","red");
+g.addColorStop(".5","green");
+g.addColorStop("1","blue");
+context.fillStyle = g;
+context.fill();      </pre>
+                    </li>
+                    <li>
+                        <span>Line Join</span>
+                        <pre>context.lineJoin = ""miter|round|bevel</pre>
+                    </li>
+                    <li>
+                        <span>Line Cap</span>
+                        <pre>context.lineCap="butt|square|round"</pre>
+                    </li>
+                    <li>
+                        <span>阴影</span>
+                        <pre>
+context.shadowColor = "#999";
+context.shadowBlue = 20;
+context.shadowOffsetX = 5;
+context.shadowOffsetY = 5;  </pre>
+                    </li>
+                    <li>
+                        <span>全局透明度</span>
+                        <pre>context.globalAlpha = .5;</pre>
+                    </li>
+                </ul>
+                <ul class="list-unstyled">
+                    <li>颜色模式</li>
+                    <li>
+                        <span>字符串</span>
+                        <pre>context.fillStyle = "red";</pre>
+                    </li>
+                    <li>
+                        <span>十六进制(全)</span>
+                        <pre>context.fillStyle = "#ff0000";</pre>
+                    </li>
+                    <li>
+                        <span>十六进制(简)</span>
+                        <pre>context.fillStyle = "#f00";</pre>
+                    </li>
+                    <li>
+                        <span>RGB</span>
+                        <pre>context.fillStyle = "rgb(255,0,0)";</pre>
+                    </li>
+                    <li>
+                        <span>RGBA</span>
+                        <pre>context.fillStyle = "rgba(255,0,0,1)"</pre>
+                    </li>
+                </ul>
+                <ul class="list-unstyled">
+                    <li>变形</li>
+                    <li>
+                        <span>平移</span>
+                        <pre>context.translate(x,y)</pre>
+                    </li>
+                    <li>
+                        <span>旋转</span>
+                        <pre>context.rotate(deg)</pre>
+                    </li>
+                    <li>
+                        <span>缩放</span>
+                        <pre>context.scale(x,y)</pre>
+                    </li>
+                    <li>
+                        <span>水平翻转</span>
+                        <pre>context.scale(-1,1)</pre>
+                    </li>
+                    <li>
+                        <span>垂直翻转</span>
+                        <pre>context.scale(1,-1)</pre>
+                    </li>
+                    <li>
+                        <span>变换矩阵</span>
+                        <pre>
+context.transform(a,b,c,d,e,f);
+注:
+a	水平缩放（1）     b	水平倾斜（0）
+c	垂直倾斜（0）     d	垂直缩放（1）
+e	水平位移（0）     f	垂直位移（0）     </pre>
+                    </li>
+                </ul>
+                <ul class="list-unstyled">
+                    <li>剪辑区域</li>
+                    <li>
+                        <span>剪辑</span>
+                        <pre>context.clip();</pre>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-4">
+                <ul class="list-unstyled">
+                    <li>图像</li>
+                    <li>
+                        <span>绘制图像默认大小</span>
+                        <pre>
+var img = new Image();
+img.src = "src/img.jpg";
+img.onload = function(){
+    context.drawImage(img,x,y);
+}                   </pre>
+                    </li>
+                    <li>
+                        <span>绘制图像并指定大小</span>
+                        <pre>
+var img = new Image();
+img.src = "src/img.jpg";
+img.onload = function(){
+    context.drawImage(img,x,y，width,height);
+}                   </pre>
+                    </li>
+                    <li>
+                        <span>剪辑图像</span>
+                        <pre>
+var img = new Image();
+img.src = "src/img.jpg";
+img.onload = function(){
+    context.drawImage(img,sx,sy,sw,sh,dx,dy,dw,dh);
+}                   </pre>
+                    </li>
+                </ul>
+                <ul class="list-unstyled">
+                    <li>图像数据</li>
+                    <li>
+                        <span>获取图像数据</span>
+                        <pre>
+var imgData = context.getImageData(x,y,width,height);
+var data = imgData.data;    </pre>
+                    </li>
+                    <li>
+                        <span>遍历图像像素</span>
+                        <pre>
+var imgData = context.getImageData(x,y,width,height);
+var data = imgData.data;
+var len = date.length;
+for(var i = 0;i < len;i += 4){
+    var r = data[i];
+    var g = data[i+1];
+    var b = data[i+2];
+    var a = data[i+3];
+}                   </pre>
+                    </li>
+                    <li>
+                        <span>遍历图像坐标像素</span>
+                        <pre>
+var imgData = context.getImageData(x,y,width,height);
+var data = imgData.data;
+for(var i = 0;i < height;i++){
+    for(var j = 0;j < width;j++){
+        var point = i*width + j;
+        var r = data[point * 4];
+        var g = data[point * 4 + 1];
+        var b = data[point * 4 + 2];
+        var a = data[point * 4 + 3];
+    }
+}                   </pre>
+                    </li>
+                    <li>
+                        <span>设置图像</span>
+                        <pre>
+context.putImageData(imgData,x,y);
+或者
+context.putImageData(imgData,dx,dy,sx,sy,sw,sh);    </pre>
+                    </li>
+                </ul>
+                <ul class="list-unstyled">
+                    <li>图像数据URL</li>
+                    <li>
+                        <span>获取图像数据URL</span>
+                        <pre>var dataUrl = canvas.toDataURL();</pre>
+                    </li>
+                    <li>
+                        <span>将图像数据URL绘制在canvas上</span>
+                        <pre>
+var img = new Image();
+img.src = dataUrl;
+img.onload = function(){
+    img.drawImage(img,x,y);
+}                   </pre>
+                    </li>
+                </ul>
+                <ul class="list-unstyled">
+                    <li>保存/还原之前设置的绘制样式</li>
+                    <li>
+                        <span>保存之前设置的绘制样式</span>
+                        <pre>context.save();</pre>
+                    </li>
+                    <li>
+                        <span>还原之前设置的绘制样式</span>
+                        <pre>context.restore();</pre>
+                    </li>
+                </ul>
+                <ul class="list-unstyled">
+                    <li>图像合成</li>
+                    <li>
+                        <span>合成</span>
+                        <pre>
+context.globalCompositeOperation = value;
+value取值:
+source-over       source-atop       source-in       source-out
+destination-over  destination-atop  destination-in  destination-out
+lighter           copy              xor    </pre>
+                        <img class="img-responsive"
+                             src="http://ww1.sinaimg.cn/large/0062vBsDgw1f803ezx24zj30or0l50vj.jpg" alt="">
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <blockquote>
+            <p>Canvas API 学习交流之用，如有错误欢迎指出!<a href="mailto:luckywgm@gmail.com">联系我</a></p>
+            <code>Leo Angel</code>
+        </blockquote>
+    </footer>
+</div>
+</body>
+</html>

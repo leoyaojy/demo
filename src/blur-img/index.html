@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>图片模糊</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            overflow: hidden;
+            font-family: DejaVu Sans Mono, serif, sans-serif, monospace;
+        }
+
+        #img {
+            display: block;
+            position: absolute;
+            filter: blur(20px);
+            -webkit-filter: blur(20px);
+        }
+
+        #canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .btn {
+            display: block;
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        #reset-btn {
+            bottom: 20px;
+            left: 100px;
+            background: #045;;
+        }
+
+        #reset-btn:hover {
+            background: #034;
+        }
+
+        #show-btn {
+            bottom: 20px;
+            right: 100px;
+            background: #078;
+        }
+
+        #show-btn:hover {
+            background: #067;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <img src="img.jpg" alt="" id="img">
+    <canvas id="canvas"></canvas>
+    <a href="javascript:reset()" class="btn" id="reset-btn">RESET</a>
+    <a href="javascript:show()" class="btn" id="show-btn">SHOW</a>
+</div>
+<script src="../libs/js/jquery.min.js"></script>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctxt = canvas.getContext("2d");
+    var canvasW = canvas.width = window.innerWidth,
+        canvasH = canvas.height = window.innerHeight;
+    var leftMargin, topMargin, clipArea, R = 50;
+    var img = new Image();
+    img.src = "img.jpg";
+    img.onload = function () {
+        $("#container").css({
+            width: canvas.width, height: canvas.height
+        });
+        leftMargin = (img.width - canvas.width) / 2;
+        topMargin = (img.height - canvas.height) / 2;
+        $("#img").css({
+            width: img.width,
+            height: img.height,
+            left: -leftMargin,
+            top: -topMargin
+        });
+        init();
+    };
+
+    function init() {
+        var left = leftMargin < 0 ? -leftMargin : 0;
+        var top = topMargin < 0 ? -topMargin : 0;
+        clipArea = {
+            x: Math.random() * (canvasW - 2 * R - 2 * left) + R + left,
+            y: Math.random() * (canvasH - 2 * R - 2 * top) + R + top,
+            r: R
+        };
+        drawPic(img, clipArea);
+    }
+    function setClipArea(area) {
+        ctxt.beginPath();
+        ctxt.arc(area.x, area.y, area.r, 0, Math.PI * 2);
+        ctxt.clip();
+    }
+    function drawPic(img, clipArea) {
+        ctxt.clearRect(0, 0, canvas.width, canvas.height);
+        ctxt.save();
+        setClipArea(clipArea);
+        ctxt.drawImage(img,
+            leftMargin, topMargin, canvas.width, canvas.height,
+            0, 0, canvas.width, canvas.height
+        );
+        ctxt.restore();
+    }
+    function reset() {
+        init();
+    }
+    function show() {
+        var t = setInterval(function () {
+            clipArea.r += 20;
+            if (clipArea.r >= canvasW) {
+                clearInterval(t);
+            }
+            drawPic(img, clipArea);
+        }, 20);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Animate CSS</title>
+    <link rel="Shortcut Icon" href="../../favicon.ico" type="image/ico">
+    <link rel="stylesheet" href="../libs/css/animate.min.css">
+    <link rel="stylesheet" href="../libs/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../libs/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../libs/css/common.css">
+    <style>
+        .m-t {
+            margin-top: 10px;
+        }
+
+        .m-l {
+            margin-left: 10px;
+        }
+
+        .m-b {
+            margin-bottom: 10px;
+        }
+
+        .middle-box {
+            text-align: center;
+        }
+
+        body {
+            background-color: #f1f1f1;
+        }
+
+        .container {
+            width: 90%;
+            background-color: white;
+            margin: 50px auto;
+        }
+
+        .test {
+            width: 30%;
+            text-align: center;
+            background-color: white;
+            float: left;
+        }
+
+        .btn_box {
+            width: 70%;
+            overflow: hidden;
+            background-color: white;
+            padding: 0 2% 30px 2%;
+            float: right;
+        }
+
+        .title {
+            text-align: center;
+            padding: 10px 0 0 0;
+            width: 100%;
+            border-bottom: solid 1px silver;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="leo">
+    <div class="row">
+        <div class="title">
+            <h5>CSS动画
+                <a class="m-l" href="https://github.com/daneden/animate.css"
+                   target="_blank">
+                    https://github.com/daneden/animate.css
+                </a>
+            </h5>
+        </div>
+        <h3 class="tc zhuse">
+            Animate CSS<br>
+            <small class="font12 lv">
+                一个有趣的，跨浏览器的CSS3动画库<br>
+                预设了抖动、闪烁、弹跳、翻转、旋转、淡入淡出等多达60种动画效果
+            </small>
+        </h3>
+        <hr>
+    </div>
+    <div class="row gray-bg m-b">
+        <div class="test tc">
+            <h4 class="zhuse mb20">
+                动画效果示例框
+            </h4>
+            <img id="animate-content" class="animated bounceInDown" src="animate.jpg" style="width: 80%"/>
+        </div>
+        <div id="animate-box" class="btn_box">
+            <h5 class="zhuse tc">点击下面按钮，可以从“动画效果示例框”中预览效果</h5>
+        </div>
+
+    </div>
+</div>
+<script src="../libs/js/jquery.min.js"></script>
+<script>
+    var s = ["bounce", "shake", "rubberBand", "wobble", "swing", "tada", "flash", "jello", "bounceIn", "bounceInDown",
+        "bounceInLeft", "bounceInRight", "bounceInUp", "bounceOut", "bounceOutDown", "bounceOutLeft",
+        "bounceOutRight", "bounceOutUp", "fadeIn", "fadeInDown", "fadeInDownBig", "fadeInLeft",
+        "fadeInLeftBig", "fadeInRight", "fadeInRightBig", "fadeInUp", "fadeInUpBig", "fadeOut",
+        "fadeOutDown", "fadeOutDownBig", "fadeOutLeft", "fadeOutLeftBig", "fadeOutRight",
+        "fadeOutRightBig", "fadeOutUp", "fadeOutUpBig", "flip", "flipInX", "flipInY", "flipOutX",
+        "flipOutY", "lightSpeedIn", "lightSpeedOut", "rotateIn", "rotateInDownLeft", "rotateInDownRight",
+        "rotateInUpLeft", "rotateInUpRight", "rotateOut", "rotateOutDownLeft", "rotateOutDownRight",
+        "rotateOutUpLeft", "rotateOutUpRight", "slideInDown", "slideInLeft", "slideInRight",
+        "slideOutLeft", "slideOutRight", "slideOutUp", "slideOutDown", "hinge", "rollIn", "rollOut"];
+    $(function () {
+        var box = $("#animate-box");
+        var html = "";
+        for (var i = 0; i < s.length; i++) {
+            html+='<a class="btn btn-default m-t m-l animation_select" data-animation="'+s[i]+'" id="animation_select'+i+'">'+s[i]+'</a>'
+        }
+        box.append(html);
+
+        $(".animation_select").on("click",function () {
+            var animation = $(this).attr("data-animation");
+            $("#animate-content").attr("class","animated "+animation);
+            setTimeout(function () {
+                $("#animate-content").attr("class","");
+            },1000)
+        })
+    });
+</script>
+</body>
+</html>

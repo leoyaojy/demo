@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>心形动画</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        #canvas{
+            -webkit-transform: rotate(90deg);
+            -moz-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            -o-transform: rotate(90deg);
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <canvas id="canvas">
+        您的浏览器不支持，请升级现代浏览器查看效果
+    </canvas>
+</div>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctxt = canvas.getContext("2d");
+    var W = canvas.width = window.innerWidth;
+    var H = canvas.height = window.innerHeight;
+    var R = H * 0.45;
+    var points = [];
+    var dashL = 100, dashO = 100;
+    function calcPoints() {
+        for (var i = 0; i <= 360; i += 5) {
+            points.push([
+                W / 2 + Math.cos(Math.PI / 180 * i) * R,
+                H / 2 + Math.sin(Math.PI / 180 * i) * R
+            ]);
+        }
+    }
+    function update() {
+        if (dashL < 600) {
+            dashL += 2;
+            ctxt.clearRect(0, 0, canvas.width, canvas.height);
+            drawHeart(dashL, dashO)
+        }
+        requestAnimationFrame(update);
+    }
+    function drawHeart(len, off) {
+        ctxt.save();
+        ctxt.beginPath();
+        ctxt.lineWidth = 1.2;
+        ctxt.setLineDash([len, off]);
+        ctxt.strokeStyle = "#e36";
+
+        var offset = 18;
+        for(var i=0;i<=18;i++){
+            ctxt.moveTo(points[i][0],points[i][1]);
+            ctxt.lineTo(points[i+offset][0],points[i+offset][1]);
+        }
+        for(var i=36;i<=54;i++){
+            ctxt.moveTo(points[i][0],points[i][1]);
+            ctxt.lineTo(points[i+offset][0],points[i+offset][1]);
+        }
+        var offset = 20;
+        for(var i=18;i<36;i++){
+            ctxt.moveTo(points[i][0],points[i][1]);
+            ctxt.lineTo(points[i+offset][0],points[i+offset][1]);
+            offset++;
+        }
+        var offset = 20;
+        for(var i=54;i>36;i--){
+            ctxt.moveTo(points[i][0],points[i][1]);
+            ctxt.lineTo(points[i-offset][0],points[i-offset][1]);
+            offset++;
+        }
+        ctxt.stroke();
+        ctxt.closePath();
+        ctxt.restore();
+    }
+    calcPoints();
+    update();
+</script>
+</body>
+</html>

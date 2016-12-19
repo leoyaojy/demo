@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas Clock2</title>
+    <link rel="Shortcut Icon" href="../../favicon.ico" type="image/ico">
+    <style>
+        body{
+            background: #fff;
+        }
+        #canvas {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <canvas id="canvas">
+        您的浏览器不支持，请升级现代浏览器查看效果
+    </canvas>
+</div>
+<script>
+    //参数配置
+    var config = {
+        canvas: {
+            width: 420,
+            height: 420
+        },
+        clock: {
+            radius: 200,
+            borderWidth: 10,
+            center: {
+                radius: 8,
+                color: "#333"
+            },
+            hand: {
+                hour: {width: 5, length: 100},
+                minute: {width: 2, length: 130},
+                second: {length: 160}
+            }
+        }
+    };
+
+    var canvas = document.getElementById("canvas");
+    canvas.width = config.canvas.width;
+    canvas.height = config.canvas.height;
+    var ctxt = canvas.getContext("2d");
+
+    var currTime;       //保存当前时间
+    setInterval(function () {
+        update();       //1、更新时间
+        draw();         //2、根据当前时间更新画布
+    }, 500);
+    function update() {
+        currTime = getDataObj();
+        function getDataObj() {
+            var now = new Date();
+            var week = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+            var year = now.getFullYear();
+            var month = now.getMonth() + 1;
+            var date = now.getDate();
+            var day = now.getDay();
+            var hour = now.getHours();
+            var minute = now.getMinutes();
+            var second = now.getSeconds();
+            month = month < 10 ? "0" + month : month;
+            date = date < 10 ? "0" + date : date;
+            hour = hour < 10 ? "0" + hour : hour;
+            minute = minute < 10 ? "0" + minute : minute;
+            second = second < 10 ? "0" + second : second;
+            var time = [hour, minute, second];
+            var str = year + "-" + month + "-" + date + "   " + week[day];
+            return {
+                dateStr: str,
+                dateTime: time
+            }
+        }
+    }
+
+    function draw() {
+        ctxt.clearRect(0, 0, canvas.width, canvas.height);
+        var cx = canvas.width / 2, cy = canvas.height / 2;   //CenterX,CenterY
+        drawBorder();   //画表盘
+        drawScale();    //画刻度
+        drawCenter();   //画中心点
+        drawNumber();   //画时钟刻度
+        drawTime();     //画下方时间
+        drawHand();     //画指针
+
+        function drawBorder() {
+            ctxt.save();
+            ctxt.beginPath();
+            ctxt.fillStyle = "#333";
+            ctxt.arc(cx, cy, config.clock.radius, 0, Math.PI * 2, false);
+            ctxt.arc(cx, cy, config.clock.radius - config.clock.borderWidth, 0, Math.PI * 2, true);
+            ctxt.shadowBlur = 10;
+            ctxt.shadowColor = "#444";
+            ctxt.closePath();
+            ctxt.fill();
+            ctxt.restore();
+        }
+
+        function drawScale() {
+            for (i = 1; i <= 60; i++) {
+                var obj = {
+                    //sx:startX,sy:startY,ex:endX,ey:endY,color:strokeStyle,width:lineWidth
+                    sx: 0,
+                    sy: config.clock.radius - config.clock.borderWidth - 15,
+                    ex: 0,
+                    ey: config.clock.radius - config.clock.borderWidth - 5,
+                    color: "#333",
+                    width: 1
+                };
+                if (i % 5 == 0) {
+                    obj.color = "#000";
+                    obj.width = 3;
+                }
+                if (i % 15 == 0) {
+                    obj.sy = config.clock.radius - config.clock.borderWidth - 20;
+                }
+                ctxt.save();
+                ctxt.translate(cx, cy);
+                ctxt.rotate(i * 6 / 180 * Math.PI);
+                ctxt.strokeStyle = obj.color;
+                ctxt.lineWidth = obj.width;
+                ctxt.beginPath();
+                ctxt.moveTo(obj.sx, obj.sy);
+                ctxt.lineTo(obj.ex, obj.ey);
+                ctxt.closePath();
+                ctxt.stroke();
+                ctxt.restore();
+            }
+        }
+        function drawCenter() {
+            ctxt.save();
+            ctxt.arc(cx, cy, config.clock.center.radius, 0, Math.PI * 2, false);
+            ctxt.fillStyle = config.clock.center.color;
+            ctxt.fill();
+            ctxt.restore();
+        }
+        function drawNumber() {
+            for (var i = 1; i <= 12; i++) {
+                var r = config.clock.radius - config.clock.borderWidth - 40;
+                ctxt.save();
+                ctxt.beginPath();
+                ctxt.translate(cx, cy);
+                ctxt.font = "normal 28px Arial";
+                if (i % 3 == 0) {
+                    ctxt.font = "normal 36px Arial";
+                }
+                ctxt.textBaseline = 'middle';
+                ctxt.textAlign = "center";
+                ctxt.fillText(i,
+                    r * Math.cos((-i * 30 + 90) / 180 * Math.PI),
+                    -r * Math.sin((-i * 30 + 90) / 180 * Math.PI)
+                );
+                ctxt.closePath();
+                ctxt.restore();
+            }
+        }
+        function drawTime() {
+            ctxt.save();
+            ctxt.translate(cx, cy);
+            drawDateStr();
+            drawBox();
+            drawDateTime();
+            ctxt.restore();
+            function drawDateStr() {
+                ctxt.save();
+                ctxt.font = "bold 16px Arial";
+                ctxt.textAlign = "center";
+                ctxt.textBaseline = "middle";
+                ctxt.shadowBlur = 5;
+                ctxt.shadowColor = "#ccc";
+                ctxt.fillText(currTime.dateStr, 0, 60);
+                ctxt.restore();
+            }
+
+            function drawBox() {
+                ctxt.save();
+                ctxt.fillStyle = "#666";
+                ctxt.shadowBlur = 3;
+                ctxt.shadowColor = "#333";
+                ctxt.fillRect(-48, -60, 30, 30);
+                ctxt.fillRect(-15, -60, 30, 30);
+                ctxt.fillRect(18, -60, 30, 30);
+                ctxt.restore();
+            }
+
+            function drawDateTime() {
+                ctxt.save();
+                ctxt.fillStyle = "#fff";
+                ctxt.textAlign = "center";
+                ctxt.textBaseline = "middle";
+                ctxt.font = "bold 18px Arial";
+                ctxt.fillText(currTime.dateTime[0], -33, -45);
+                ctxt.fillText(currTime.dateTime[1], 0, -45);
+                ctxt.fillText(currTime.dateTime[2], 33, -45);
+                ctxt.restore();
+            }
+        }
+        function drawHand() {
+            var hour = currTime.dateTime[0] % 12;
+            var minute = currTime.dateTime[1];
+            var second = currTime.dateTime[2];
+            drawHourHand();         //画时钟
+            drawMinuteHand();       //画分钟
+            drawSecondHand();       //画秒针
+            function drawHourHand() {
+                ctxt.save();
+                ctxt.translate(cx, cy);
+                ctxt.rotate((hour + minute / 60 ) * 30 / 180 * Math.PI);
+                ctxt.lineWidth = config.clock.hand.hour.width;
+                ctxt.strokeStyle = "#333";
+                ctxt.lineCap = "round";
+                ctxt.shadowBlur = 5;
+                ctxt.shadowColor = "#999";
+                ctxt.shadowOffsetX = 5;
+                ctxt.shadowOffsetY = 5;
+                ctxt.beginPath();
+                ctxt.moveTo(0, 12);
+                ctxt.lineTo(0,-config.clock.hand.hour.length);
+                ctxt.closePath();
+                ctxt.stroke();
+                ctxt.restore();
+            }
+
+            function drawMinuteHand() {
+                ctxt.save();
+                ctxt.translate(cx, cy);
+                ctxt.rotate((minute + second / 60 ) * 6 / 180 * Math.PI);
+                ctxt.strokeStyle = "#333";
+                ctxt.shadowBlur = 3;
+                ctxt.shadowColor = "#999";
+                ctxt.shadowOffsetX = 3;
+                ctxt.shadowOffsetY = 3;
+                ctxt.lineCap = "round";
+                ctxt.lineWidth = config.clock.hand.minute.width;
+                ctxt.beginPath();
+                ctxt.moveTo(0, 18);
+                ctxt.lineTo(0, -config.clock.hand.minute.length);
+                ctxt.closePath();
+                ctxt.stroke();
+                ctxt.restore();
+            }
+
+            function drawSecondHand() {
+                ctxt.save();
+                ctxt.translate(cx, cy);
+                ctxt.rotate((second * 6) / 180 * Math.PI);
+                ctxt.beginPath();
+                ctxt.fillStyle = "yellow";
+                ctxt.moveTo(1.5, 20);
+                ctxt.lineTo(.5,-config.clock.hand.second.length);
+                ctxt.lineTo(-.5,-config.clock.hand.second.length);
+                ctxt.lineTo(-1.5, 20);
+                ctxt.closePath();
+                ctxt.fill();
+                ctxt.restore();
+            }
+        }
+
+    }
+</script>
+</body>
+</html>

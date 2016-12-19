@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>慕课首页</title>
+    <link rel="Shortcut Icon" href="../../favicon.ico" type="image/ico">
+    <link rel="stylesheet" href="js/mf-pattern/mF_fancy.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: red;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .top {
+            width: 100%;
+            height: 27px;
+            background: url("images/top_bg.jpg") repeat-x;
+        }
+
+        .top_content {
+            width: 1000px;
+            margin: 0 auto;
+            line-height: 27px;
+        }
+
+        .top_content li {
+            list-style-image: url("images/li_bg.gif");
+            float: right;
+            width: 70px;
+        }
+
+        .top_content a:link, .top_content a:visited {
+            color: #8E8E8E;
+            text-decoration: none;
+        }
+
+        .top_content a:hover, .top_content a:active {
+            color: #C00;
+            text-decoration: none;
+        }
+
+        .wrap {
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            height: 80px;
+            background-color: #fff;
+            overflow: hidden;
+        }
+
+        .logo_left {
+            width: 375px;
+            float: left;
+        }
+
+        .logo_right {
+            width: 300px;
+            float: right;
+            height: 28px;
+            margin-top: 30px;
+            color: #8e8e8e;
+        }
+
+        .logo_right img {
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        .tel {
+            font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
+            font-size: 20px;
+            color: red;
+        }
+
+        .nav {
+            height: 40px;
+        }
+
+        .nav_left {
+            width: 10px;
+            background: url("images/nav_left.jpg") no-repeat;
+        }
+
+        .nav_middle {
+            background: url("images/nav_bg.jpg") repeat-x;
+            width: 980px;
+        }
+
+        .nav_right {
+            width: 10px;
+            background: url("images/nav_right.jpg") no-repeat;
+        }
+
+        .nav_left, .nav_middle, .nav_right {
+            float: left;
+            height: 40px;
+        }
+
+        .nav_middle_left {
+            width: 680px;
+        }
+
+        .nav_middle_right {
+            width: 300px;
+        }
+
+        .nav_middle_left li {
+            float: left;
+            line-height: 40px;
+            width: 100px;
+            text-align: center;
+        }
+
+        .nav_middle_left li a {
+            font-size: 16px;
+            color: #fff;
+            font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
+        }
+
+        .nav_middle_left a:hover {
+            color: yellow;
+        }
+
+        .nav_middle_left, .nav_middle_right {
+            float: left;
+        }
+
+        .nav_middle_right {
+            line-height: 40px;
+        }
+
+        .search_text {
+            width: 180px;
+            padding: 5px 30px 5px 5px;
+            background: url("images/search.jpg") no-repeat right center;
+            background-color: #fff;
+            border: solid 1px #fff;
+        }
+
+        .ad {
+            height: 310px;
+            overflow: hidden;
+        }
+
+        .main {
+            height: 250px;
+            background-color: #fff;
+            margin-top: 5px;
+        }
+
+        .news {
+            width: 340px;
+            border: solid 1px #ccc;
+        }
+
+        .title {
+            height: 35px;
+            line-height: 35px;
+            border-bottom: 2px solid #e8e8e8;
+        }
+
+        .title_left {
+            padding-left: 10px;
+            width: 70%;
+            float: left;
+            font-size: 14px;
+            color: #786f66;
+            font-weight: bold;
+        }
+
+        .title_right {
+            width: 20%;
+            float: right;
+            text-align: center;
+        }
+
+        .pic_img {
+            height: 80px;
+            margin-top: 10px;
+            line-height: 22px;
+        }
+
+        .pic_img img {
+            margin: 0 10px 0 5px;
+            float: left;
+        }
+
+        .pic_title {
+            color: red;
+            font-weight: bold;
+        }
+
+        .news_list {
+            margin-top: 10px;
+        }
+
+        .news_list li {
+            border-bottom: dashed 1px #ccc;
+            background: url("images/list.jpg") no-repeat;
+            margin: 5px;
+            line-height: 24px;
+        }
+
+        .news_list ul li span {
+            float: right;
+            padding-right: 5px;
+        }
+
+        .course {
+            width: 410px;
+            border: solid 1px #ccc;
+            margin: 0 7px;
+        }
+
+        .product_type {
+            width: 372px;
+            margin: 50px auto;
+            height: 36px;
+            background: url("images/product_type_bg.jpg") no-repeat;
+        }
+
+        .product_type ul li {
+            float: left;
+            line-height: 36px;
+            text-align: center;
+            width: 25%;
+        }
+
+        .sidebar {
+            width: 230px;
+        }
+
+        .video {
+            border: solid 1px #ccc;
+        }
+
+        .video_content {
+            height: 140px;
+        }
+
+        .service {
+            height: 65px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .news, .course, .sidebar {
+            float: left;
+            height: 250px;
+        }
+
+        .mF_fancy .num ul {
+            height: 12px;
+        }
+
+        .mF_fancy .prev a, .mF_fancy .next a {
+            font-size: 30px;
+        }
+
+        /*底部版权区*/
+        .footer {
+            width: 100%;
+            height: 200px;
+            margin-top: 10px;
+            background-color: #e8e8e8;
+        }
+
+        .copyright {
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+        .copyright > ul {
+            padding-top: 20px;
+        }
+
+        .copyright ul > li {
+            width: 198px;
+            float: left;
+            line-height: 30px;
+            font-size: 18px;
+            font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
+            text-align: center;
+            border-right: 2px double #ccc;
+            color: #ccc;
+        }
+
+        .copyright > ul > li > a {
+            color: #000000;
+            font-size: 20px;
+        }
+
+        .copyright ul > li > ul a {
+            color: #666;
+        }
+
+        .copyright ul > li:last-child {
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <div class="top">
+        <div class="top_content">
+            <ul>
+                <li><a href="#" onclick="AddFavorite(window.location,document.title)">加入收藏</a></li>
+                <li><a href="#">联系我们</a></li>
+                <li><a href="#" onclick="SetHome(window.location)">设为首页</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="wrap">
+        <div class="logo">
+            <div class="logo_left">
+                <img src="images/logo.jpg"/>
+            </div>
+            <div class="logo_right">
+                <img src="images/tel.jpg" width="28" height="28"/>24小时服务热线：<span class="tel">123-456-7890</span>
+            </div>
+        </div>
+        <!--logo结束-->
+        <div class="nav">
+            <div class="nav_left"></div>
+            <div class="nav_middle">
+                <div class="nav_middle_left">
+                    <ul>
+                        <li><a href="#">首页</a></li>
+                        <li><a href="#">关于慕课</a></li>
+                        <li><a href="#">新闻动态</a></li>
+                        <li><a href="#">课程中心</a></li>
+                        <li><a href="#">在线课程</a></li>
+                        <li><a href="#">人才招聘</a></li>
+                    </ul>
+                </div>
+                <div class="nav_middle_right">
+                    <form action="" method="post">
+                        <input type="text" class="search_text">
+                    </form>
+                </div>
+            </div>
+            <div class="nav_right"></div>
+        </div>
+        <div class="ad" id="picBox">
+            <div class="loading">
+                <img src="images/loading.gif" alt="网页加载中……">
+            </div>
+            <div class="pic">
+                <ul>
+                    <li><img src="images/img1.jpg" alt=""></li>
+                    <li><img src="images/img2.jpg" alt=""></li>
+                    <li><img src="images/img3.jpg" alt=""></li>
+                    <li><img src="images/img2.jpg" alt=""></li>
+                </ul>
+            </div>
+        </div>
+        <div class="main">
+            <div class="news">
+                <div class="title">
+                    <h2 class="title_left">新闻中心</h2>
+                    <span class="title_right">
+                    <a href="#">More&gt;&gt;</a>
+                </span>
+                </div>
+                <div class="pic_img">
+                    <img src="images/news.jpg" alt="520">
+                    <h2 class="pic_title">520 慕女神喊你来表白！</h2>
+                    <p>
+                        活动时间：5月20日—5月25日<br/>
+                        获奖公布时间：5月26日<br/>
+                        <a href="#">Learn More>></a>
+                    </p>
+                </div>
+                <div class="news_list">
+                    <ul>
+                        <li>
+                            <span>2014-06-01</span>
+                            <a href="#">【慕客访谈 用户篇】有为?</a>
+                        </li>
+                        <li>
+                            <span>2014-06-01</span>
+                            <a href="#">【有奖活动】给父亲的三行书信</a>
+                        </li>
+                        <li>
+                            <span>2014-05-30</span>
+                            <a href="#">《程序猿，请晒出你的童年》活动获奖公告</a>
+                        </li>
+                        <li>
+                            <span>2014-05-28</span>
+                            <a href="#">【慕课访谈】破茧成蝶——美女程序员的蜕变史</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="course">
+                <div class="title">
+                    <h2 class="title_left">课程中心</h2>
+                    <span class="title_right">
+                    <a href="#">More&gt;&gt;</a>
+                </span>
+                </div>
+                <div class="pic_img">
+                    <img src="images/css.jpg" alt="css">
+                    <h2 class="pic_title">CSS圆角进化论</h2>
+                    <p>CSS圆角的实现，经历了三大发展阶段：背景图片方式、CSS2.0+HTML标签模拟、CSS3.0圆角属性）。本案例详细讲解每一种的实现方式，并对实现的优缺点进行对比分析。</p>
+                </div>
+                <div class="product_type">
+                    <ul>
+                        <li>Php技术</li>
+                        <li>Css技术</li>
+                        <li>Java技术</li>
+                        <li>Html5技术</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sidebar">
+                <div class="video">
+                    <div class="title">
+                        <h2 class="title_left">媒体聚焦</h2>
+                        <span class="title_right">
+                    <a href="#">More&gt;&gt;</a>
+                </span>
+                    </div>
+                    <p class="video_content">
+                        <embed src="http://player.youku.com/player.php/sid/XNjkzMDE5MTUy/v.swf" allowFullScreen="true"
+                               quality="high" width="230" height="140" align="middle" allowScriptAccess="always"
+                               type="application/x-shockwave-flash"></embed>
+                    </p>
+                </div>
+                <div class="service">
+                    <img src="images/app.jpg" alt="service">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="copyright">
+            <ul>
+                <li>
+                    <a href="#">关于</a>
+                    <ul>
+                        <li><a href="#">品牌故事</a></li>
+                        <li><a href="#">联系我们</a></li>
+                        <li><a href="#">加入我们</a></li>
+                        <li><a href="#">版权声明</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">课程</a>
+                    <ul>
+                        <li><a href="#">PHP开发</a></li>
+                        <li><a href="#">前端开发</a></li>
+                        <li><a href="#">JAVA开发</a></li>
+                        <li><a href="#">Android开发</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">关注</a>
+                    <ul>
+                        <li><a href="#">新浪微博</a></li>
+                        <li><a href="#">腾讯微博</a></li>
+                        <li><a href="#">企业微信</a></li>
+                        <li><a href="#">QQ空间</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">留言</a>
+                    <ul>
+                        <li><a href="#">意见反馈</a></li>
+                        <li><a href="#">问题留言</a></li>
+                        <li><a href="#">媒体联络</a></li>
+                        <li><a href="#">在线客服</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="images/weixin.png" alt="weixin">
+                        微信关注
+                    </a>
+                    <ul>
+                        <li>
+                            <img src="images/qrcode.jpg" alt="qrcode">
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="js/setHomeSetFav.js"></script>
+<script src="js/myfocus-2.0.1.min.js"></script>
+<script src="js/mf-pattern/mF_fancy.js"></script>
+<script>
+    myFocus.set({
+        id: "picBox"
+    })
+</script>
+</body>
+</html>

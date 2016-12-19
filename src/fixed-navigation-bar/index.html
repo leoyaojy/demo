@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>固定式导航条效果</title>
+    <link rel="Shortcut Icon" href="../../favicon.ico" type="image/ico">
+    <style>
+        body{
+            background: #fff;
+        }
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        #navigation {
+            position: fixed;
+            left: 50%;
+            top: 60px;
+            margin-left: 400px;
+        }
+
+        #navigation a {
+            display: block;
+            width: 80px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+        }
+
+        #navigation a:hover, #navigation a.curr {
+            background-color: #00ff88;
+            color: #fff;
+        }
+
+        #content {
+            width: 800px;
+            margin: 0 auto;
+            margin-top: 20px
+        }
+
+        .item {
+            padding: 20px;
+            border: 1px dashed #00ff88;
+            margin-bottom: 20px
+        }
+
+        .item h2 {
+            border-bottom: 2px solid #00ff88;
+            margin-bottom: 20px;
+        }
+
+        .item div {
+            width: 230px;
+            margin-right: 10px;
+            display: inline;
+        }
+
+        .item div img {
+            width: 230px;
+            height: 230px;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <div id='navigation'>
+        <ul>
+            <li><a href="#item1" class="curr">1F 男装</a></li>
+            <li><a href="#item2">2F 女装</a></li>
+            <li><a href="#item3">3F 美妆</a></li>
+            <li><a href="#item4">4F 数码</a></li>
+            <li><a href="#item5">5F 母婴</a></li>
+        </ul>
+    </div>
+    <div id="content">
+        <div class="item" id="item1">
+            <h2>1F 男装</h2>
+            <div><a href=""><img src="img/1F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/1F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/1F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/1F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/1F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/1F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/1F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/1F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/1F.jpg" alt=""></a></div>
+        </div>
+        <div class="item" id="item2">
+            <h2>2F 女装</h2>
+            <div><a href=""><img src="img/2F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/2F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/2F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/2F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/2F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/2F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/2F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/2F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/2F.jpg" alt=""></a></div>
+        </div>
+        <div class="item" id="item3">
+            <h2>3F 美妆</h2>
+            <div><a href=""><img src="img/3F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/3F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/3F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/3F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/3F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/3F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/3F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/3F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/3F.jpg" alt=""></a></div>
+        </div>
+        <div class="item" id="item4">
+            <h2>4F 数码</h2>
+            <div><a href=""><img src="img/4F.png" alt=""></a></div>
+            <div><a href=""><img src="img/4F.png" alt=""></a></div>
+            <div><a href=""><img src="img/4F.png" alt=""></a></div>
+            <div><a href=""><img src="img/4F.png" alt=""></a></div>
+            <div><a href=""><img src="img/4F.png" alt=""></a></div>
+            <div><a href=""><img src="img/4F.png" alt=""></a></div>
+            <div><a href=""><img src="img/4F.png" alt=""></a></div>
+            <div><a href=""><img src="img/4F.png" alt=""></a></div>
+            <div><a href=""><img src="img/4F.png" alt=""></a></div>
+        </div>
+        <div class="item" id="item5">
+            <h2>5F 母婴</h2>
+            <div><a href=""><img src="img/5F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/5F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/5F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/5F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/5F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/5F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/5F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/5F.jpg" alt=""></a></div>
+            <div><a href=""><img src="img/5F.jpg" alt=""></a></div>
+        </div>
+    </div>
+</div>
+<script src="../libs/js/jquery.min.js"></script>
+<script>
+    $(function () {
+        $(window).scroll(function () {
+            var items = $("#content").find(".item");
+            var navigation = $("#navigation");
+            var top = $(document).scrollTop();
+            var currId = '';
+            items.each(function () {
+                var self = $(this);
+                if (top > self.offset().top - 150) {
+                    currId = '#' + self.attr('id');
+                } else {
+                    return false;
+                }
+            });
+            var currLink = navigation.find('.curr');
+            if (currId && currLink.attr('href') != currId) {
+                currLink.removeClass('curr');
+                navigation.find('[href="' + currId + '"]').addClass('curr');
+            }
+        });
+    });
+</script>
+</body>
+</html>

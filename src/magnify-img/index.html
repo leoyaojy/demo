@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>放大镜</title>
+    <link rel="Shortcut Icon" href="../../favicon.ico" type="image/ico">
+    <style>
+        body {
+            background: #fff;
+        }
+
+        #box {
+            width: 400px;
+            height: 255px;
+            position: relative;
+            margin: 50px;
+            border: 1px solid #ccc;
+        }
+
+        #small-box {
+            position: relative;
+            z-index: 1;
+        }
+
+        #floatBox {
+            display: none;
+            position: absolute;
+            width: 150px;
+            height: 100px;
+            background-color: #cff;
+            filter: alpha(opacity=50);
+            opacity: 0.5;
+            border: 1px solid #ccc;
+            z-index: 2;
+        }
+
+        #mask {
+            position: absolute;
+            width: 400px;
+            height: 255px;
+            background-color: #fff;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            z-index: 3;
+            cursor: move;
+        }
+
+        #big-box {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 450px;
+            border: 1px solid #ccc;
+            width: 400px;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        #big-box img {
+            position: absolute;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <h2 style="text-align: center">放大镜demo</h2>
+    <div id="box">
+        <div id="small-box">
+            <div id="mask"></div>
+            <div id="floatBox"></div>
+            <img src="macbook-small.jpg" alt="small">
+        </div>
+        <div id="big-box">
+            <img src="macbook-big.jpg" alt="big">
+        </div>
+    </div>
+</div>
+<script>
+    window.onload = function () {
+        var box = g('box');
+        var smallBox = g("small-box");
+        var mask = g("mask");
+        var flBox = g("floatBox");
+        var bigBox = g("big-box");
+        var bigImg = bigBox.getElementsByTagName('img')[0];
+        mask.addEventListener('mouseover', function () {
+            flBox.style.display = 'block';
+            bigBox.style.display = 'block';
+        });
+        mask.addEventListener('mousemove', function (e) {
+            var e = e || window.event;
+            //获取浮动框的left和top值，并做范围限定
+            var left = e.pageX - box.offsetLeft - mask.offsetLeft - flBox.offsetWidth / 2;
+            var top = e.pageY - box.offsetTop - mask.offsetTop - flBox.offsetHeight / 2;
+            left = Math.min(Math.max(0, left), mask.offsetWidth - flBox.offsetWidth);
+            top = Math.min(Math.max(0, top), mask.offsetHeight - flBox.offsetHeight);
+
+            flBox.style.left = left + 'px';
+            flBox.style.top = top + 'px';
+
+            pX = left / (mask.offsetWidth - flBox.offsetWidth);
+            pY = top / (mask.offsetHeight - flBox.offsetHeight);
+
+            bigImg.style.left = -pX * (bigImg.offsetWidth - bigBox.offsetWidth) + 'px';
+            bigImg.style.top = -pY * (bigImg.offsetHeight - bigBox.offsetHeight) + 'px';
+        });
+        mask.addEventListener("mouseout", function () {
+            flBox.style.display = 'none';
+            bigBox.style.display = 'none';
+        });
+    };
+    function g(id) {
+        return document.getElementById(id)
+    }
+</script>
+</body>
+</html>

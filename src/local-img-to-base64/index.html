@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>本地图片转base64编码数据</title>
+    <link rel="Shortcut Icon" href="../../favicon.ico" type="image/ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #fff;
+        }
+
+        .container {
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: normal;
+            text-align: center;
+            margin: 20px auto;
+        }
+
+        button {
+            padding: 0 20px;
+        }
+
+        input, button {
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .left, .right {
+            float: left;
+            min-height: 500px;
+        }
+
+        .left {
+            width: 60%;
+        }
+
+        .right {
+            width: 40%;
+            filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale);
+        }
+
+        .right img {
+            max-width: 100%;
+        }
+
+        textarea {
+            vertical-align: text-top;
+            resize: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>本地图片转base64编码数据</h1>
+    <div class="left">
+        <input type="file" id="ipt" accept="image/*" onchange="loadImg()">
+        <button id="btn">开始转换</button>
+        base64数据: <textarea id="data" cols="60" rows="20"></textarea>
+        <button id="copy">复制</button>
+        <div class="info">数据长度为: <span id="len"></span></div>
+    </div>
+    <div class="right"></div>
+</div>
+<script>
+    var input = document.getElementById('ipt');
+    var right = document.getElementsByClassName('right')[0];
+    var data = document.getElementById("data");
+    var len = document.getElementById('len');
+    var btn = document.getElementById('btn');
+    var copyBtn = document.getElementById('copy');
+    var imgUrl;
+
+    var loadImg = (function () {
+        if (window.FileReader) {
+            var preview = null, fr = new FileReader();
+            fr.onload = function () {
+                imgUrl = this.result;
+                if (!preview) {
+                    preview = new Image();
+                    right.appendChild(preview);
+                }
+                preview.src = imgUrl;
+            };
+            return function () {
+                reset();
+                var files = input.files;
+                if (files.length === 0) {
+                    return;
+                }
+                fr.readAsDataURL(files[0]);
+            }
+        }
+        if (navigator.appName === 'Microsoft Internet Explorer') {
+            return function () {
+                reset();
+                right.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = input.value;
+            }
+        }
+    })();
+    var reset = function () {
+        data.value = '';
+        len.innerHTML = '';
+        copyBtn.innerHTML = '复制';
+    };
+    var transform = function () {
+        if (imgUrl) {
+            data.value = imgUrl;
+            len.innerHTML = imgUrl.length;
+        }
+    };
+    var copy = function () {
+        if (data.value) {
+            data.select();
+            document.execCommand('Copy');
+            copyBtn.innerHTML = '复制成功';
+        }
+    };
+
+    btn.onclick = transform;
+    copyBtn.onclick = copy;
+</script>
+</body>
+</html>

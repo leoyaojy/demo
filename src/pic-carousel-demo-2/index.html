@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>平移图片轮播</title>
+    <link rel="Shortcut Icon" href="../../favicon.ico" type="image/ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul, ol, li {
+            list-style: none;
+        }
+
+        a, a:hover {
+            text-decoration: none;
+        }
+
+        .container {
+            width: 700px;
+            height: 437px;
+            position: relative;
+            margin: 50px auto;
+            overflow: hidden;
+        }
+
+        .img li {
+            float: left;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .num {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .num li {
+            display: inline-block;
+            background-color: #00ff00;
+            height: 20px;
+            width: 20px;
+            line-height: 20px;
+            border-radius: 50%;
+            color: #fff;
+            cursor: pointer;
+            margin: 0 3px;
+            text-align: center;
+            z-index: 999;
+        }
+
+        .num li.active {
+            background-color: #ff0000;
+        }
+
+        .btn {
+            height: 60px;
+            width: 30px;
+            line-height: 60px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            font-size: 30px;
+            font-weight: 600;
+            position: absolute;
+            top: 50%;
+            margin-top: -30px;
+            text-align: center;
+            cursor: pointer;
+            display: none;
+        }
+
+        .container:hover .btn {
+            display: block;
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <div class="container">
+        <ul class="img">
+            <li><a href="#"><img src="img/1.jpg" alt="img1"></a></li>
+            <li><a href="#"><img src="img/2.jpg" alt="img2"></a></li>
+            <li><a href="#"><img src="img/3.jpg" alt="img3"></a></li>
+            <li><a href="#"><img src="img/4.jpg" alt="img4"></a></li>
+            <li><a href="#"><img src="img/5.jpg" alt="img5"></a></li>
+            <li><a href="#"><img src="img/6.jpg" alt="img6"></a></li>
+        </ul>
+        <ul class="num"></ul>
+        <div class="left btn"><</div>
+        <div class="right btn">></div>
+    </div>
+</div>
+<script src="../libs/js/jquery.min.js"></script>
+<script>
+    $(function () {
+        // 页面初始化
+        var length = $(".img li").length;
+        for (var i = 1; i <= length; i++) {
+            var li = "<li>" + i + "</li>";
+            $(".num").append(li);
+        }
+        $(".num li").first().addClass('active');
+        $(".img li").first().show();
+        //img位置初始化
+        var w = parseInt($(".container").css("width"));
+        for (var i = 0; i < 6; i++) {
+            $(".img li").eq(i).css("margin-left", w * i);
+        }
+        // 手动图片轮播
+        $(".num li").mouseover(function () {
+            $(this).addClass('active').siblings().removeClass('active');
+            var curr_index = $(this).index();
+            i = curr_index;
+            for (var j = 0; j < 6; j++) {
+                $(".img li").eq(j).stop().animate({"margin-left": -w * (curr_index - j)}, 300);
+            }
+        });
+        // 自动轮播定时器
+        var i = 0;
+        var t = setInterval(moveR, 2000);
+        // 向右轮播
+        function moveR() {
+            i++;
+            if (i == length) {
+                for (var j = 0; j < 6; j++) {
+                    $(".img li").eq(j).stop().animate({"margin-left": w * j}, 1000, "swing");
+                }
+                i = 0;
+            }
+            $(".num li").eq(i).addClass('active').siblings().removeClass('active');
+            // $(".img li").eq(i).stop().animate({"margin-left":"0"},300);
+            for (var k = 0; k < length; k++) {
+                $(".img li").eq(k).stop().animate({"margin-left": w * (k - i)}, 300);
+            }
+        }
+
+        // 向左轮播
+        function moveL() {
+            i--;
+            if (i == -1) {
+                for (var j = 0; j < 6; j++) {
+                    $(".img li").eq(j).stop().animate({"margin-left": w * j}, 1000, "swing");
+                }
+                i = length - 1;
+            }
+            $(".num li").eq(i).addClass('active').siblings().removeClass('active');
+            for (var k = 0; k < length; k++) {
+                $(".img li").eq(k).stop().animate({"margin-left": w * (k - i)}, 300);
+            }
+        }
+
+        // 容器hover事件清除定时器
+        $(".container").hover(function () {
+            clearInterval(t);
+        }, function () {
+            t = setInterval(moveR, 2000);
+        });
+        // 左右控制按钮
+        $(".left").click(moveL);
+        $(".right").click(moveR);
+    });
+</script>
+</body>
+</html>

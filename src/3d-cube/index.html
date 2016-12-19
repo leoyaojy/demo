@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Css3 3D立方体</title>
+    <link rel="Shortcut Icon" href="../../favicon.ico" type="image/ico">
+    <style>
+        html {
+            background: linear-gradient(#963 0%, #369 100%);
+            height: 100%;
+        }
+
+        @keyframes rotate3d {
+            0% {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+            100% {
+                transform: rotateX(360deg) rotateY(360deg);
+            }
+        }
+
+        .wrap {
+            margin-top: 150px;
+            perspective: 1000px;
+        }
+
+        .cube {
+            margin: 0 auto;
+            position: relative;
+            width: 210px;
+            height: 210px;
+            transform-style: preserve-3d;
+            animation: rotate3d 20s infinite linear;
+        }
+
+        .cube > div {
+            width: 100%;
+            height: 100%;
+            line-height: 200px;
+            text-align: center;
+            font-size: 36px;
+            background-color: #333;
+            border: 1px solid #fff;
+            position: absolute;
+            color: #ffffff;
+            background-size: cover;
+            transition: transform 0.2s ease-in;
+        }
+        .cube > span {
+            display: inline-block;
+            width: 70px;
+            height: 70px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -35px;
+            margin-top: -35px;
+        }
+
+        .out-front {
+            transform: translateZ(105px);
+            background: url("img/1.png");
+        }
+
+        .out-back {
+            transform: rotateY(180deg) translateZ(105px);
+            background: url("img/2.png");
+        }
+
+        .out-left {
+            transform: rotateY(-90deg) translateZ(105px);
+            background: url("img/3.png");
+        }
+
+        .out-right {
+            transform: rotateY(90deg) translateZ(105px);
+            background: url("img/4.png");
+        }
+
+        .out-top {
+            transform: rotateX(90deg) translateZ(105px);
+            background: url("img/5.png");
+        }
+
+        .out-bottom {
+            transform: rotateX(-90deg) translateZ(105px);
+            background: url("img/6.png");
+        }
+
+        .in-front {
+            transform: translateZ(35px);
+            background-color: white;
+        }
+
+        .in-back {
+            transform: rotateY(180deg) translateZ(35px);
+            background-color: red;
+        }
+
+        .in-left {
+            transform: rotateY(-90deg) translateZ(35px);
+            background-color: blue;
+        }
+
+        .in-right {
+            transform: rotateY(90deg) translateZ(35px);
+            background-color: yellow;
+        }
+
+        .in-top {
+            transform: rotateX(90deg) translateZ(35px);
+            background-color: green;
+        }
+
+        .in-bottom {
+            transform: rotateX(-90deg) translateZ(35px);
+            background-color: grey;
+        }
+
+        .cube:hover .out-front {
+            transform: translateZ(200px);
+        }
+
+        .cube:hover .out-back {
+            transform: rotateY(180deg) translateZ(200px);
+        }
+
+        .cube:hover .out-left {
+            transform: rotateY(-90deg) translateZ(200px)
+        }
+
+        .cube:hover .out-right {
+            transform: rotateY(90deg) translateZ(200px);
+        }
+
+        .cube:hover .out-top {
+            transform: rotateX(90deg) translateZ(200px);
+        }
+
+        .cube:hover .out-bottom {
+            transform: rotateX(-90deg) translateZ(200px);
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <div class="wrap">
+        <div class="cube">
+            <div class="out-front"></div>
+            <div class="out-back"></div>
+            <div class="out-left"></div>
+            <div class="out-right"></div>
+            <div class="out-top"></div>
+            <div class="out-bottom"></div>
+            <span class="in-front"></span>
+            <span class="in-back"></span>
+            <span class="in-left"></span>
+            <span class="in-right"></span>
+            <span class="in-top"></span>
+            <span class="in-bottom"></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

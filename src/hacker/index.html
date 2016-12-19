@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hacking</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 5vh 5vw;
+            background: #000;
+            overflow: hidden;
+        }
+
+        p {
+            font-family: monospace;
+            font-weight: bold;
+            color: orangered;
+            text-shadow: 0 0 20px orangered;
+            line-height: 1;
+            font-size: 4.5vh;
+        }
+
+        #msg {
+            width: 20vw;
+            height: 15vh;
+            padding-top: 5vh;
+            font-size: 5vh;
+            color: #fff;
+            background: red;
+            text-align: center;
+            text-transform: uppercase;
+            font-family: "monospace";
+            font-weight: bold;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-top: -5vh;
+            margin-left: -10vw;
+            box-shadow: 0 0 30px red;
+            text-shadow: 0 0 20px white;
+            animation: fadeIn .6s linear infinite alternate;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <div id="msg">Hacking</div>
+    <div id="console"></div>
+</div>
+<script>
+    var txt = [];
+    var c = document.getElementById("console");
+    var doc = document.createDocumentFragment();
+    main();
+    function main() {
+        for (var i = 0; i < 20; i++) {
+            var a = randomStr();
+            txt.push(a);
+        }
+        txt.forEach(function (i) {
+            var p = document.createElement("p");
+            p.textContent = i;
+            doc.appendChild(p);
+        });
+        c.appendChild(doc);
+        setInterval(update, 100);
+    }
+    function randomStr() {
+        var txt = "abcdefghijklmnopqrstuvwxyz0123456789";
+        var len = txt.length;
+        var num = Math.random() * len + len;
+        var str = "";
+        for (var i = 0; i < num; i++) {
+            var r = Math.random() * len;
+            str += txt.substr(r, 1);
+        }
+        return str;
+    }
+    function update() {
+        var r = randomStr();
+        txt = txt.slice(1);
+        txt.push(r);
+        if (c.firstChild) {
+            c.removeChild(c.firstChild)
+        }
+        var p = document.createElement("p");
+        p.textContent = r;
+        doc.appendChild(p);
+        c.appendChild(doc);
+    }
+
+</script>
+</body>
+</html>

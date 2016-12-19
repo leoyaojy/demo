@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义滚动条</title>
+    <link rel="Shortcut Icon" href="../../favicon.ico" type="image/ico">
+    <link rel="stylesheet" href="reset.css">
+    <style>
+        body {
+            background: #ccc;
+        }
+
+        .scroll-demo {
+            width: 540px;
+            border: 1px solid #e5e5e5;
+            background: #fff;
+            margin: 30px auto;
+        }
+
+        /*标签切换区*/
+        .scroll-tab {
+            height: 34px;
+            border-bottom: 1px solid #e5e5e5;
+            color: #666;
+            background: #f8f8f8;
+        }
+
+        .scroll-tab .tab-item {
+            float: left;
+            font: 14px/34px "Microsoft YaHei";
+            height: 34px;
+            text-align: center;
+            border-right: 1px solid #e5e5e5;
+            padding: 0 20px;
+            cursor: pointer;
+        }
+
+        .scroll-tab .tab-active {
+            color: #00be3c;
+            background: #fff;
+            border-top: 2px solid #00be3c;
+            margin: -1px 0;
+        }
+
+        /*滚动内容区*/
+        .scroll-wrap {
+            position: relative;
+            width: 100%;
+            height: 300px;
+        }
+
+        .scroll-wrap .scroll-cont {
+            height: 100%;
+            padding: 0 15px;
+            overflow: hidden;
+        }
+
+        .scroll-wrap .scroll-cont h3 {
+            font: 16px/3 "Microsoft YaHei";
+            text-align: center;
+        }
+
+        .scroll-wrap .scroll-cont p {
+            font-size: 14px;
+            text-indent: 2em;
+            line-height: 20px;
+            margin-bottom: 10px;
+        }
+
+        .scroll-wrap .scroll-cont .scroll-ol {
+            padding-bottom: 1px;
+        }
+
+        /*滚动条*/
+        .scroll-wrap .scroll-bar {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 10px;
+            height: 100%;
+            background-color: #eaeaea;
+        }
+
+        /*滑块*/
+        .scroll-wrap .scroll-slider {
+            position: absolute;
+            top: 0;
+            left: 1px;
+            width: 8px;
+            height: 30px;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <!--示例容器-->
+    <div class="scroll-demo">
+        <!--标签切换区-->
+        <ul class="scroll-tab clearfix">
+            <li class="tab-item tab-active">第一篇</li>
+            <li class="tab-item">第二篇</li>
+            <li class="tab-item">第三篇</li>
+            <li class="tab-item">第四篇</li>
+        </ul>
+        <!--滚动内容区-->
+        <div class="scroll-wrap">
+            <!--滚动内容-->
+            <div class="scroll-cont">
+                <h3 class="anchor">春天来了</h3>
+                <div class="scroll-ol">
+                    <p>春天来了，草长莺飞，万物复苏，到处充满勃勃生机。</p>
+                    <p>
+                        春天来了，春风给新钻出地面的小草披上了绿衣。春天来了，春精灵给了桃树妹妹一个深情的吻，桃树妹妹羞红了脸儿。春天来了，柳树发芽了，那芽儿欢快地生长着，嫩嫩的、绿绿的，风微微地吹着，小芽儿随着柳枝在风中摇晃，就像一个个跳动的音符，正演奏着春天的赞歌。</p>
+                    <p>
+                        春天来了，阳光明媚。冻冰了的小河在阳光照耀下懒洋洋地舒展着身子，慢悠悠地哼着小曲，舒坦极了。河里的小鱼自由自在地嬉戏着，不时嘴里还冒出几个泡泡，甭提多开心。小鸭子欢快地在水面上游动，不时呼朋引伴结队而行，甭提多快活。在这暖暖的春日里，小孩子们在田野里、小河边、草地上唱着歌儿，采着野花，享受着美好的春光。</p>
+                    <p>
+                        春天来了，青蛙“呱呱”地叫着，忙着在田里捉害虫；蜜蜂“嗡嗡”地叫着，忙着在在花丛中采花酿蜜；燕子“唧唧”地叫着，忙着在屋檐下搭窝筑巢；布谷鸟“布谷，布谷”地叫着，忙着催促人们春耕播种……“沙沙沙”春雨滋润着大地，让大地焕然一新。“轰轰隆隆”春雷响彻云霄，敲响了迎春交响曲中的大鼓。</p>
+                    <p>春光竟是那么的浪漫，那么的饱满。它把一冬天蕴藏的精神、力量都尽情地释放出来。</p>
+                    <p>春天来了，草长莺飞，万物复苏，到处充满勃勃生机。</p>
+                </div>
+                <h3 class="anchor">夏天来了</h3>
+                <div class="scroll-ol">
+                    <p>
+                        夏天来了，草木也长得特别茂盛，枝繁叶茂的大树为人们撑起了一片浓浓的绿荫。狗躲在阴凉处，伸出长长的舌头，大口地喘着粗气。鱼儿也急忙露出了水面，吐着气泡。池塘里面开满了荷花，它们在池塘里竞相开放，飘出一股淡淡的清香。</p>
+                    <p>夏天来了，池塘里的小鱼儿在快乐地嬉戏，小青蛙端坐在荷叶上大声地歌唱。</p>
+                    <p>
+                        夏天来了，大地怕热了，纷纷戴上绿色的帽子。小孩子是可爱的鱼，光着身子在清凉的世界里，游来游去。树枝是害羞的少女，扯片翠绿的裙子，打扮自己。小伙子们的笑语惊醒了星星，悄悄派出萤火虫探个究竟。老汉在庭院中闲扯，把蒲扇扇得月光悠长悠长……</p>
+                    <p>夏天来了，大树下面的小花都开了，五彩斑斓真美啊！在大路旁边，大树长得非常的繁茂，宽大的树叶像孩子们的手在微风中欢快的拍打着。</p>
+                    <p>夏天来了，荷叶长出来了，荷花开了，桂花也开了。在绿色的荷塘里，有的小鱼在快活地游来游去，有的小鱼在吐泡泡，做游戏，还有的小鱼潜到了荷塘底下，看上去还真像个小潜水家呢!</p>
+                    <p>
+                        夏天来了，每当下起雨，便会变得十分清爽。一阵阵轻柔的夏雨，“滴滴哒，滴滴哒”地下着，透明的夏雨是凉爽的，给人们一种清凉的感觉。雨点打在地上，溅起一朵朵水花；雨点落在水中，水中立即鼓起一个水泡；雨点落在屋顶上，像一道道瀑布落下。</p>
+                </div>
+                <h3 class="anchor">秋天来了</h3>
+                <div class="scroll-ol">
+                    <p>秋天来了，漫长的夏天过去了，我又迎来了一个新学期，秋天是个金色的季节，也是我最喜欢的季节。</p>
+                    <p>秋天是个丰收的季节，在这个季节，田野里，高粱红了，沉甸甸的稻
+                        穗弯下了腰，玉米笑了，大豆裂开了嘴……，果园里，苹果涂着红彤彤的笑脸，葡萄穿上了紫亮亮的袍子，橘园里更是好看，金黄的橘子挂满了枝头，在秋风的吹拂下，好像在向人们点头……这些都是农民伯伯用辛勤的
+                        汗水浇灌来的。这让我想起了一首诗 ：“春种一粒粟，秋收万颗子”。说的一点也没错。</p>
+                    <p>秋天来了，小动物也忙碌了起来。蚂蚁从夏天就开始储存粮食，小松鼠在地上捡拾掉落的松果，小蜜蜂把早已储存好的蜂蜜装满了一个个蜂窝 ，小燕子飞向南方，等冬天过后再回来。还有一些冬眠动物，如乌龟、蛇
+                        、刺猬、青蛙也已经准备好了过冬的食物。</p>
+                    <p>秋天来了，树叶被调皮的秋风一片片涂黄，把绿叶变成了红叶，再摘下来悄悄珍藏。秋风把小草、小花涂黄，就在这时，菊花、桂花竞相开放了，把香味吹到千里之外，让人们享受这醉人的花香。</p>
+                    <p>我喜欢秋天。</p>
+                </div>
+                <h3 class="anchor">冬天来了</h3>
+                <div class="scroll-ol">
+                    <p>冬季已经悄悄来临，他没有秋天那样穿上华丽的服装，仅增了一件雪白的衣裳，轻盈的洒在地面。顿时，大地变成了雪的世界。一望无际的雪摇摇晃晃的落到地上，给大地披上了一层雪衣。</p>
+                    <p>冬把礼物洒在东营的地上，向人们展现冬的迹象。</p>
+                </div>
+                <div class="correct-bot"></div>
+            </div>
+            <!--滚动条-->
+            <div class="scroll-bar">
+                <!--滚动滑块-->
+                <div class="scroll-slider"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../libs/js/jquery.min.js"></script>
+<script>
+    ;(function (win, doc, $) {
+        function CusScrollBar(options) {
+            this._init(options)
+        }
+
+        $.extend(CusScrollBar.prototype, {
+            _init: function (options) {
+                var self = this;
+                self.options = {
+                    contSelector: ".scroll-cont",       //滚动内容区选择器
+                    barSelector: ".scroll-bar",         //滚动条选择器
+                    sliderSelector: ".scroll-slider",   //滚动滑块选择器
+                    tabItemSelector: ".tab-item",       //标签选择器
+                    tabActiveClass: "tab-active",       //选中标签类名
+                    anchorSelector: ".anchor",          //锚点选择器
+                    wheelStep: 10,                      //滚轮步长
+                    correctSelector: ".correct-bot",    //校正元素
+                    articleSelector: ".scroll-ol"       //文章选择器
+                };
+                $.extend(true, self.options, options || {});
+                self._initDomEvent();
+            },
+            // 初始化DOM引用
+            _initDomEvent: function () {
+                var opts = this.options;
+                this.$cont = $(opts.contSelector);                      //滚动内容区对象，必填项
+                this.$slider = $(opts.sliderSelector);                  //滚动条滑块对象，必填项
+                this.$bar = $(opts.barSelector) ? $(opts.barSelector) : this.$slider.parent();  //滚动条对象
+                this.$tabItem = $(opts.tabItemSelector);                //标签项
+                this.$anchor = $(opts.anchorSelector);                  //锚点项
+                this.$article = $(opts.articleSelector);                //正文
+                this.$correct = $(opts.correctSelector);                //校正元素
+                this.$doc = $(doc);                                     //获取文档对象
+                this._initArticleHeight()
+                    ._initSliderDragEvent()
+                    ._initTabEvent()
+                    ._bindContScroll()
+                    ._bindMouseWheel();
+            },
+            //初始化文章内容高度
+            _initArticleHeight: function () {
+                var self = this,
+                    lastArticle = self.$article.last();
+                var lastArticleHeight = lastArticle.height(),
+                    contHeight = self.$cont.height();
+                if (lastArticleHeight < contHeight) {
+                    self.$correct[0].style.height = contHeight - lastArticleHeight - self.$anchor.outerHeight() + "px";
+                }
+                return self;
+            },
+            // 初始化滑块拖动功能
+            _initSliderDragEvent: function () {
+                var self = this;
+                var slider = self.$slider,
+                    sliderEl = slider[0];
+                if (sliderEl) {
+                    var doc = self.$doc,
+                        dragStartPagePositon,
+                        dragStartScrollPositon,
+                        dragContBarRate;
+
+                    function mousemoveHandler(e) {
+                        e.preventDefault();
+                        console.log("mousemove");
+                        if (dragStartPagePositon == null) {
+                            return;
+                        }
+                        self.scrollTo(dragStartScrollPositon + (e.pageY - dragStartPagePositon) * dragContBarRate)
+                    }
+
+                    slider.on("mousedown", function (e) {
+                        e.preventDefault();
+                        console.log("mousedown");
+                        dragStartPagePositon = e.pageY;
+                        dragStartScrollPositon = self.$cont[0].scrollTop;
+                        dragContBarRate = self.getMaxScrollPosition() / self.getMaxSliderPosition();
+                        doc.on("mousemove.scroll", mousemoveHandler).on("mouseup.scroll", function () {
+                            console.log("mouseup");
+                            doc.off(".scroll")
+                        })
+                    })
+                }
+                return self;
+            },
+            // 初始化标签切换功能
+            _initTabEvent: function () {
+                var self = this;
+                self.$tabItem.on("click", function (e) {
+                    e.preventDefault();
+                    var index = $(this).index();
+                    self.changeTabSelect(index);
+                    self.scrollTo(self.$cont[0].scrollTop + self.getAnchorPosition(index));
+                });
+                return self;
+            },
+            //标签切换
+            changeTabSelect: function (index) {
+                var self = this,
+                    active = self.options.tabActiveClass;
+                return self.$tabItem.eq(index).addClass(active).siblings().removeClass(active);
+            },
+            // 监听内容的滚动，同步滑块的位置
+            _bindContScroll: function () {
+                var self = this;
+                self.$cont.on("scroll", function () {
+                    var sliderEl = self.$slider && self.$slider[0];
+                    if (sliderEl) {
+                        sliderEl.style.top = self.getSliderPosition() + 'px';
+                    }
+                });
+                return self;
+            },
+            //绑定鼠标滚轮事件
+            _bindMouseWheel: function () {
+                var self = this;
+                self.$cont.on("mousewheel DOMMouseScroll", function (e) {
+                    e.preventDefault();
+                    var oEv = e.originalEvent,
+                        wheelRange = oEv.wheelDelta ? -oEv.wheelDelta / 120 : (oEv.detail || 0) / 3;
+                    self.scrollTo(self.$cont[0].scrollTop + wheelRange * self.options.wheelStep)
+                })
+            },
+            // 获取指定锚点到上边界的px值
+            getAnchorPosition: function (index) {
+                return this.$anchor.eq(index).position().top;
+            },
+            // 获取每个锚点位置信息的数组
+            getAllAnchorPosition: function () {
+                var self = this,
+                    allPositionArr = [];
+                for (var i = 0; i < self.$anchor.length; i++) {
+                    allPositionArr.push(self.$cont[0].scrollTop + self.getAnchorPosition(i))
+                }
+                return allPositionArr;
+            },
+            // 计算滑块当前的位置
+            getSliderPosition: function () {
+                var self = this,
+                    maxSliderPosition = self.getMaxSliderPosition();
+                return Math.min(maxSliderPosition, maxSliderPosition * self.$cont[0].scrollTop / self.getMaxScrollPosition());
+
+            },
+            // 内容可滚动高度
+            getMaxScrollPosition: function () {
+                return Math.max(this.$cont.height(), this.$cont[0].scrollHeight) - this.$cont.height();
+            },
+            // 滑块可移动的距离
+            getMaxSliderPosition: function () {
+                return this.$bar.height() - this.$slider.height();
+            },
+            //内容滚动
+            scrollTo: function (positionVal) {
+                var self = this;
+                var posArr = self.getAllAnchorPosition();
+
+                function getIndex(positionVal) {
+                    for (var i = posArr.length - 1; i >= 0; i--) {
+                        if (positionVal >= posArr[i]) {
+                            return i;
+                        }
+                    }
+                }
+
+                if (posArr.length == self.$tabItem.length) {
+                    self.changeTabSelect(getIndex(positionVal));
+                }
+                self.$cont.scrollTop(positionVal);
+            }
+        });
+        // 注册到window对象上
+        win.CusScrollBar = CusScrollBar;
+    })(window, document, jQuery);
+
+    new CusScrollBar({
+        contSelector: ".scroll-cont",       //滚动内容区选择器
+        barSelector: ".scroll-bar",         //滚动条选择器
+        sliderSelector: ".scroll-slider",   //滚动滑块选择器
+        tabItemSelector: ".tab-item",       //标签选择器
+        tabActiveClass: "tab-active",       //选中标签类名
+        anchorSelector: ".anchor",          //锚点选择器
+        wheelStep: 15,                      //滚轮步长
+        correctSelector: ".correct-bot",    //校正元素
+        articleSelector: ".scroll-ol"       //文章选择器
+    });
+</script>
+</body>
+</html>

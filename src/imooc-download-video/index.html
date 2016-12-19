@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>慕课网视频解析下载</title>
+    <link rel="stylesheet" href="../libs/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f3f4f5;
+        }
+
+        .table, .alert {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .panel {
+            margin-top: 30px;
+        }
+
+        td {
+            vertical-align: middle !important;
+        }
+
+        td:nth-child(2) {
+            text-align: center;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        .form-control {
+            border: 0;
+            background-image: linear-gradient(#009688, #009688), linear-gradient(#d2d2d2, #d2d2d2);
+            background-size: 0 2px, 100% 1px;
+            background-repeat: no-repeat;
+            background-position: center bottom, center calc(100% - 1px);
+            background-color: transparent;
+            box-shadow: none;
+        }
+
+        .form-control:focus, .form-control.focus {
+            outline: none;
+            background-image: linear-gradient(#009688, #009688), linear-gradient(#d2d2d2, #d2d2d2);
+            -webkit-animation: input-highlight .5s forwards;
+            animation: input-highlight .5s forwards;
+            box-shadow: none;
+            background-size: 0 2px, 100% 1px;
+        }
+
+        .btn {
+            padding: 8px 30px;
+            border: 0;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: background-color .2s ease;
+            outline: none !important;
+        }
+
+        .popover {
+            max-width: 326px;
+        }
+
+        #footer {
+            margin-bottom: 20px;
+        }
+
+        @-webkit-keyframes input-highlight {
+            0% {
+                background-size: 0 2px, 100% 1px
+            }
+            100% {
+                background-size: 100% 2px, 100% 1px
+            }
+        }
+
+        @keyframes input-highlight {
+            0% {
+                background-size: 0 2px, 100% 1px
+            }
+            100% {
+                background-size: 100% 2px, 100% 1px
+            }
+        }
+
+    </style>
+</head>
+<body>
+<div id="leo">
+    <div class="container">
+        <h1 class="text-center">慕课网在线视频解析下载</h1>
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="请输入课程号" id="courseNum">
+            <span class="input-group-btn">
+            <input type="button" class="btn btn-success" value="解析" id="parse">
+        </span>
+        </div>
+
+        <div class="alert alert-danger">
+            <a href="javascript:hideAlert();" class="close">&times;</a>
+            <span id="alertInfo"></span>
+        </div>
+
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>章节</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    使用说明
+                </h3>
+            </div>
+            <div class="panel-body">
+                <ol>
+                    <li>在慕课网中选择需要解析的课程：
+                        <a href="http://www.imooc.com/course/list" target="_blank">
+                            http://www.imooc.com/course/list
+                        </a>
+                    </li>
+                    <li>查看浏览器地址栏，网址形如：
+                        <code>http://www.imooc.com/view/675</code>
+                        或
+                        <code>http://www.imooc.com/learn/675</code>
+                    </li>
+                    <li>在当前页面输入框中输入数字
+                        <code>675</code>
+                    </li>
+                    <li>点击解析按钮进行解析</li>
+                    <li>点击需要的视频清晰度</li>
+                    <li>右键点击
+                        <code>下载视频</code>，弹出菜单中选择
+                        <code>另存为</code>进行下载
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="text-center" id="footer">
+            &copy; 2016
+            <a href="https://www.luckyw.cn" target="_blank">luckyw.cn</a>
+        </div>
+    </div>
+</div>
+<script src="../libs/js/jquery.min.js"></script>
+<script src="../libs/js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+        $("#parse").on("click", function () {
+            $("table").slideUp();
+            hideAlert();
+            var courseNum = $("#courseNum").val();
+            if (courseNum == "") {
+                showAlert("请先输入课程号进行解析！");
+                $("#courseNum").focus();
+                return;
+            }
+            $("tbody").text("");
+            showAlert("正在拉取章节列表中……请稍等片刻……");
+            var url = "http://jncn.cc/php/cors.php?url=http://www.imooc.com/learn/" + courseNum;
+            $.ajax({
+                url: url,
+                type: "get",
+                success: function (data) {
+                    getClassList(data);
+                },
+                error: function (xhr) {
+                    if (xhr.status == 404) {
+                        showAlert("没有该课程!");
+                    } else {
+                        showAlert("网络可能出现问题了!");
+                    }
+                }
+            });
+        })
+    });
+
+    function getClassList(result) {
+        result = result.match(/<body(.|\r\n)*?<\/body>/)[0]
+            .replace(/<script(.|\r\n)*?<\/script>/g, '')
+            .replace(/<style(.|\r\n)*?<\/script>/g, '')
+            .replace(/<link(.|\r\n)*?\/>/g, '')
+            .replace(/<img(.|\r\n)*?>/g, '');
+        var aArrayObj = $(result).find(".mod-chapters a");
+        if (aArrayObj.length == 0) {
+            showAlert("没有该课程~，请重新输入");
+            return;
+        }
+        var courstName = $(result).find("h2").text();
+        showAlert("成功拉取课程「" + courstName + "」的章节列表！");
+        $("table").slideDown();
+        for (var i = 0; i < aArrayObj.length; i++) {
+            var className = aArrayObj[i].innerText;
+            var classId = aArrayObj[i].href.match(/\d+?$/)[0];
+            var classType = getClassType(aArrayObj[i].href);
+            var trObj;
+            if (classType == "视频") {
+                var button1 = "<button class='btn btn-success' data-toggle='popover' data-placement='bottom' classId='" + classId + "' videoDef=" + 0 + ">普清</button>&nbsp;";
+                var button2 = "<button class='btn btn-success' data-toggle='popover' data-placement='bottom' classId='" + classId + "' videoDef=" + 1 + ">高清</button>&nbsp;";
+                var button3 = "<button class='btn btn-success' data-toggle='popover' data-placement='bottom' classId='" + classId + "' videoDef=" + 2 + ">超清</button>";
+                trObj = $("<tr><td>" + className + "<span class='label label-success'>视频</span></td><td>" + button1 + button2 + button3 + "</td></tr>");
+            } else if (classType == "练习") {
+                var url = "http://www.imooc.com/ceping/" + classId;
+                trObj = $("<tr><td>" + className + "<span class='label label-info'>练习</span></td><td><a href=" + url + " class='btn btn-info' target='_blank'>练习</a></td></tr>");
+            } else if (classType == "编程") {
+                var url = "http://www.imooc.com/code/" + classId;
+                trObj = $("<tr><td>" + className + "<span class='label label-info'>编程</span></td><td><a href=" + url + " class='btn btn-info' target='_blank'>编程</a></td></tr>");
+            }
+            $("tbody").append(trObj);
+        }
+        initEvent();
+    }
+
+    function getClassType(href) {
+        if (href.indexOf("video") != -1) {
+            return "视频";
+        } else if (href.indexOf("ceping") != -1) {
+            return "练习";
+        } else if (href.lastIndexOf("code") != -1) {
+            return "编程";
+        }
+    }
+
+    function getVideoUrl(classId, videoDef) {
+        var videoUrl;
+        $.ajax({
+            url: "http://jncn.cc/php/cors.php?url=http://www.imooc.com/course/ajaxmediainfo/?mid=" + classId + "&mode=flash",
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                videoUrl = data.data.result.mpath[videoDef];
+            },
+            error: function (xhr, status, error) {
+                showAlert("网络异常~");
+                return null;
+            }
+        });
+        return videoUrl;
+    }
+
+    var lastClick;
+    function initEvent() {
+        $("table").show();
+        $("[data-toggle='popover']").popover({
+            html: true,
+            trigger: 'manual',
+            animation: false
+        });
+
+        $("[data-toggle='popover']").on('click', function () {
+            if (lastClick == this) {
+                $(this).popover('toggle');
+            } else {
+                if ($(this).attr("data-content") == undefined) {
+                    var classId = $(this).attr('classId');
+                    var videoDef = $(this).attr('videoDef');
+                    var videoUrl = getVideoUrl(classId, videoDef);
+                    if (videoUrl == null) {
+                        return;
+                    }
+                    var data_content = "<a href='" + videoUrl + "' class='btn btn-success' target='_blank' data-title='右键另存为进行下载' data-placement='bottom' data-toggle='tooltip'>下载视频</a>"
+                    $(this).attr("data-content", data_content);
+                }
+                $("[data-toggle='popover']").popover('hide');
+                $(this).popover('show');
+                lastClick = this;
+            }
+            $("[data-toggle='tooltip']").tooltip();
+        })
+    }
+
+    function hideAlert() {
+        $(".alert").slideUp();
+    }
+
+    function showAlert(info) {
+        $("#alertInfo").text(info);
+        $(".alert").slideDown();
+    }
+</script>
+</body>
+</html>

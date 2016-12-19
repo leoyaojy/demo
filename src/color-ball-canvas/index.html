@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>彩色球沿轨迹运动</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <canvas id="canvas">
+        您的浏览器不支持Canvas标签，请在现代浏览器下查看效果
+    </canvas>
+</div>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctxt = canvas.getContext("2d");
+    var cW = canvas.width = window.innerWidth;
+    var cH = canvas.height = window.innerHeight;
+    var cx = cW / 2, cy = cH / 2, R = cx / 2;
+    var frames = 360;
+
+    var Ball = function (x, y) {
+        this.angle = Math.random() * Math.PI * 2;
+        this.r = Math.random() * 9 + 6;
+        this.r0 = this.r;
+        this.x = x;
+        this.y = y;
+        this.speed = .25 + Math.random();
+        this.color = new Color().style;
+    };
+    Ball.prototype.draw = function () {
+        if (this.r > 0) {
+            ctxt.save();
+            ctxt.fillStyle = this.color;
+            ctxt.beginPath();
+            ctxt.arc(this.x, this.y, this.r, 0, 2 * Math.PI, true);
+            ctxt.fill();
+            ctxt.restore();
+        }
+    };
+
+    var path = [], balls = [];
+    function buildPath() {
+        for (var i = 0; i < 360; i++) {
+            var o = {};
+            var a = Math.PI / 180 * i;
+            o.x = cx + 1.5 * R * Math.cos(a) / (1 + Math.sin(a) * Math.sin(a));
+            o.y = cy + 1.5 * R * Math.sin(a) * Math.cos(a) / (1 + Math.sin(a) * Math.sin(a));
+            path.push(o);
+        }
+    }
+    function addBalls() {
+        for (var i = 0, len = path.length; i < len; i++) {
+            var ball = new Ball(path[i].x, path[i].y);
+            balls.push(ball);
+        }
+    }
+    function update() {
+        frames += 1.5;
+        ctxt.clearRect(0, 0, cW, cH);
+        for (var i = 0; i < balls.length; i += 1) {
+            var n = (Math.floor(frames - i) % balls.length);
+            var ball = balls[n];
+            ball.s = i * ball.speed;
+            ball.r = ball.r0 - i / 10;
+            ball.x = path[n].x + ball.s * Math.cos(ball.angle);
+            ball.y = path[n].y + ball.s * Math.sin(ball.angle);
+            balls[i].draw();
+        }
+        requestAnimationFrame(update);
+    }
+    function init() {
+        buildPath();
+        addBalls();
+        update();
+    }
+    init();
+    function Color() {
+        this.r = Math.floor(Math.random() * 256);
+        this.g = Math.floor(Math.random() * 256);
+        this.b = Math.floor(Math.random() * 256);
+        this.style = "RGB(" + this.r + "," + this.g + "," + this.b + ")";
+    }
+</script>
+</body>
+</html>

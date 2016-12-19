@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>鼠标悬浮移动</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #f3f4f5;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0 auto;
+            width: 1200px;
+        }
+
+        li {
+            float: left;
+        }
+
+        .outer {
+            width: 300px;
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .inner {
+            position: absolute;
+            width: 300px;
+            height: 250px;
+            background: rgba(0, 0, 0, .5);
+            color: #fff;
+            text-align: center;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+<div id="leo">
+    <ul>
+        <li>
+            <div class="outer">
+                <img src="img/1.jpg" alt="">
+                <div class="inner">这是描述文字1</div>
+            </div>
+        </li>
+        <li>
+            <div class="outer">
+                <img src="img/2.jpg" alt="">
+                <div class="inner">这是描述文字2</div>
+            </div>
+        </li>
+        <li>
+            <div class="outer">
+                <img src="img/3.jpg" alt="">
+                <div class="inner">这是描述文字3</div>
+            </div>
+        </li>
+        <li>
+            <div class="outer">
+                <img src="img/4.jpg" alt="">
+                <div class="inner">这是描述文字4</div>
+            </div>
+        </li>
+        <li>
+            <div class="outer">
+                <img src="img/5.jpg" alt="">
+                <div class="inner">这是描述文字5</div>
+            </div>
+        </li>
+        <li>
+            <div class="outer">
+                <img src="img/6.jpg" alt="">
+                <div class="inner">这是描述文字6</div>
+            </div>
+        </li>
+        <li>
+            <div class="outer">
+                <img src="img/7.jpg" alt="">
+                <div class="inner">这是描述文字7</div>
+            </div>
+        </li>
+        <li>
+            <div class="outer">
+                <img src="img/8.jpg" alt="">
+                <div class="inner">这是描述文字8</div>
+            </div>
+        </li>
+    </ul>
+</div>
+</body>
+<script src="../libs/js/jquery.min.js"></script>
+<script>
+    ;(function ($) {
+        $.fn.extend({
+            hoverChange: function (div) {
+                var w = this.width(),
+                    h = this.height(),
+                    centerX = w / 2,
+                    centerY = h / 2,
+                    type = '';
+                this.on("mouseenter mouseleave", function (e) {
+                    var e = e || window.event;
+                    var x = e.offsetX;
+                    var y = e.offsetY;
+                    var angle = Math.atan((x - centerX) / (y - centerY)) * 180 / Math.PI;
+                    if (Math.abs(angle) < 45 && y > centerY) {
+                        type = "down";
+                    }
+                    if (Math.abs(angle) < 45 && y < centerY) {
+                        type = "up"
+                    }
+                    if (Math.abs(angle) > 45 && Math.abs(angle) < 90 && x > centerX) {
+                        type = "right";
+                    }
+                    if (Math.abs(angle) > 45 && Math.abs(angle) < 90 && x < centerX) {
+                        type = "left";
+                    }
+                    move(e.type, type);
+                });
+                function move(eventType, type) {
+                    if (eventType == "mouseenter") {
+                        switch (type) {
+                            case "down":
+                                div.css({'left': 0, "top": h}).stop().animate({"top": 0}, "fast");
+                                break;
+                            case "up":
+                                div.css({'left': 0, "top": -h}).stop().animate({"top": 0}, "fast");
+                                break;
+                            case "left":
+                                div.css({'left': -w, "top": 0}).stop().animate({"left": 0}, "fast");
+                                break;
+                            case "right":
+                                div.css({'left': w, "top": 0}).stop().animate({"left": 0}, "fast");
+                                break;
+                        }
+                    } else {
+                        switch (type) {
+                            case "down":
+                                div.stop().animate({"top": h}, "fast");
+                                break;
+                            case "up":
+                                div.stop().animate({"top": -h}, "fast");
+                                break;
+                            case "left":
+                                div.stop().animate({"left": -w}, "fast");
+                                break;
+                            case "right":
+                                div.stop().animate({"left": w}, "fast");
+                                break;
+                        }
+                    }
+                }
+            }
+        })
+    })(jQuery);
+
+    $(".outer").each(function (i) {
+        $(this).hoverChange($(".inner").eq(i));
+    });
+</script>
+</html>

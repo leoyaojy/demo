@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>酷炫粒子时钟</title>
+    <link rel="Shortcut Icon" href="../../favicon.ico" type="image/ico">
+    <style>
+        body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #canvas {
+            height: 100%;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <canvas id="canvas">
+        您的浏览器不支持Canvas标签，请在现代浏览器下查看效果
+    </canvas>
+</div>
+<script>
+    var digit =
+        [
+            [
+                [0, 0, 1, 1, 1, 0, 0],
+                [0, 1, 1, 0, 1, 1, 0],
+                [1, 1, 0, 0, 0, 1, 1],
+                [1, 1, 0, 0, 0, 1, 1],
+                [1, 1, 0, 0, 0, 1, 1],
+                [1, 1, 0, 0, 0, 1, 1],
+                [1, 1, 0, 0, 0, 1, 1],
+                [1, 1, 0, 0, 0, 1, 1],
+                [0, 1, 1, 0, 1, 1, 0],
+                [0, 0, 1, 1, 1, 0, 0]
+            ],//0
+            [
+                [0, 0, 0, 1, 1, 0, 0],
+                [0, 1, 1, 1, 1, 0, 0],
+                [0, 0, 0, 1, 1, 0, 0],
+                [0, 0, 0, 1, 1, 0, 0],
+                [0, 0, 0, 1, 1, 0, 0],
+                [0, 0, 0, 1, 1, 0, 0],
+                [0, 0, 0, 1, 1, 0, 0],
+                [0, 0, 0, 1, 1, 0, 0],
+                [0, 0, 0, 1, 1, 0, 0],
+                [1, 1, 1, 1, 1, 1, 1]
+            ],//1
+            [
+                [0, 1, 1, 1, 1, 1, 0],
+                [1, 1, 0, 0, 0, 1, 1],
+                [0, 0, 0, 0, 0, 1, 1],
+                [0, 0, 0, 0, 1, 1, 0],
+                [0, 0, 0, 1, 1, 0, 0],
+                [0, 0, 1, 1, 0, 0, 0],
+                [0, 1, 1, 0, 0, 0, 0],
+                [1, 1, 0, 0, 0, 0, 0],
+                [1, 1, 0, 0, 0, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1]
+            ],//2
+            [
+                [1, 1, 1, 1, 1, 1, 1],
+                [0, 0, 0, 0, 0, 1, 1],
+                [0, 0, 0, 0, 1, 1, 0],
+                [0, 0, 0, 1, 1, 0, 0],
+                [0, 0, 1, 1, 1, 0, 0],
+                [0, 0, 0, 0, 1, 1, 0],
+                [0, 0, 0, 0, 0, 1, 1],
+                [0, 0, 0, 0, 0, 1, 1],
+                [1, 1, 0, 0, 0, 1, 1],
+                [0, 1, 1, 1, 1, 1, 0]
+            ],//3
+            [
+                [0, 0, 0, 0, 1, 1, 0],
+                [0, 0, 0, 1, 1, 1, 0],
+                [0, 0, 1, 1, 1, 1, 0],
+                [0, 1, 1, 0, 1, 1, 0],
+                [1, 1, 0, 0, 1, 1, 0],
+                [1, 1, 1, 1, 1, 1, 1],
+                [0, 0, 0, 0, 1, 1, 0],
+                [0, 0, 0, 0, 1, 1, 0],
+                [0, 0, 0, 0, 1, 1, 0],
+                [0, 0, 0, 1, 1, 1, 1]
+            ],//4
+            [
+                [1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 0, 0, 0, 0, 0],
+                [1, 1, 0, 0, 0, 0, 0],
+                [1, 1, 1, 1, 1, 1, 0],
+                [0, 0, 0, 0, 0, 1, 1],
+                [0, 0, 0, 0, 0, 1, 1],
+                [0, 0, 0, 0, 0, 1, 1],
+                [0, 0, 0, 0, 0, 1, 1],
+                [1, 1, 0, 0, 0, 1, 1],
+                [0, 1, 1, 1, 1, 1, 0]
+            ],//5
+            [
+                [0, 0, 0, 0, 1, 1, 0],
+                [0, 0, 1, 1, 0, 0, 0],
+                [0, 1, 1, 0, 0, 0, 0],
+                [1, 1, 0, 0, 0, 0, 0],
+                [1, 1, 0, 1, 1, 1, 0],
+                [1, 1, 0, 0, 0, 1, 1],
+                [1, 1, 0, 0, 0, 1, 1],
+                [1, 1, 0, 0, 0, 1, 1],
+                [1, 1, 0, 0, 0, 1, 1],
+                [0, 1, 1, 1, 1, 1, 0]
+            ],//6
+            [
+                [1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 0, 0, 0, 1, 1],
+                [0, 0, 0, 0, 1, 1, 0],
+                [0, 0, 0, 0, 1, 1, 0],
+                [0, 0, 0, 1, 1, 0, 0],
+                [0, 0, 0, 1, 1, 0, 0],
+                [0, 0, 1, 1, 0, 0, 0],
+                [0, 0, 1, 1, 0, 0, 0],
+                [0, 0, 1, 1, 0, 0, 0],
+                [0, 0, 1, 1, 0, 0, 0]
+            ],//7
+            [
+                [0, 1, 1, 1, 1, 1, 0],
+                [1, 1, 0, 0, 0, 1, 1],
+                [1, 1, 0, 0, 0, 1, 1],
+                [1, 1, 0, 0, 0, 1, 1],
+                [0, 1, 1, 1, 1, 1, 0],
+                [1, 1, 0, 0, 0, 1, 1],
+                [1, 1, 0, 0, 0, 1, 1],
+                [1, 1, 0, 0, 0, 1, 1],
+                [1, 1, 0, 0, 0, 1, 1],
+                [0, 1, 1, 1, 1, 1, 0]
+            ],//8
+            [
+                [0, 1, 1, 1, 1, 1, 0],
+                [1, 1, 0, 0, 0, 1, 1],
+                [1, 1, 0, 0, 0, 1, 1],
+                [1, 1, 0, 0, 0, 1, 1],
+                [0, 1, 1, 1, 0, 1, 1],
+                [0, 0, 0, 0, 0, 1, 1],
+                [0, 0, 0, 0, 0, 1, 1],
+                [0, 0, 0, 0, 1, 1, 0],
+                [0, 0, 0, 1, 1, 0, 0],
+                [0, 1, 1, 0, 0, 0, 0]
+            ],//9
+            [
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 1, 1, 0],
+                [0, 1, 1, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 1, 1, 0],
+                [0, 1, 1, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0]
+            ]//:
+        ];
+    var Canvas_Width, Canvas_Height, Margin_top, Margin_left, R;
+    var showTime;
+    var balls = [];
+    window.onload = function () {
+        var canvas = document.getElementById('canvas');
+        Canvas_Width = document.documentElement.clientWidth || document.body.clientWidth;
+        Canvas_Height = document.documentElement.clientHeight || document.body.clientHeight;
+        Margin_left = Math.round(Canvas_Width / 10);
+        Margin_top = Math.round(Canvas_Height / 5);
+        R = Math.round(Canvas_Width * 4 / 5 / 108) - 1;
+        canvas.width = Canvas_Width;
+        canvas.height = Canvas_Height;
+
+        showTime = getT();
+        var ctxt = canvas.getContext("2d");
+        setInterval(function () {
+            init(ctxt);
+            update()
+        }, 50)
+    };
+    function init(context) {
+        context.clearRect(0, 0, Canvas_Width, Canvas_Height);
+        var hour = showTime.hour;
+        var minute = showTime.minute;
+        var second = showTime.second;
+
+        render(Margin_left, Margin_top, Math.floor(hour / 10), context);
+        render(Margin_left + 15 * (R + 1), Margin_top, hour % 10, context);
+        render(Margin_left + 30 * (R + 1), Margin_top, 10, context);
+        render(Margin_left + 39 * (R + 1), Margin_top, Math.floor(minute / 10), context);
+        render(Margin_left + 54 * (R + 1), Margin_top, minute % 10, context);
+        render(Margin_left + 69 * (R + 1), Margin_top, 10, context);
+        render(Margin_left + 78 * (R + 1), Margin_top, Math.floor(second / 10), context);
+        render(Margin_left + 93 * (R + 1), Margin_top, second % 10, context);
+
+        for (var i = 0; i < balls.length; i++) {
+            context.fillStyle = balls[i].color;
+            context.beginPath();
+            context.arc(balls[i].x, balls[i].y, R, 0, 2 * Math.PI);
+            context.closePath();
+            context.fill();
+        }
+    }
+    function render(x, y, num, context) {
+        for (var i = 0; i < digit[num].length; i++) {
+            for (var j = 0; j < digit[num][i].length; j++) {
+                if (digit[num][i][j] == 1) {
+                    context.fillStyle = "#3c9";
+                    context.beginPath();
+                    context.arc(x + (R + 1) + j * 2 * (R + 1), y + (R + 1) + i * 2 * (R + 1), R, 0, Math.PI * 2);
+                    context.fill()
+                }
+            }
+        }
+    }
+    function update() {
+        var nextShowTime = getT();
+
+        var nextHour = nextShowTime.hour;
+        var nextMinute = nextShowTime.minute;
+        var nextSecond = nextShowTime.second;
+        var curHour = showTime.hour;
+        var curMinute = showTime.minute;
+        var curSecond = showTime.second;
+
+        if (nextSecond != curSecond) {
+            if (Math.floor(curHour / 10) != Math.floor(nextHour / 10)) {
+                addBalls(Margin_left, Margin_top, Math.floor(curHour / 10));
+            }
+            if (curHour % 10 != nextHour % 10) {
+                addBalls(Margin_left + 15 * (R + 1), Margin_top, curHour % 10);
+            }
+            if (Math.floor(curMinute / 10) != Math.floor(nextMinute / 10)) {
+                addBalls(Margin_left + 39 * (R + 1), Margin_top, Math.floor(curMinute / 10));
+            }
+            if (curMinute % 10 != nextMinute % 10) {
+                addBalls(Margin_left + 54 * (R + 1), Margin_top, curMinute % 10);
+            }
+            if (Math.floor(curSecond / 10) != Math.floor(nextSecond / 10)) {
+                addBalls(Margin_left + 78 * (R + 1), Margin_top, Math.floor(curSecond / 10));
+            }
+            if (curSecond % 10 != nextSecond % 10) {
+                addBalls(Margin_left + 93 * (R + 1), Margin_top, curSecond % 10);
+            }
+            showTime = nextShowTime;
+        }
+        updateBalls();
+    }
+    function addBalls(x, y, num) {
+        for (var i = 0; i < digit[num].length; i++) {
+            for (var j = 0; j < digit[num][i].length; j++) {
+                if (digit[num][i][j] == 1) {
+                    var ball = {
+                        x: x + j * 2 * (R + 1) + (R + 1),
+                        y: y + i * 2 * (R + 1) + (R + 1),
+                        vx: Math.pow(-1, Math.ceil(Math.random() * 1000)) * 4,
+                        vy: -5,
+                        g: 1.5 + Math.random(),
+                        color: new Color().style
+                    };
+                    balls.push(ball);
+                }
+            }
+
+        }
+    }
+    function updateBalls() {
+        for (var i = 0; i < balls.length; i++) {
+            balls[i].x += balls[i].vx;
+            balls[i].y += balls[i].vy;
+            balls[i].vy += balls[i].g;
+            if (balls[i].y >= Canvas_Height - R) {
+                balls[i].y = Canvas_Height - R;
+                balls[i].vy = -balls[i].vy * 0.5;
+            }
+        }
+        var cnt = 0;
+        for (var i = 0; i < balls.length; i++) {
+            if (balls[i].x + R > 0 && balls[i].x - R < Canvas_Width) {
+                balls[cnt++] = balls[i]
+            }
+        }
+        while (balls.length > Math.min(300, cnt)) {
+            balls.pop();
+        }
+    }
+
+    function getT() {
+        var currTime = new Date();
+        return {
+            hour: currTime.getHours() < 10 ? "0" + currTime.getHours() : currTime.getHours(),
+            minute: currTime.getMinutes() < 10 ? "0" + currTime.getMinutes() : currTime.getMinutes(),
+            second: currTime.getSeconds() < 10 ? "0" + currTime.getSeconds() : currTime.getSeconds()
+        }
+    }
+
+
+    function Color() {
+        this.r = Math.floor(Math.random() * 256);
+        this.g = Math.floor(Math.random() * 256);
+        this.b = Math.floor(Math.random() * 256);
+        this.style = "rgb(" + this.r + "," + this.g + "," + this.b + ")";
+    }
+</script>
+</body>
+</html>

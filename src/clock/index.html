@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Clock</title>
+    <link rel="Shortcut Icon" href="../../favicon.ico" type="image/ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #080808;
+            font-family: DejaVu Sans Mono, serif, sans-serif, monospace;
+        }
+
+        #clock {
+            width: 600px;
+            height: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .center {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 0;
+            height: 0;
+        }
+
+        .anchor {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .element {
+            width: 2px;
+            height: 20px;
+            background-color: #fff;
+            position: absolute;
+            transform: translate(-50%, -50%) translateY(-275px);
+        }
+
+        .text {
+            width: 30px;
+            height: 30px;
+            color: #fff;
+            text-align: center;
+            font-size: 30px;
+            position: absolute;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            transform: translate(-50%, -50%);
+        }
+
+        .hour-text {
+            width: 48px;
+            height: 48px;
+            color: #fff;
+            font-size: 48px;
+            text-align: center;
+            position: absolute;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            transform: translate(-50%, -50%);
+        }
+
+        .expand {
+            position: absolute;
+            left: 0;
+            top: 0;
+            transform: translate(-50%, -50%);
+        }
+
+        .round {
+            border-radius: 50%;
+        }
+
+        .circle-1 {
+            width: 24px;
+            height: 24px;
+            background-color: #fff;
+        }
+
+        .circle-2 {
+            width: 16px;
+            height: 16px;
+            background-color: yellow;
+        }
+
+        .circle-3 {
+            width: 8px;
+            height: 8px;
+            background-color: #1b1b1b;
+        }
+
+        .hand {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .hour {
+            transform: rotate(100deg);
+        }
+
+        .small-hand {
+            height: 100px;
+            width: 8px;
+            background-color: #fff;
+            transform: translate(-50%, -100%);
+        }
+
+        .hour .big-hand {
+            height: 150px;
+            width: 20px;
+            background-color: #fff;
+            border-radius: 15px;
+            transform: translate(-50%, -100%) translateY(-50px);
+        }
+
+        .minite {
+            transform: rotate(120deg);
+        }
+
+        .minite .big-hand {
+            height: 235px;
+            width: 24px;
+            background-color: #fff;
+            border-radius: 24px;
+            transform: translate(-50%, -100%) translateY(-30px);
+        }
+
+        .sec-hand {
+            height: 300px;
+            width: 4px;
+            background-color: yellow;
+            transform: translate(-50%, -85%);
+        }
+
+        .copy {
+            font-size: 14px;
+            position: absolute;
+            top: 150px;
+            left: -200px;
+            width: 400px;
+            color: darkseagreen;
+            text-align: center;
+        }
+
+        .copy a {
+            margin-top: 10px;
+            display: block;
+            text-decoration: none;
+            color: yellowgreen;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <div id="clock">
+        <div class="center">
+            <div class="copy">
+                <h3>Made By Leo Angel 2016</h3>
+                <a href="https://www.luckyw.cn" target="_blank">luckyw.cn</a>
+            </div>
+            <div class="dynamic"></div><!--分钟指针-->
+            <div class="expand round circle-1"></div>
+            <div class="anchor hour">
+                <div class="hand small-hand"></div>
+                <div class="hand big-hand"></div>
+            </div>
+            <div class="anchor minite">
+                <div class="hand small-hand"></div>
+                <div class="hand big-hand"></div>
+            </div>
+            <div class="anchor second">
+                <div class="hand sec-hand"></div>
+            </div>
+            <div class="expand round circle-2"></div>
+            <div class="expand round circle-3"></div>
+        </div>
+    </div>
+</div>
+<script>
+    var clock = g("clock");
+    Clock(clock);
+    function Clock() {
+        var box = g(".dynamic")[0];
+        var h = g(".hour")[0];
+        var m = g(".minite")[0];
+        var s = g(".second")[0];
+        var minite = function (n) {
+            return n % 5 == 0 ? drawNum(n) : drawLine(n);
+        };
+        var drawNum = function (n) {
+            var div = document.createElement("div");
+            div.className = "text";
+            div.innerHTML = (n < 10 ? "0" : "") + n;
+            setPosition(div, n / 60, 275);
+            box.appendChild(div);
+        };
+        var drawLine = function (n) {
+            var a = document.createElement("a");
+            a.className = "anchor";
+            var div = document.createElement("div");
+            div.className = "element";
+            rotate(a, n);
+            a.appendChild(div);
+            box.appendChild(a);
+        };
+        var hour = function (n) {
+            var div = document.createElement("div");
+            div.className = "hour-text";
+            div.innerHTML = n;
+            setPosition(div, n / 12, 230);
+            box.appendChild(div);
+        };
+        var rotate = function (ele, deg) {
+            ele.style.transform = "rotate(" + (deg * 6) + "deg)";
+        };
+        var setPosition = function (ele, deg, r) {
+            var d = 2 * Math.PI * deg;
+            ele.style.top = (-r * Math.cos(d)).toFixed(1) + "px";
+            ele.style.left = (r * Math.sin(d)).toFixed(1) + "px";
+        };
+        var animate = function () {
+            var now = new Date();
+            var time = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds() + now.getMilliseconds() / 1000;
+            rotate(s, time);
+            rotate(m, time / 60);
+            rotate(h, time / 60 / 12);
+            requestAnimationFrame(animate)
+        };
+        for (var i = 1; i <= 60; i++) minite(i);
+        for (var i = 1; i <= 12; i++) hour(i);
+        animate();
+    }
+
+    function getWinW() {
+        var w = document.documentElement.clientWidth || document.body.clientWidth;
+        var h = document.documentElement.clientHeight || document.body.clientHeight;
+        return Math.min(w, h);
+    }
+
+    function g(id) {
+        if (id.indexOf(".") > -1) {
+            return document.getElementsByClassName(id.substr(1));
+        } else {
+            return document.getElementById(id);
+        }
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>angular文字无缝滚动轮播</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #fff;
+        }
+
+        .slide {
+            width: 200px;
+            height: 200px;
+            border: 1px solid #dcdcdc;
+            margin: 0 auto;
+            margin-top: 50px;
+            overflow: hidden;
+        }
+
+        .slide li {
+            height: 49px;
+            line-height: 49px;
+            text-align: center;
+            padding: 0 10px;
+            font-size: 16px;
+            list-style: none;
+            border-bottom: 1px dashed #dcdcdc;
+            cursor: pointer;
+        }
+
+        .slide li:hover {
+            background: #ccc;
+        }
+    </style>
+</head>
+<body ng-app="app">
+<div id="leo">
+    <div ng-controller="TipController">
+        <div class="slide">
+            <ul class="slideUl">
+                <slide-follow></slide-follow>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="../libs/js/jquery.min.js"></script>
+<script src="../libs/js/angular.min.js"></script>
+<script>
+    angular.module("app", [])
+        .controller("TipController", function ($scope) {
+            $scope.data = ["第一条数据", "第二条数据", "第三条数据", "第四条数据", "第五条数据", "第六条数据"];
+        })
+        .directive("slideFollow", function ($timeout) {
+            return {
+                restrict: 'E',     //Element
+                replace: true,
+                template: "<li ng-repeat = 'd in data'>{{d}}</li>",
+                link: function (scope, elem, attrs) {
+                    $timeout(function () {
+                        var ul = $("." + elem.parent().get(0).className);
+                        var i = 1, t;
+                        var liLength = ul.children("li").length;
+                        var liHeight = ul.children("li").height() +
+                            parseInt(ul.children("li").css('border-bottom-width'));
+                        ul.html(ul.html() + ul.html());
+                        t = setInterval(slide, 2000);
+                        function slide() {
+                            if (parseInt(ul.css("margin-top")) > (-liLength * liHeight)) {
+                                ul.animate({marginTop: -liHeight * i++ + "px"}, "slow");
+                            } else {
+                                i = 0;
+                                ul.css("margin-top", "0px");
+                                ul.animate({marginTop: -liHeight * i++ + "px"}, "slow");
+                            }
+                        }
+                        ul.hover(function () {
+                            clearInterval(t);
+                        }, function () {
+                            t = setInterval(slide, 2000);
+                        })
+                    }, 0);
+                }
+            }
+        });
+</script>
+</body>
+</html>

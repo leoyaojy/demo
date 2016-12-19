@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>刮刮卡</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        #txt {
+            width: 693px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <img src="bonus.png" alt="card" id="pic">
+    <input type="text" readonly id="txt">
+</div>
+<script>
+    function createCard(imgId, condition, cb) {
+        var img = document.getElementById(imgId);
+        if (img.complete || img.readyState == 'loading' || img.readyState == 'complete') {
+            createCanvas();
+        }
+        else {
+            img.onload = createCanvas;
+        }
+
+        function createCanvas() {
+            var canvas = document.createElement("canvas");
+            canvas.style.position = "absolute";
+            canvas.style.left = img.offsetLeft + 'px';
+            canvas.style.top = img.offsetTop + 'px';
+            canvas.width = img.width;
+            canvas.height = img.height;
+            img.parentNode.insertBefore(canvas, img);
+
+            var ctxt = canvas.getContext("2d");
+
+            ctxt.save();
+            ctxt.fillStyle = "#ccc";
+            ctxt.fillRect(0, 0, ctxt.canvas.width, ctxt.canvas.height);
+            ctxt.restore();
+
+            ctxt.save();
+            ctxt.font = "bold 30px arial";
+            ctxt.fillStyle = "#fff";
+            ctxt.textAlign="center";
+            ctxt.textBaseline="middle";
+            ctxt.fillText("刮 卡 区", ctxt.canvas.width / 2 , ctxt.canvas.height / 2);
+            ctxt.restore();
+
+            ctxt.globalCompositeOperation = 'destination-out';
+            ctxt.strokeStyle = "#eee";
+            ctxt.lineJoin = 'round';
+            ctxt.lineWidth = '30';
+            var osParent = canvas, osLeft = 0, osTop = 0;
+            while (osParent) {
+                osLeft += osParent.offsetLeft;
+                osTop += osParent.offsetTop;
+                osParent = osParent.offsetParent;
+            }
+            var x, y, flag = false;
+            var start = 'mousedown', move = 'mousemove', end = 'mouseup';
+            if (document.createTouch) {
+                start = 'touchstart';
+                move = 'touchmove';
+                end = 'touchend';
+            }
+            canvas.addEventListener(start, onTouchStart);
+            function onTouchStart(e) {
+                e.preventDefault();
+                if (e.changedTouches) {
+                    e = e.changedTouches[e.changedTouches.length - 1];
+                }
+                x = e.pageX - osLeft;
+                y = e.pageY - osTop;
+                ctxt.beginPath();
+                ctxt.arc(x, y, 15, 0, Math.PI * 2, true);
+                ctxt.closePath();
+                ctxt.fill();
+                document.addEventListener(end, onTouchEnd);
+                canvas.addEventListener(move, onTouch);
+            }
+
+            function onTouch(e) {
+                if (e.changedTouches) {
+                    e = e.changedTouches[e.changedTouches.length - 1];
+                }
+                ctxt.beginPath();
+                ctxt.moveTo(x, y);
+                ctxt.lineTo(e.pageX - osLeft, e.pageY - osTop);
+                x = e.pageX - osLeft;
+                y = e.pageY - osTop;
+                ctxt.closePath();
+                ctxt.stroke();
+            }
+
+            function onTouchEnd() {
+                canvas.removeEventListener(move, onTouch);
+                check();
+            }
+
+            function check() {
+                var data = ctxt.getImageData(0, 0, canvas.width, canvas.height).data;
+                var len = data.length, k = 0;
+                for (var i = 0; i < len - 3; i += 4) {
+                    if (data[i] == 0 && data[i + 1] == 0 && data[i + 2] == 0 && data[i + 3] == 0) {
+                        k++;
+                    }
+                }
+                var per = k * 100 / (canvas.width * canvas.height);
+                if (per > (condition || 90) && !flag) {
+                    flag = true;
+                    ctxt.clearRect(0, 0, canvas.width, canvas.height);
+                    per = 100;
+                    alert("恭喜您中奖了！");
+                }
+                cb(per);
+            }
+        }
+    }
+    createCard("pic", 80, function (ratio) {
+        document.getElementById("txt").value = "刮开面积:" + ratio.toFixed(2) + "%";
+    });
+</script>
+</body>
+</html>

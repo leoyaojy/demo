@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas Clock</title>
+    <link rel="Shortcut Icon" href="../../favicon.ico" type="image/ico">
+    <style>
+        body {
+            background-color: #333;
+        }
+
+        #canvas {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <canvas id="canvas">
+        您的浏览器不支持Canvas标签，请在现代浏览器下查看效果
+    </canvas>
+</div>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctxt = canvas.getContext("2d");
+    canvas.width = 500;
+    canvas.height = 500;
+    function init() {
+        //清理画布
+        ctxt.clearRect(0, 0, canvas.width, canvas.height);
+        //获取时间
+        var date = new Date();
+        var hour = date.getHours();
+        var minute = date.getMinutes();
+        var second = date.getSeconds();
+        hour = hour % 12;
+        //表盘绘制
+        ctxt.beginPath();
+        ctxt.arc(250, 250, 200, 0, 2 * Math.PI);
+        ctxt.lineWidth = 10;
+        ctxt.strokeStyle = "#999";
+        ctxt.closePath();
+        ctxt.stroke();
+        //画分钟刻度
+        for (var i = 0; i < 60; i++) {
+            ctxt.save();
+            ctxt.lineWidth = 4;
+            ctxt.strokeStyle = "#fff";
+            ctxt.translate(250, 250);
+            ctxt.rotate(i * 6 * Math.PI / 180);
+            ctxt.beginPath();
+            ctxt.moveTo(0, 190);
+            ctxt.lineTo(0, 180);
+            ctxt.stroke();
+            ctxt.restore();
+        }
+        //画时钟刻度
+        for (var i = 0; i < 12; i++) {
+            ctxt.save();
+            ctxt.lineWidth = 8;
+            ctxt.strokeStyle = "yellow";
+            ctxt.translate(250, 250);
+            ctxt.rotate(i * 30 * Math.PI / 180);
+            ctxt.beginPath();
+            ctxt.moveTo(0, 190);
+            ctxt.lineTo(0, 170);
+            ctxt.stroke();
+            ctxt.restore();
+        }
+        //设置小时数
+        for (var i = 1; i <= 12; i++) {
+            var radius = 150;
+            ctxt.save();
+            ctxt.translate(250, 250);
+            ctxt.beginPath();
+            ctxt.font = "32px Microsoft YaHei";
+            ctxt.textAlign = "center";
+            ctxt.textBaseline = "middle";
+            ctxt.fillStyle = "gold";
+            ctxt.fillText(i,
+                radius * (Math.cos((-i * 30 + 90) * Math.PI / 180)),
+                -radius * (Math.sin((-i * 30 + 90) * Math.PI / 180))
+            );
+            ctxt.restore();
+        }
+        //画时钟
+        ctxt.save();
+        ctxt.lineWidth = 8;
+        ctxt.strokeStyle = "blue";
+        ctxt.translate(250, 250);
+        ctxt.rotate((hour + minute / 60) * 30 * Math.PI / 180);
+        ctxt.beginPath();
+        ctxt.moveTo(0, 10);
+        ctxt.lineTo(0, -100);
+        ctxt.stroke();
+        ctxt.restore();
+        //画分钟
+        ctxt.save();
+        ctxt.lineWidth = 4;
+        ctxt.strokeStyle = "green";
+        ctxt.translate(250, 250);
+        ctxt.rotate((minute + second / 60) * 6 * Math.PI / 180);
+        ctxt.beginPath();
+        ctxt.moveTo(0, 10);
+        ctxt.lineTo(0, -140);
+        ctxt.stroke();
+        ctxt.restore();
+        //画秒钟
+        ctxt.save();
+        ctxt.fillStyle = "yellow";
+        ctxt.translate(250, 250);
+        ctxt.rotate(second * 6 * Math.PI / 180);
+        ctxt.beginPath();
+        ctxt.moveTo(2, 20);
+        ctxt.lineTo(1, -170);
+        ctxt.lineTo(-1, -170);
+        ctxt.lineTo(-2, 20);
+        ctxt.fill();
+        ctxt.restore();
+        //绘制圆心点
+        ctxt.save();
+        ctxt.beginPath();
+        ctxt.arc(250, 250, 5, 0, 2 * Math.PI);
+        ctxt.fillStyle = "#fff";
+        ctxt.fill();
+        ctxt.restore();
+    }
+    setInterval(init, 100);
+</script>
+</body>
+</html>

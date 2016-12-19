@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>弹性盒子模型</title>
+    <link rel="Shortcut Icon" href="../../favicon.ico" type="image/ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "Microsoft YaHei", serif, sans-serif, monospace;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            color: #0bf;
+            padding: 10px 20px;
+            font-family: comic sans ms, serif, sans-serif, monospace;
+        }
+
+        h3 {
+            background-color: #ccc;
+            padding: 10px 20px;
+            font-family: comic sans ms, serif, sans-serif, monospace;
+        }
+
+        .boxes {
+            display: -webkit-flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            padding: 0 10px;
+            overflow: hidden;
+        }
+
+        .box {
+            width: 400px;
+            padding: 8px;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            display: inline-block;
+            box-shadow: 2px 2px 3px 1px #e0e0e0;
+        }
+
+        .title {
+            padding: 8px 0;
+        }
+
+        .demo {
+            display: -webkit-flex;
+            text-align: center;
+            border: 2px dashed #ccc;
+        }
+
+        .demo .item {
+            padding: 10px 0;
+            color: #fff;
+        }
+
+        .demo .item:nth-child(1) {
+            background-color: green;
+        }
+
+        .demo .item:nth-child(2) {
+            background-color: purple;
+        }
+
+        .demo .item:nth-child(3) {
+            background-color: red;
+        }
+
+        .demo .item:nth-child(4) {
+            background-color: blue;
+        }
+
+        .demo .item:nth-child(5) {
+            background-color: orange;
+        }
+
+        .demo .item:nth-child(6) {
+            background-color: yellow;
+        }
+
+        .demo .item:nth-child(7) {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <div class="container">
+        <h3>[flex]</h3>
+        <div class="boxes">
+            <div class="box">
+                <div class="title">
+                    <p>display:-webkit-flex;</p>
+                </div>
+                <div class="demo">
+                    <div class="item" style="width:100px">width:100px</div>
+                    <div class="item" style="flex:2">flex:2</div>
+                    <div class="item" style="flex:1">flex:1</div>
+                </div>
+            </div>
+            <div class="box">
+                <div class="title">
+                    <p>display:-webkit-flex;</p>
+                </div>
+                <div class="demo">
+                    <div class="item" style="width:150px;margin-right10px">width:150px;<br>margin-right:10px</div>
+                    <div class="item" style="flex:1">flex:1</div>
+                    <div class="item" style="width:150px;margin-left: 10px">width:150px;<br>margin-left: 10px</div>
+                </div>
+            </div>
+        </div>
+
+        <h3>[flex-direction]</h3>
+        <div class="boxes" style="width:900px">
+            <div class="box">
+                <div class="title">
+                    <p>flex-direction: row; /*default*/</p>
+                    <p>display:-webkit-flex;</p>
+                </div>
+                <div class="demo">
+                    <div class="item" style="flex:1">flex:1</div>
+                    <div class="item" style="flex:2">flex:2</div>
+                    <div class="item" style="flex:3">flex:3</div>
+                </div>
+            </div>
+            <div class="box">
+                <div class="title">
+                    <p>flex-direction: row-reverse; </p>
+                    <p>display:-webkit-flex;</p>
+                </div>
+                <div class="demo" style="flex-direction: row-reverse; ">
+                    <div class="item" style="flex:1">flex:1</div>
+                    <div class="item" style="flex:2">flex:2</div>
+                    <div class="item" style="flex:3">flex:3</div>
+                </div>
+            </div>
+            <div class="box">
+                <div class="title">
+                    <p>flex-direction: column; </p>
+                    <p>display:-webkit-flex;</p>
+                </div>
+                <div class="demo" style="flex-direction: column; ">
+                    <div class="item" style="flex:1">flex:1</div>
+                    <div class="item" style="flex:2">flex:2</div>
+                    <div class="item" style="flex:3">flex:3</div>
+                </div>
+            </div>
+            <div class="box">
+                <div class="title">
+                    <p>flex-direction: column-reverse; </p>
+                    <p>display:-webkit-flex;</p>
+                </div>
+                <div class="demo" style="flex-direction: column-reverse; ">
+                    <div class="item" style="flex:1">flex:1</div>
+                    <div class="item" style="flex:2">flex:2</div>
+                    <div class="item" style="flex:3">flex:3</div>
+                </div>
+            </div>
+        </div>
+
+        <h3>[flex-wrap]</h3>
+        <div class="boxes" style="width:1350px">
+            <div class="box">
+                <div class="title">
+                    <p>-webkit-flex-wrap: nowrap; /* default */</p>
+                    <p>display:-webkit-flex;</p>
+                    <p>width:400px</p>
+                </div>
+                <div class="demo" style="-webkit-flex-wrap:nowrap;width:400px">
+                    <div class="item" style="width:100px">100px</div>
+                    <div class="item" style="width:200px">width:200px</div>
+                    <div class="item" style="width:300px">width:300px</div>
+                </div>
+            </div>
+            <div class="box">
+                <div class="title">
+                    <p>-webkit-flex-wrap: wrap;</p>
+                    <p>display:-webkit-flex;</p>
+                    <p>width:400px</p>
+                </div>
+                <div class="demo" style="-webkit-flex-wrap:wrap;width:400px">
+                    <div class="item" style="width:100px">100px</div>
+                    <div class="item" style="width:200px">width:200px</div>
+                    <div class="item" style="width:300px">width:300px</div>
+                </div>
+            </div>
+            <div class="box">
+                <div class="title">
+                    <p>-webkit-flex-wrap: wrap-reverse;</p>
+                    <p>display:-webkit-flex;</p>
+                    <p>width:400px</p>
+                </div>
+                <div class="demo" style="-webkit-flex-wrap:wrap-reverse;width:400px">
+                    <div class="item" style="width:100px">100px</div>
+                    <div class="item" style="width:200px">width:200px</div>
+                    <div class="item" style="width:300px">width:300px</div>
+                </div>
+            </div>
+        </div>
+
+        <h3>[flex-flow: flex-direction flex-wrap;]</h3>
+
+        <h3>[justify-content]</h3>
+        <div class="boxes" style="width:1350px">
+            <div class="box">
+                <div class="title">
+                    <p>justify-content: flex-start; /* default */</p>
+                    <p>display:-webkit-flex;</p>
+                </div>
+                <div class="demo" style="justify-content: flex-start;">
+                    <div class="item" style="width:100px">100px</div>
+                    <div class="item" style="width:200px">width:200px</div>
+                </div>
+            </div>
+            <div class="box">
+                <div class="title">
+                    <p>justify-content: flex-end</p>
+                    <p>display:-webkit-flex;</p>
+                </div>
+                <div class="demo" style="justify-content: flex-end;border: 1px dashed #ccc">
+                    <div class="item" style="width:100px">100px</div>
+                    <div class="item" style="width:200px">width:200px</div>
+                </div>
+            </div>
+            <div class="box">
+                <div class="title">
+                    <p>justify-content: center</p>
+                    <p>display:-webkit-flex;</p>
+                </div>
+                <div class="demo" style="justify-content: center;border: 1px dashed #ccc">
+                    <div class="item" style="width:100px">100px</div>
+                    <div class="item" style="width:200px">width:200px</div>
+                </div>
+            </div>
+            <div class="box">
+                <div class="title">
+                    <p>justify-content: space-between</p>
+                    <p>display:-webkit-flex;</p>
+                </div>
+                <div class="demo" style="justify-content: space-between;border: 1px dashed #ccc">
+                    <div class="item" style="width:100px">100px</div>
+                    <div class="item" style="width:200px">width:200px</div>
+                </div>
+            </div>
+            <div class="box">
+                <div class="title">
+                    <p>justify-content: space-around</p>
+                    <p>display:-webkit-flex;</p>
+                </div>
+                <div class="demo" style="justify-content: space-around;border: 1px dashed #ccc">
+                    <div class="item" style="width:100px">100px</div>
+                    <div class="item" style="width:200px">width:200px</div>
+                </div>
+            </div>
+        </div>
+
+        <h3>[align-self]</h3>
+        <div class="boxes"
+        ">
+        <div class="box" style="width:1200px;">
+            <div class="title">
+                <p>display:-webkit-flex;</p>
+            </div>
+            <div class="demo" style="width:1200px;height: 200px;">
+                <div class="item" style="align-self:flex-start;width:200px">align-self:flex-start</div>
+                <div class="item" style="align-self:flex-end;width:200px">align-self:flex-end</div>
+                <div class="item" style="align-self:center;width:200px">align-self:center</div>
+                <div class="item" style="align-self:auto;width:200px">align-self:auto<br>/*default*/</div>
+                <div class="item" style="align-self:baseline;width:200px">align-self:baseline</div>
+                <div class="item" style="align-self:stretch;width:200px">align-self:stretch</div>
+            </div>
+        </div>
+    </div>
+
+    <h3>[align-items]</h3>
+    <div class="boxes" style="width:1350px">
+        <div class="box">
+            <div class="title">
+                <p>align-items: flex-start; /* default */</p>
+                <p>display:-webkit-flex;</p>
+            </div>
+            <div class="demo" style="height: 200px;align-items:flex-start;">
+                <div class="item" style="width:100px">100px</div>
+                <div class="item" style="width:200px">width:200px</div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="title">
+                <p>align-items: flex-end;</p>
+                <p>display:-webkit-flex;</p>
+            </div>
+            <div class="demo" style="height: 200px;align-items:flex-end;">
+                <div class="item" style="width:100px">100px</div>
+                <div class="item" style="width:200px">width:200px</div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="title">
+                <p>align-items: center;</p>
+                <p>display:-webkit-flex;</p>
+            </div>
+            <div class="demo" style="height: 200px;align-items:center;">
+                <div class="item" style="width:100px">100px</div>
+                <div class="item" style="width:200px">width:200px</div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="title">
+                <p>align-items: baseline;</p>
+                <p>display:-webkit-flex;</p>
+            </div>
+            <div class="demo" style="height: 200px;align-items:baseline;">
+                <div class="item" style="width:100px">100px</div>
+                <div class="item" style="width:200px">width:200px</div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="title">
+                <p>align-items: stretch;</p>
+                <p>display:-webkit-flex;</p>
+            </div>
+            <div class="demo" style="height: 200px;align-items:stretch;">
+                <div class="item" style="width:100px;height:100px">width:100px<br>height:100px</div>
+                <div class="item" style="width:150px;min-height: 20px">width:150px<br>min-height: 20px</div>
+                <div class="item" style="width:150px;max-height: 60px">width:150px<br>max-height: 60px</div>
+            </div>
+        </div>
+    </div>
+
+    <h3>[align-content]</h3>
+    <div class="boxes" style="width:1350px">
+        <div class="box">
+            <div class="title">
+                <p>align-items: flex-start;/*对比align-items*/ </p>
+                <p>display:-webkit-flex;</p>
+                <p>flex-wrap:wrap</p>
+            </div>
+            <div class="demo" style="height: 200px;flex-wrap:wrap;align-items:flex-start">
+                <div class="item" style="width: 80px;">a</div>
+                <div class="item" style="width: 80px;">b</div>
+                <div class="item" style="width: 80px;">c</div>
+                <div class="item" style="width: 80px;">d</div>
+                <div class="item" style="width: 80px;">e</div>
+                <div class="item" style="width: 80px;">f</div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="title">
+                <p>align-content: flex-start; </p>
+                <p>display:-webkit-flex;</p>
+                <p>flex-wrap:wrap</p>
+            </div>
+            <div class="demo" style="height: 200px;flex-wrap:wrap;align-content: flex-start">
+                <div class="item" style="width: 80px;">a</div>
+                <div class="item" style="width: 80px;">b</div>
+                <div class="item" style="width: 80px;">c</div>
+                <div class="item" style="width: 80px;">d</div>
+                <div class="item" style="width: 80px;">e</div>
+                <div class="item" style="width: 80px;">f</div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="title">
+                <p>align-content: flex-end; </p>
+                <p>display:-webkit-flex;</p>
+                <p>flex-wrap:wrap</p>
+            </div>
+            <div class="demo" style="height: 200px;flex-wrap:wrap;align-content: flex-end">
+                <div class="item" style="width: 80px;">a</div>
+                <div class="item" style="width: 80px;">b</div>
+                <div class="item" style="width: 80px;">c</div>
+                <div class="item" style="width: 80px;">d</div>
+                <div class="item" style="width: 80px;">e</div>
+                <div class="item" style="width: 80px;">f</div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="title">
+                <p>align-content: center; </p>
+                <p>display:-webkit-flex;</p>
+                <p>flex-wrap:wrap</p>
+            </div>
+            <div class="demo" style="height: 200px;flex-wrap:wrap;align-content: center">
+                <div class="item" style="width: 80px;">a</div>
+                <div class="item" style="width: 80px;">b</div>
+                <div class="item" style="width: 80px;">c</div>
+                <div class="item" style="width: 80px;">d</div>
+                <div class="item" style="width: 80px;">e</div>
+                <div class="item" style="width: 80px;">f</div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="title">
+                <p>align-content: space-between; </p>
+                <p>display:-webkit-flex;</p>
+                <p>flex-wrap:wrap</p>
+            </div>
+            <div class="demo" style="height: 200px;flex-wrap:wrap;align-content: space-between">
+                <div class="item" style="width: 80px;">a</div>
+                <div class="item" style="width: 80px;">b</div>
+                <div class="item" style="width: 80px;">c</div>
+                <div class="item" style="width: 80px;">d</div>
+                <div class="item" style="width: 80px;">e</div>
+                <div class="item" style="width: 80px;">f</div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="title">
+                <p>align-content: space-around; </p>
+                <p>display:-webkit-flex;</p>
+                <p>flex-wrap:wrap</p>
+            </div>
+            <div class="demo" style="height: 200px;flex-wrap:wrap;align-content: space-around">
+                <div class="item" style="width: 80px;">a</div>
+                <div class="item" style="width: 80px;">b</div>
+                <div class="item" style="width: 80px;">c</div>
+                <div class="item" style="width: 80px;">d</div>
+                <div class="item" style="width: 80px;">e</div>
+                <div class="item" style="width: 80px;">f</div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="title">
+                <p>align-content: stretch; </p>
+                <p>display:-webkit-flex;</p>
+                <p>flex-wrap:wrap</p>
+            </div>
+            <div class="demo" style="height: 200px;flex-wrap:wrap;align-content: stretch">
+                <div class="item" style="width: 80px;">a</div>
+                <div class="item" style="width: 80px;">b</div>
+                <div class="item" style="width: 80px;">c</div>
+                <div class="item" style="width: 80px;">d</div>
+                <div class="item" style="width: 80px;">e</div>
+                <div class="item" style="width: 80px;">f</div>
+            </div>
+        </div>
+    </div>
+    <h3>[order]</h3>
+    <div class="boxes">
+        <div class="box">
+            <div class="title">
+                <p>display:-webkit-flex</p>
+            </div>
+            <div class="demo">
+                <div class="item" style="width:80px;">a</div>
+                <div class="item" style="width:80px;">b</div>
+                <div class="item" style="width:80px;">c</div>
+                <div class="item" style="width:120px;order:-1;">d[order:-1]</div>
+                <div class="item" style="width:80px;">e</div>
+                <div class="item" style="width:80px;">f</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

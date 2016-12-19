@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>3D导航菜单</title>
+    <link rel="Shortcut Icon" href="../../favicon.ico" type="image/ico">
+    <style>
+        ul, li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
+        }
+
+        .nav {
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+        .list-item {
+            float: left;
+            border-right: 1px solid #ccc;
+            position: relative;
+        }
+
+        .list-item:last-child {
+            border-right: none;
+        }
+
+        .title {
+            display: block;
+            perspective: 200px;
+            padding: 15px 30px;
+            font-size: 16px;
+            line-height: 20px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .title:hover .box {
+            transform: translateZ(-25px) rotateX(90deg);
+        }
+
+        .box {
+            transition: all .3s ease-out;
+            transform: translateZ(-25px);
+            transform-style: preserve-3d;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .front, .back {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            color: #fff;
+            display: block;
+            background-color: #963;
+            padding: 15px 30px;
+            box-sizing: border-box;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .front {
+            transform: rotateX(0deg) translateZ(25px);
+        }
+
+        .back {
+            transform: rotateX(-90deg) translateZ(25px);
+        }
+
+        .title:hover .back {
+            background-color: #369;
+        }
+
+        .drop-menu {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            padding: 0;
+            transform: rotateX(-90deg);
+            transform-origin: top;
+            transition: all 0.4s ease-in-out;
+        }
+
+        .drop-menu li:not(:last-child) {
+            border-bottom: 1px solid #ccc;
+        }
+
+        .list-item:hover .drop-menu {
+            transform: rotateX(0deg);
+        }
+
+    </style>
+</head>
+<body>
+<div id="leo">
+    <ul class="nav">
+        <li class="list-item">
+            <a href="" class="title">
+                Home
+                <span class="box">
+                    <span class="front">Home</span>
+                    <span class="back">首页</span>
+                </span>
+            </a>
+        </li>
+        <li class="list-item">
+            <a href="" class="title">
+                Services
+                <span class="box">
+                    <span class="front">Services</span>
+                    <span class="back">服务</span>
+                </span>
+            </a>
+        </li>
+        <li class="list-item">
+            <a href="" class="title">
+                Products
+                <span class="box">
+                    <span class="front">Products</span>
+                    <span class="back">产品</span>
+                </span>
+            </a>
+        </li>
+        <li class="list-item">
+            <a href="" class="title">
+                About
+                <span class="box">
+                    <span class="front">About</span>
+                    <span class="back">关于我们</span>
+                </span>
+            </a>
+        </li>
+        <li class="list-item">
+            <a href="" class="title">
+                Contact
+                <span class="box">
+                    <span class="front">Contact</span>
+                    <span class="back">联系方式</span>
+                </span>
+            </a>
+        </li>
+        <li class="list-item">
+            <a href="" class="title">
+                Shop Online
+                <span class="box">
+                    <span class="front">Shop Online</span>
+                    <span class="back">在线销售</span>
+                </span>
+            </a>
+        </li>
+        <li class="list-item">
+            <a href="" class="title">
+                Other
+                <span class="box">
+                    <span class="front">Other</span>
+                    <span class="back">其他</span>
+                </span>
+            </a>
+            <ul class="drop-menu">
+                <li>
+                    <a href="" class="title">
+                        News
+                        <span class="box">
+                            <span class="front">News</span>
+                            <span class="back">新闻</span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="" class="title">
+                        Address
+                        <span class="box">
+                            <span class="front">Address</span>
+                            <span class="back">地址</span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="" class="title">
+                        Email
+                        <span class="box">
+                            <span class="front">Email</span>
+                            <span class="back">邮箱</span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="" class="title">
+                        Help
+                        <span class="box">
+                            <span class="front">Help</span>
+                            <span class="back">帮助中心</span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

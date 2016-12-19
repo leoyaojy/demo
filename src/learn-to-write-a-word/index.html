@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>手写字</title>
+    <link rel="Shortcut Icon" href="../../favicon.ico" type="image/ico">
+    <style>
+        body {
+            background: #fff;
+        }
+
+        #canvas {
+            display: block;
+            margin: 0 auto;
+        }
+
+        #controller {
+            width: 400px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .color_btn {
+            width: 20px;
+            height: 20px;
+            border: 5px solid white;
+            float: left;
+            border-radius: 5px;
+            margin: 20px 5px;
+            cursor: pointer;
+        }
+
+        .color_btn:hover {
+            border: 5px solid violet;
+        }
+
+        .color_btn_selected {
+            border: 5px solid blueviolet;
+        }
+
+        #black_btn {
+            background-color: black;
+        }
+
+        #red_btn {
+            background-color: red;
+        }
+
+        #blue_btn {
+            background-color: blue;
+        }
+
+        #yellow_btn {
+            background-color: yellow;
+        }
+
+        #orange_btn {
+            background-color: orange;
+        }
+
+        #green_btn {
+            background-color: green;
+        }
+
+        .clear_btn {
+            font-family: DejaVu Sans Mono, serif, sans-serif, monospace;
+            padding: 0;
+            float: right;
+            margin: 10px 0 0 10px;
+            height: 40px;
+            box-sizing: content-box;
+            width: 80px;
+            line-height: 40px;
+            font-size: 20px;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: white;
+            font-weight: bold;
+            border: 2px solid #aaa;
+        }
+
+        .clear_btn:hover {
+            background-color: #456;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <canvas id="canvas">
+        您的浏览器不支持Canvas，请升级到最新浏览器下查看效果
+    </canvas>
+    <div id="controller">
+        <div class="color_btn color_btn_selected" id="black_btn"></div>
+        <div class="color_btn" id="red_btn"></div>
+        <div class="color_btn" id="yellow_btn"></div>
+        <div class="color_btn" id="blue_btn"></div>
+        <div class="color_btn" id="green_btn"></div>
+        <div class="color_btn" id="orange_btn"></div>
+
+        <button class="clear_btn">清 除</button>
+    </div>
+</div>
+<script src="../libs/js/jquery.min.js"></script>
+<script>
+    var canvasWidth = canvasHeight = Math.min(400, $(window).width() - 20);
+    var isMouseDown = false;
+    var lastLoc = {x: 0, y: 0};
+    var lastTimeStamp = 0;
+    var lastLineWidth = -1;
+    var strokeColor = 'black';
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    //初始化画布
+    drawGrid();
+
+    //清除按钮
+    $(".clear_btn").on('click', function () {
+        context.clearRect(0, 0, canvasWidth, canvasHeight);
+        drawGrid();
+    });
+
+    $('.color_btn').on('click', function () {
+        $(this).addClass('color_btn_selected').siblings().removeClass('color_btn_selected');
+        strokeColor = $(this).css('background-color');
+    });
+
+
+    function beginStroke(point) {
+        isMouseDown = true;
+        lastLoc = windowToCanvas(point.x, point.y);
+        lastTimeStamp = new Date().getTime();
+    }
+    function moveStroke(point) {
+        var curLoc = windowToCanvas(point.x, point.y);
+        var curTimeStamp = new Date().getTime();
+        var s = calcDistance(curLoc, lastLoc);
+        var t = curTimeStamp - lastTimeStamp;
+        var lineWidth = calcLineWidth(s, t);
+        context.strokeStyle = strokeColor;
+        context.beginPath();
+        context.moveTo(lastLoc.x, lastLoc.y);
+        context.lineTo(curLoc.x, curLoc.y);
+        context.closePath();
+        context.lineWidth = lineWidth;
+        context.lineCap = "round";
+        context.lineJoin = "round";
+        context.stroke();
+        lastLoc = curLoc;
+        lastTimeStamp = curTimeStamp;
+        lastLineWidth = lineWidth;
+    }
+    function endStroke() {
+        isMouseDown = false;
+    }
+    //canvas鼠标事件处理
+    canvas.onmousedown = function (e) {
+        e.preventDefault();
+        beginStroke({x: e.clientX, y: e.clientY})
+    };
+    canvas.onmouseup = function (e) {
+        e.preventDefault();
+        endStroke();
+    };
+    canvas.onmousemove = function (e) {
+        e.preventDefault();
+        if (isMouseDown) {
+            moveStroke({x: e.clientX, y: e.clientY})
+        }
+    };
+    canvas.onmouseout = function (e) {
+        e.preventDefault();
+        endStroke();
+    };
+
+    canvas.addEventListener('touchstart', function (e) {
+        e.preventDefault();
+        var touch = e.touches[0];
+        beginStroke({x: touch.pageX, y: touch.pageY})
+    });
+    canvas.addEventListener('touchmove', function (e) {
+        e.preventDefault();
+        if (isMouseDown) {
+            var touch = e.touches[0];
+            moveStroke({x: touch.pageX, y: touch.pageY})
+        }
+    });
+    canvas.addEventListener('touchend', function (e) {
+        e.preventDefault();
+        endStroke();
+    });
+
+    //函数:绘制米字格
+    function drawGrid() {
+        context.save();
+        //绘制矩形边框
+        context.strokeStyle = 'red';
+        context.beginPath();
+        context.moveTo(3, 3);
+        context.lineTo(canvasWidth - 3, 3);
+        context.lineTo(canvasWidth - 3, canvasHeight - 3);
+        context.lineTo(3, canvasHeight - 3);
+        context.closePath();
+        context.lineWidth = 6;
+        context.stroke();
+
+        //绘制四条线
+        context.beginPath();
+        context.moveTo(0, 0);
+        context.lineTo(canvasWidth, canvasHeight);
+        context.moveTo(canvasWidth, 0);
+        context.lineTo(0, canvasHeight);
+        context.moveTo(canvasWidth / 2, 0);
+        context.lineTo(canvasWidth / 2, canvasHeight);
+        context.moveTo(0, canvasHeight / 2);
+        context.lineTo(canvasWidth, canvasHeight / 2);
+        context.closePath();
+        context.lineWidth = 1;
+        context.stroke();
+        context.restore();
+    }
+
+    //函数:屏幕坐标转画布坐标
+    function windowToCanvas(x, y) {
+        var box = canvas.getBoundingClientRect();
+        return {
+            x: Math.round(x - box.left),
+            y: Math.round(y - box.top)
+        }
+    }
+
+    //函数:计算两点间距离
+    function calcDistance(loc1, loc2) {
+        return Math.sqrt((loc2.x - loc1.x) * (loc2.x - loc1.x) + (loc2.y - loc1.y) * (loc2.y - loc1.y));
+    }
+
+    //函数:计算lineWidth
+    var maxLineWidth = 30;
+    var minLineWidth = 1;
+    var maxSpeed = 10;
+    var minSpeed = 0.1;
+    function calcLineWidth(s, t) {
+        var v = s / t;
+        var resultLineWidth;
+        if (v <= minSpeed)
+            resultLineWidth = maxLineWidth;
+        else if (v >= maxSpeed)
+            resultLineWidth = minLineWidth;
+        else
+            resultLineWidth = maxLineWidth - (v - minSpeed) / (maxSpeed - minSpeed) * (maxLineWidth - minLineWidth);
+        if (lastLineWidth == -1)
+            return resultLineWidth;
+        return lastLineWidth * 2 / 3 + resultLineWidth * 1 / 3;
+    }
+
+</script>
+</body>
+</html>

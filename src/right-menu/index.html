@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义右键菜单</title>
+    <link rel="Shortcut Icon" href="../../favicon.ico" type="image/ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        h1 {
+            line-height: 50px;
+            text-align: center;
+            color:#ccc;
+            font-weight: normal;
+        }
+
+        .rightMenu {
+            width: 250px;
+            border: 1px solid #ccc;
+            position: fixed;
+            z-index: 999;
+            background: #fff;
+        }
+
+        .dlBox, .clBox {
+            border-bottom: 1px solid #ddd;
+        }
+
+        li.item {
+            line-height: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        li.item:hover {
+            background-color: royalblue;
+        }
+
+        li.item:hover a, li.item:hover span {
+            color: #fff
+        }
+
+        li.item a {
+            font-size: 14px;
+            color: #666;
+            padding: 0 20px;
+            display: block;
+        }
+
+        li.item a span {
+            float: right;
+            font-size: 0.8em;
+            color: #aaa;
+        }
+
+        .qCode {
+            position: relative;
+        }
+
+        .qCode img {
+            position: absolute;
+            left: 250px;
+            bottom: 0;
+            opacity: 0;
+        }
+
+        .qCode li:hover img {
+            opacity: 1;
+            transition: opacity 1s ease-in;
+        }
+
+        .hide {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+<div id="leo">
+    <h1>右击空白处查看效果</h1>
+    <div class="rightMenu"></div>
+</div>
+<script src="../libs/js/jquery.min.js"></script>
+<script>
+    ;(function (win, doc, $) {
+        var RightMenu = function (box,options) {
+            this._init(box,options);
+        };
+        $.extend(RightMenu.prototype, {
+            _init: function (box,opts) {
+                var self = this;
+                self.box = box;
+                self.options = {
+                    "defaultLinks": [{
+                        "title": "返回(B)",
+                        "comment": "Alt+左箭头",
+                        "func": "history.back()"
+                    }, {
+                        "title": "前进(F)",
+                        "comment": "Alt+右箭头",
+                        "func": "history.go(1)"
+                    }, {
+                        "title": "重新加载(R)",
+                        "comment": "Ctrl+R",
+                        "func": "window.location.reload()"
+                    },{
+                        "title": "打印(P)",
+                        "comment": "Ctrl+P",
+                        "func": "window.print()"
+                    }],
+                    "customLinks": [],
+                    "qrCode": []
+                };
+                $.extend(true, self.options, opts || {});
+                self._initDom()._bindDocEvent();
+            },
+            _initDom: function () {
+                var self = this;
+                var defLink = $("<ul>").addClass("dlBox");
+                var cusLink = $("<ul>").addClass("clBox");
+                var qCode = $("<ul>").addClass("qCode");
+                $(self.options.defaultLinks).each(function (index, item) {
+                    var li = "<li class='item'><a href='' onclick="+item.func+">"+item.title+"<span>"+item.comment+"</span></a></li>";
+                    defLink.append(li);
+                });
+                $(self.options.customLinks).each(function (index,item) {
+                    var li = "<li class='item'><a href="+item.href+">"+item.title+"</a></li>";
+                    cusLink.append(li);
+                });
+                $(self.options.qrCode).each(function (index,item) {
+                    var li ="<li class='item'><a href=''>"+item.title+"</a><img src='"+item.img+"'></li>";
+                    qCode.append(li);
+                });
+                self.box.append(defLink);
+                self.box.append(cusLink);
+                self.box.append(qCode);
+                self.box.css("display","none");
+                return self;
+            },
+            _bindDocEvent: function () {
+                var self = this;
+                $(doc).on("contextmenu", function (e) {
+                    var e = e || win.event;
+                    var left = e.pageX;
+                    var top = e.pageY;
+                    self.box.css({
+                        left:left,
+                        top:top,
+                        display:"block"
+                    });
+                    return false;
+                }).on("click",function () {
+                    self.box.hide();
+                });
+            }
+        });
+        win.RightMenu = RightMenu;
+    })(window, document, jQuery);
+
+    new RightMenu($(".rightMenu"), {
+        "customLinks": [{
+            "title": "返回首页",
+            "href": "https://www.luckyw.cn"
+        }, {
+            "title": "插件代码",
+            "href": "https://www.luckyw.cn/right-menu"
+        }],
+        "qrCode": [{
+            "title": "关注作者",
+            "img": "logo.png"
+        }]
+    });
+</script>
+</body>
+</html>

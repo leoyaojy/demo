@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>全屏滚动特效Ⅱ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="Shortcut Icon" href="../../favicon.ico" type="image/ico">
+    <link rel="stylesheet" href="../libs/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../libs/css/animate.min.css"/>
+    <link rel="stylesheet" href="../libs/css/jquery.fullPage.css"/>
+    <style>
+        li {
+            list-style: none;
+        }
+
+        /*公用样式*/
+        .section {
+            overflow: hidden;
+        }
+
+        .section .left {
+            position: absolute;
+            left: 5%;
+            top: 50%;
+            margin-top: -180px;
+        }
+
+        .section .left li {
+            float: left;
+            margin-right: 20px;
+            position: relative;
+        }
+
+        .section .left li img {
+            border: 10px solid rgba(0, 0, 0, 0.8);
+            padding: 10px;
+        }
+
+        .section .left li p {
+            font-size: 18px;
+            margin: 10px 0;
+            color: midnightblue;
+        }
+
+        .section .right {
+            position: absolute;
+            right: 5%;
+            top: 15%;
+            border-right: solid 2px rgba(0, 0, 0, 0.8);
+            padding-right: 20px;
+        }
+
+        .section .right h3 {
+            font-size: 34px;
+            font-weight: 100;
+            margin-bottom: 10px;
+            color: chartreuse
+        }
+
+        .section .right p {
+            text-align: right;
+        }
+
+        /*第一屏*/
+        .s1 {
+            background-color: #ffffff
+        }
+
+        .s1 .imgbox {
+            position: absolute;
+            width: 100%;
+            left: 50%;
+            top: 50%;
+            margin-left: -500px;
+            margin-top: -100px;
+            opacity: 0;
+        }
+
+        /*自定义动画*/
+        @-webkit-keyframes fly {
+            0%, 40%, 80% {
+                -webkit-transform: translateY(10px);
+                transform: translateY(10px);
+            }
+            20%, 60%, 100% {
+                -webkit-transform: translateY(-10px);
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes fly {
+            0%, 40%, 80% {
+                -webkit-transform: translateY(10px);
+                transform: translateY(10px);
+            }
+            20%, 60%, 100% {
+                -webkit-transform: translateY(-10px);
+                transform: translateY(-10px);
+            }
+        }
+
+        .s1 img:nth-child(2) {
+            margin-left: -100px;
+            margin-top: -250px;
+        }
+
+        .s1.active img:nth-child(2) {
+            -webkit-animation: fly 5s ease infinite alternate;
+            animation: fly 5s ease infinite alternate;
+        }
+
+        .s1.active .imgbox {
+            -webkit-animation: fadeInDown 2s;
+            animation: slideInDown 1.5s;
+            opacity: 1;
+        }
+
+        /*第二屛*/
+        .s2 .left li:nth-child(1) {
+            opacity: 0;
+        }
+
+        .s2.active .left li:nth-child(1) {
+            -webkit-animation: fadeInUpBig 1s;
+            animation: fadeInUpBig 1s;
+            opacity: 1;
+            transition: opacity 0.5s 0.7s;
+        }
+
+        .s2 .left li:nth-child(2) {
+            opacity: 0;
+        }
+
+        .s2.active .left li:nth-child(2) {
+            -webkit-animation: fadeInUpBig 2s;
+            animation: fadeInUpBig 2s;
+            opacity: 1;
+            transition: opacity 0.5s 0.7s;
+        }
+
+        .s2 .left li:nth-child(3) {
+            opacity: 0;
+        }
+
+        .s2.active .left li:nth-child(3) {
+            -webkit-animation: fadeInUpBig 2.5s;
+            animation: fadeInUpBig 2.5s;
+            opacity: 1;
+            transition: opacity 0.5s 0.7s;
+        }
+
+        .s2 .right {
+            opacity: 0;
+        }
+
+        .s2.active .right {
+            -webkit-animation: fadeInDownBig 2.5s;
+            animation: fadeInDownBig 2.5s;
+            opacity: 1;
+            transition: opacity 0.5s 0.7s;
+        }
+
+        /*第三屏*/
+        .s3 .left li:nth-child(1) {
+            opacity: 0;
+        }
+
+        .s3.active .left li:nth-child(1) {
+            -webkit-animation: fadeInLeftBig 1s;
+            animation: fadeInLeftBig 1s;
+            opacity: 1;
+            transition: opacity 0.5s 0.7s;
+        }
+
+        .s3 .left li:nth-child(2) {
+            opacity: 0;
+        }
+
+        .s3.active .left li:nth-child(2) {
+            -webkit-animation: fadeInLeftBig 2s;
+            animation: fadeInLeftBig 2s;
+            opacity: 1;
+            transition: opacity 0.5s 0.7s;
+        }
+
+        .s3 .left li:nth-child(3) {
+            opacity: 0;
+        }
+
+        .s3.active .left li:nth-child(3) {
+            -webkit-animation: fadeInLeftBig 2.5s;
+            animation: fadeInLeftBig 2.5s;
+            opacity: 1;
+            transition: opacity 0.5s 0.7s;
+        }
+
+        .s3 .right {
+            opacity: 0;
+        }
+
+        .s3.active .right {
+            -webkit-animation: fadeInRightBig 2.5s;
+            animation: fadeInRightBig 2.5s;
+            opacity: 1;
+            transition: opacity 0.5s 0.7s;
+        }
+
+        /*第四屏*/
+        .s4 .left li:nth-child(1) {
+            opacity: 0;
+        }
+
+        .s4.active .left li:nth-child(1) {
+            -webkit-animation: bounceInLeft 2s;
+            animation: bounceInLeft 2s;
+            opacity: 1;
+            transition: opacity 0.5s 0.7s;
+        }
+
+        .s4 .left li:nth-child(2) {
+            opacity: 0;
+        }
+
+        .s4.active .left li:nth-child(2) {
+            -webkit-animation: bounceInDown 2s;
+            animation: bounceInDown 2s;
+            opacity: 1;
+            transition: opacity 0.5s 0.7s;
+        }
+
+        .s4 .left li:nth-child(3) {
+            opacity: 0;
+        }
+
+        .s4.active .left li:nth-child(3) {
+            -webkit-animation: bounceInRight 2s;
+            animation: bounceInRight 2s;
+            opacity: 1;
+            transition: opacity 0.5s 0.7s;
+        }
+
+        .s4 .right {
+            opacity: 0;
+        }
+
+        .s4.active .right {
+            -webkit-animation: bounceInUp 2s;
+            animation: bounceInUp 2s;
+            opacity: 1;
+            transition: opacity 0.5s 0.7s;
+        }
+
+        /*第五屏*/
+        .s5 .left li:nth-child(1) {
+            opacity: 0;
+        }
+
+        .s5.active .left li:nth-child(1) {
+            -webkit-animation: rotateInDownLeft 2s;
+            animation: rotateInDownLeft 2s;
+            opacity: 1;
+            transition: opacity 0.5s 0.7s;
+        }
+
+        .s5 .left li:nth-child(2) {
+            opacity: 0;
+        }
+
+        .s5.active .left li:nth-child(2) {
+            -webkit-animation: flip 2s;
+            animation: flip 2s;
+            opacity: 1;
+            transition: opacity 0.5s 0.7s;
+        }
+
+        .s5 .left li:nth-child(3) {
+            opacity: 0;
+        }
+
+        .s5.active .left li:nth-child(3) {
+            -webkit-animation: rotateInDownRight 2s;
+            animation: rotateInDownRight 2s;
+            opacity: 1;
+            transition: opacity 0.5s 0.7s;
+        }
+
+        .s5 .right {
+            opacity: 0;
+        }
+
+        .s5.active .right {
+            -webkit-animation: rollIn 2s;
+            animation: rollIn 2s;
+            opacity: 1;
+            transition: opacity 0.5s 0.7s;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <header class="navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <div class="navbar-header">
+                    <a href="#" class="navbar-brand">Leo Angel</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li data-menuanchor="page1" class="active"><a href="#page1">第一屏</a></li>
+                    <li data-menuanchor="page2"><a href="#page2">第二屏</a></li>
+                    <li data-menuanchor="page3"><a href="#page3">第三屏</a></li>
+                    <li data-menuanchor="page4"><a href="#page4">第四屏</a></li>
+                    <li data-menuanchor="page5"><a href="#page5">第五屏</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <article id="container">
+        <section class="section s1">
+            <div class="imgbox">
+                <img src="img/sc1_1.jpg">
+                <img src="img/sc1_2.jpg">
+            </div>
+        </section>
+        <section class="section s2">
+            <div class="left">
+                <ul>
+                    <li class="text-center">
+                        <img src="img/img1.png" alt="img1"/>
+
+                        <p>Love Story<br>图片一</p>
+                        <a href="#" class="btn btn-default">加入收藏</a>
+                    </li>
+                    <li class="text-center">
+                        <img src="img/img1.png" alt="img1"/>
+
+                        <p>Love Story<br>图片二</p>
+                        <a href="#" class="btn btn-info">加入收藏</a>
+                    </li>
+                    <li class="text-center">
+                        <img src="img/img1.png" alt="img1"/>
+
+                        <p>Love Story<br>图片三</p>
+                        <a href="#" class="btn btn-danger">加入收藏</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="right">
+                <h3>H5Demo</h3>
+                <p>Leo Angel<br>前端学习<br>2016</p>
+            </div>
+        </section>
+        <section class="section s3">
+            <div class="left">
+                <ul>
+                    <li class="text-center">
+                        <img src="img/img1.png" alt="img1"/>
+
+                        <p>Love Story<br>图片一</p>
+                        <a href="#" class="btn btn-default">加入收藏</a>
+                    </li>
+                    <li class="text-center">
+                        <img src="img/img1.png" alt="img1"/>
+
+                        <p>Love Story<br>图片二</p>
+                        <a href="#" class="btn btn-info">加入收藏</a>
+                    </li>
+                    <li class="text-center">
+                        <img src="img/img1.png" alt="img1"/>
+
+                        <p>Love Story<br>图片三</p>
+                        <a href="#" class="btn btn-danger">加入收藏</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="right">
+                <h3>H5Demo</h3>
+                <p>Leo Angel<br>前端学习<br>2016</p>
+            </div>
+        </section>
+        <section class="section s4">
+            <div class="left">
+                <ul>
+                    <li class="text-center">
+                        <img src="img/img1.png" alt="img1"/>
+
+                        <p>Love Story<br>图片一</p>
+                        <a href="#" class="btn btn-default">加入收藏</a>
+                    </li>
+                    <li class="text-center">
+                        <img src="img/img1.png" alt="img1"/>
+
+                        <p>Love Story<br>图片二</p>
+                        <a href="#" class="btn btn-info">加入收藏</a>
+                    </li>
+                    <li class="text-center">
+                        <img src="img/img1.png" alt="img1"/>
+
+                        <p>Love Story<br>图片三</p>
+                        <a href="#" class="btn btn-danger">加入收藏</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="right">
+                <h3>H5Demo</h3>
+                <p>Leo Angel<br>前端学习<br>2016</p>
+            </div>
+        </section>
+        <section class="section s5">
+            <div class="left">
+                <ul>
+                    <li class="text-center">
+                        <img src="img/img1.png" alt="img1"/>
+
+                        <p>Love Story<br>图片一</p>
+                        <a href="#" class="btn btn-default">加入收藏</a>
+                    </li>
+                    <li class="text-center">
+                        <img src="img/img1.png" alt="img1"/>
+
+                        <p>Love Story<br>图片二</p>
+                        <a href="#" class="btn btn-info">加入收藏</a>
+                    </li>
+                    <li class="text-center">
+                        <img src="img/img1.png" alt="img1"/>
+
+                        <p>Love Story<br>图片三</p>
+                        <a href="#" class="btn btn-danger">加入收藏</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="right">
+                <h3>H5Demo</h3>
+                <p>Leo Angel<br>前端学习<br>2016</p>
+            </div>
+        </section>
+    </article>
+</div>
+<script src="../libs/js/jquery.min.js"></script>
+<script src="../libs/js/jquery.fullPage.min.js"></script>
+<script>
+    $(function () {
+        $('#container').fullpage({
+            sectionsColor: ['#fff', '#cecece', '#387', "#cf9", '#f90'],
+            navigation: true,
+            menu: "header",
+            anchors: ['page1', 'page2', 'page3', 'page4', 'page5']
+        });
+    });
+</script>
+</body>
+</html>
