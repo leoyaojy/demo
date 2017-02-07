@@ -277,7 +277,8 @@
                 currIndex = target.getAttribute("data-id");
                 play();
             }
-        })
+        });
+        source.onended = next;
     }
 
     fileInput.onchange = function () {
@@ -335,7 +336,6 @@
                 status = 1;
                 addClass(playlist.getElementsByTagName("li")[currIndex], "active");
                 source = bs;
-                source.onended = next;
                 animate();
             }, function (err) {
                 console.log(err)
