@@ -46,6 +46,7 @@
 |[本地图片转base64编码数据](https://demo.luckyw.cn/code.html?path=local-img-to-base64)|[查看代码](https://github.com/leoyaojy/demo/tree/master/src/local-img-to-base64/index.html)|
 |[放大镜](https://demo.luckyw.cn/code.html?path=magnify-img)|[查看代码](https://github.com/leoyaojy/demo/tree/master/src/magnify-img/index.html)|
 |[Matrix](https://demo.luckyw.cn/code.html?path=matrix)|[查看代码](https://github.com/leoyaojy/demo/tree/master/src/matrix/index.html)|
+|[本地音乐播放器](https://demo.luckyw.cn/code.html?path=music-visualize)|[查看代码](https://github.com/leoyaojy/demo/tree/master/src/music-visualize/index.html)|
 |[离屏canvas放大镜](https://demo.luckyw.cn/code.html?path=offcanvas-magnifier)|[查看代码](https://github.com/leoyaojy/demo/tree/master/src/offcanvas-magnifier/index.html)|
 |[渐隐渐现图片轮播](https://demo.luckyw.cn/code.html?path=pic-carousel-demo-1)|[查看代码](https://github.com/leoyaojy/demo/tree/master/src/pic-carousel-demo-1/index.html)|
 |[平移图片轮播](https://demo.luckyw.cn/code.html?path=pic-carousel-demo-2)|[查看代码](https://github.com/leoyaojy/demo/tree/master/src/pic-carousel-demo-2/index.html)|
