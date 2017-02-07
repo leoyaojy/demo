@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>3D相册</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #333;
+        }
+
+        .container {
+            perspective: 700px;
+        }
+
+        .stage {
+            transform-style: preserve-3d;
+            width: 120px;
+            height: 160px;
+            position: relative;
+            margin: 150px auto;
+        }
+
+        .stage img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+            -webkit-box-reflect: below 3px -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.5));
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <div class="container">
+        <div class="stage">
+            <img src="img/1.jpg" alt="">
+            <img src="img/2.jpg" alt="">
+            <img src="img/3.jpg" alt="">
+            <img src="img/4.jpg" alt="">
+            <img src="img/5.jpg" alt="">
+            <img src="img/6.jpg" alt="">
+            <img src="img/7.jpg" alt="">
+            <img src="img/8.jpg" alt="">
+        </div>
+    </div>
+</div>
+<script src="../libs/js/jquery.min.js"></script>
+<script>
+    var imgs = $(".stage").find("img"), len = imgs.length, deg = Math.floor(360 / len), index = 0;
+    for (var i = 0; i < len; i++) {
+        imgs[i].style = "transform:rotateY(" + deg * i + "deg) translateZ(350px)";
+    }
+    setInterval(function () {
+        $(".stage").css("transform", "rotateX(-10deg) rotateY(" + (index--) * .2 + "deg)");
+    }, 30);
+</script>
+</body>
+</html>

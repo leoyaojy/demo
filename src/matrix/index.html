@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Matrix</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <canvas id="canvas">
+        您的浏览器不支持Canvas标签，请在现代浏览器下查看效果
+    </canvas>
+</div>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctxt = canvas.getContext("2d");
+    var W, H;
+    var fontSize = 16, column, drops = [];
+    var arr = "0123456789qwertyuiopasdfghjklzxcvbnm,./;'\[]QWERTYUIOP{}ASDFGHJHJKL:ZXCVBBNM<>?".split("");
+
+    function init() {
+        resize();
+        animate();
+    }
+    function animate() {
+        requestAnimationFrame(animate);
+        ctxt.fillStyle = "rgba(0,0,0,0.1)";
+        ctxt.fillRect(0, 0, W, H);
+        draw();
+    }
+    function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+        column = W / fontSize;
+        drops = [];
+        for (var i = 0; i < column; i++) {
+            drops[i] = ~~(Math.random() * -50);
+        }
+    }
+    function draw() {
+        ctxt.save();
+        ctxt.fillStyle = "#6e6";
+        ctxt.font = "16px arial";
+        for (var i = 0, len = drops.length; i < len; i++) {
+            ctxt.fillText(arr[~~(Math.random() * arr.length)], i * fontSize, drops[i] * fontSize);
+            if (drops[i] * fontSize > H && Math.random() > .98) {
+                drops[i] = 0;
+            }
+            drops[i]++;
+        }
+        ctxt.restore();
+    }
+    window.onload = init;
+    window.onresize = resize;
+</script>
+</body>
+</html>

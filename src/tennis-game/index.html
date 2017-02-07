@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>网球游戏</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #canvas {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div id="leo">
+    <canvas id="canvas">
+        您的浏览器不支持Canvas标签，请在现代浏览器下查看效果
+    </canvas>
+</div>
+<script>
+    var canvas = document.getElementById("canvas"),
+        c = canvas.getContext("2d"),
+        W = canvas.width = 800,
+        H = canvas.height = 600;
+    var ballX = W / 2, ballY = H / 2, ballR = 10, ballVx = 10, ballVy = 2,
+        panelW = 10, panelH = 100, panel1Y = (H - panelH) / 2, panel2Y = (H - panelH) / 2,
+        player1Score = 0, player2Score = 0, winnerScore = 3,
+        isEnd = 0;
+    animate();
+    canvas.addEventListener("click", function () {
+        if (isEnd) {
+            player1Score = 0;
+            player2Score = 0;
+            isEnd = 0;
+            animate();
+        }
+    });
+    canvas.addEventListener("mousemove", function (e) {
+        panel1Y = e.clientY - canvas.getBoundingClientRect().top - panelH / 2;
+    });
+    function animate() {
+        fillRect(0, 0, W, H, "black");
+        if (isEnd) {
+            if (player1Score >= winnerScore) {
+                fillText("恭喜，你赢了!", W / 2, H / 2);
+            } else {
+                fillText("抱歉，你输了!", W / 2, H / 2);
+            }
+            fillText("再来一次?", W / 2, H / 3 * 2, "32px DejaVu Sans Mono");
+            return;
+        }
+        drawNet();
+        if (panel2Y + panelH / 2 < ballY - 40) {
+            panel2Y = panel2Y + 5;
+        } else if (panel2Y + panelH / 2 > ballY + 40) {
+            panel2Y = panel2Y - 5;
+        }
+        ballX += ballVx;
+        ballY += ballVy;
+        if (ballX - ballR - panelW < 0) {
+            if (ballY > panel1Y && ballY < panel1Y + panelH) {
+                ballVx = -ballVx;
+                ballVy = (ballY - (panel1Y + panelH / 2)) * .3;
+            } else {
+                player2Score++;
+                ballReset();
+            }
+        }
+        if (ballX + ballR + panelW > W) {
+            if (ballY > panel2Y && ballY < panel2Y + panelH) {
+                ballVx = -ballVx;
+                ballVy = (ballY - (panel2Y + panelH / 2)) * .3;
+            } else {
+                player1Score++;
+                ballReset();
+            }
+        }
+
+        if (ballY + ballR < 0 || ballY - ballR > H) {
+            ballVy = -ballVy;
+        }
+
+        fillRect(1, panel1Y, panelW, panelH, "white");
+        fillRect(W - panelW - 1, panel2Y, panelW, panelH, "white");
+        fillCircle(ballX, ballY, ballR, "white");
+        fillText(player1Score, 100, 100);
+        fillText(player2Score, W - 100, 100);
+        requestAnimationFrame(animate);
+    }
+    function drawNet() {
+        for (var i = 0; i < H; i += 40) {
+            fillRect(W / 2 - 1, i + 10, 2, 20, "white");
+        }
+    }
+    function ballReset() {
+        if (player1Score >= winnerScore || player2Score >= winnerScore) {
+            isEnd = 1;
+        }
+        ballVx = -ballVx;
+        ballX = W / 2;
+        ballY = H / 2;
+    }
+    function fillRect(x, y, w, h, style) {
+        c.fillStyle = style;
+        c.fillRect(x, y, w, h);
+    }
+    function fillCircle(x, y, r, style) {
+        c.fillStyle = style;
+        c.beginPath();
+        c.arc(x, y, r, 0, Math.PI * 2);
+        c.fill();
+    }
+    function fillText(txt, x, y, font, style) {
+        c.fillStyle = style || "white";
+        c.font = font || "40px DejaVu Sans Mono";
+        c.textAlign = "center";
+        c.textBaseline = "middle";
+        c.fillText(txt, x, y);
+    }
+</script>
+</body>
+</html>
