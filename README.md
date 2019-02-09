@@ -6,7 +6,7 @@
 
 ## 在线效果列表
 > 建议用`chrome`查看
-[placeholder]:p
+
 | 标题 |  |
 |:---:|:---:|
 |[3D相册](https://demo.luckyw.cn/code.html?path=3d-album)|[查看代码](https://github.com/leoyaojy/demo/tree/master/src/3d-album/index.html)|
@@ -56,7 +56,6 @@
 |[七巧板](https://demo.luckyw.cn/code.html?path=tangram)|[查看代码](https://github.com/leoyaojy/demo/tree/master/src/tangram/index.html)|
 |[网球游戏](https://demo.luckyw.cn/code.html?path=tennis-game)|[查看代码](https://github.com/leoyaojy/demo/tree/master/src/tennis-game/index.html)|
 |[Velocity Demo](https://demo.luckyw.cn/code.html?path=velocity)|[查看代码](https://github.com/leoyaojy/demo/tree/master/src/velocity/index.html)|
-[/placeholder]:p
 
 ## Author
 Leo Angel
